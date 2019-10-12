@@ -1,78 +1,189 @@
 #bank-container {
     background: $background;
+    color: $primary;
 
-    .bank-logo {
-        text-align: center;
-        line-height: 75px;
+    .accounts {
+        background: $main-color;
+        height: 60%;
+        overflow-y: auto;
+        overflow-x: hidden;
+        padding: 15px;
 
-        img {
-            margin-top: 15px;
-            height: 75px;
+        .account {
+            height: 55px;
+            line-height: 60px;
+            padding-left: 10px;
+            border-radius: 5px;
+            background-color: rgb(101, 13, 16);
+            margin-bottom: 5px;
+            box-shadow: 0px 0px 5px #1e1e1e inset;
+
+            &:hover {
+                transition: all ease-in 0.15s;
+                //box-shadow: 0px 0px 5px #aeaeae inset;
+                filter: brightness(0.8);
+            }
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+            
+            .account-label {
+                pointer-events: none;
+                display: inline-block;
+                width: 65%;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+
+                .bank-label-name {
+                    display: inline-block;
+                    max-width: 55%;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                }
+
+                small {
+                    pointer-events: none;
+                    color: $primary-hover;
+                    margin-left: 10px;
+                    display: inline-block;
+                    max-width: 45%;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+
+                    &::before {
+                        content: '(';
+                    }
+
+                    &::after {
+                        content: ')';
+                    }
+                }
+            }
+
+            .account-balance {
+                pointer-events: none;
+                display: inline-block;
+                width: 30%;
+                text-align: right;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+            }
+        }
+    }
+    
+    .message {
+        height: 20%;
+
+        .colored-header {
+            background: #8b1014;
+            height: 30%;
+        }
+
+        .message-body {
+            padding: 15px;
+            background: $primary;
+            color: $main-color;
+            position: relative;
+            left: 0;
+            right: 0;
+            top: -35px;
+            margin-left: auto;
+            margin-right: auto;
+            width: 90%;
+            border-radius: 10px;
+            box-shadow: 0 0 10px #000000;
+            font-weight: 500;
+            max-height: 90%;
+            overflow: hidden;
+
+            .message-header {
+                font-size: 22px;
+                border-bottom: 1px solid $alt-text;
+
+                .message-name {
+                    color: $alt-text;
+                }
+            }
+
+            .message-text {
+                font-size: 13px;
+            }
         }
     }
 
-    .bank-header {
-        height: 220px;
-        padding: 25px;
-        margin-top: 15px;
-        border-bottom: 1px solid $border-color;
-        background-image: linear-gradient(to left, #e20000, #d00);
+    .quick-actions {
+        border-top: 1px solid #212121;
+        padding-top: 15px;
+        background: #fff;
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 100%;
 
-        .header-balance {
-            height: 100%;
-            border-radius: 10px;
-            background-image: linear-gradient(to left, #ffffff, #f5f5f5);
-            box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);
-            text-align: center;
-            line-height: 170px;
-            font-size: 40px;
+        .bank-quick-action {
+            display: none;
+            width: 32.3%;
+            padding: 15px;
             color: $alt-text;
-            font-weight: bold;
-    
-            .header-balance-label {
-                font-size: 15px;
-                line-height: normal;
-                position: absolute;
-                top: 145px;
-                left: 0;
-                right: 0;
+            text-align: center;
+            font-weight: 500;
+
+            i {
+                display: block;
+                width: fit-content;
+                margin-left: auto;
+                margin-right: auto;
+                background: $background;
+                border-radius: 100px;
+                font-size: 23px;
+                padding: 20px;
+                border: 1px solid $border-color;
             }
-    
-            .header-dollar {
-                &:before {
-                    content: '$';
+
+            &:hover {
+                transition: color ease-in 0.3s;
+                color: $main-color;
+
+                i {
+                    transition: all ease-in 0.3s;
+                    transition-property: background, border;
+                    background: $primary;
+                    border: 1px solid $main-color;
                 }
             }
         }
     }
+}
 
-    .bank-body {
-        display: grid;
-        grid-template-columns: auto auto;
-        grid-template-rows: auto auto;
-        grid-row-gap: 15px;
-        grid-column-gap: 15px;
-        margin-top: 15px;
-        width: fit-content;
-        margin-left: auto;
-        margin-right: auto;
+#bank-transfer-container {
+    background: $primary;
+    color: $primary;
 
-        .bank-button {
-            background-image: linear-gradient(to left, #e20000, #dd0000);
-            text-align: center;
-            font-size: 25px;
-            color: #ffffff;
-            font-weight: bold;
-            border-radius: 5px;
-            box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);
-            height: 180px;
-            width: 180px;
-            line-height: 180px;
+    .transfer-wrapper {
+        position: absolute;
+        bottom: 0;
+        background: $primary;
+        border-top: 1px solid $border-color;
+        height: 100%;
+        width: 100%;
 
-            &:hover {
-                filter: brightness(0.85);
-                transition: all ease-in 0.15s;
-            }
+        .transfer-inner-wrapper {
+            display: none;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+            height: 80%;
+            width: 80%;
+            background-color: $background;
+            padding: 25px;
         }
     }
 }
