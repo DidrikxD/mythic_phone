@@ -195,3 +195,5 @@ window.addEventListener('tuner-custom-open-app', function(tune) {
 window.addEventListener('tuner-custom-close-app', function() {
     $('#tuner-custom-container .inner-app').fadeOut();
 });
+
+export default {}

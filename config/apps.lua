@@ -43,7 +43,7 @@ Config.Apps = {
     },
     {
         name = 'Yellow Pages',
-        container = 'ads',
+        container = 'yp',
         icon = '<i class="fas fa-ad"></i>',
         color = '#f9a825',
         unread = 0,

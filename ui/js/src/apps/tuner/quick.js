@@ -33,3 +33,5 @@ window.addEventListener('tuner-quick-close-app', function() {
         $('.tuner-quick-section#custom').find('.tuner-quick-buttons').html('');
     });
 });
+
+export default {}

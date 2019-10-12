@@ -1,8 +1,11 @@
 import App from '../../app';
 import Config from '../../config';
 import Data from '../../data';
-import Custom from './custom';
 import anime from 'animejs/lib/anime.es.js';
+
+import Custom from './custom';
+import Quick from './quick';
+import Legal from './legal';
 
 var timer = null;
 var hasScanned = false;
@@ -87,3 +90,5 @@ window.addEventListener('tuner-close-app', function() {
     $('#tuner-home-screen').hide();
     $('.tuner-nav').removeData('disabled');
 });
+
+export default {}

@@ -271,4 +271,17 @@ var Tunes = [
     { id: 18, label: 'LWGTR 1', carOnly: true, carModel: 'LWGTR', boost: 100, throttle: 100, tranny: 100, brakes: 100, dt: 100 },
 ]
 
-export default { PlayerDetails, Contacts, Messages, Calls, Tweets, Adverts, FactoryTunes, Tunes };
+var Accounts = [
+    { id: 1, label: 'Personal Account', balance: 100000000, owner: true },
+    { id: 2, label: 'Premium Deluxe Motorsport', balance: 100000000, owner: true },
+    { id: 3, label: 'Albany Custom Imports', balance: 100000000, owner: true },
+    { id: 4, label: 'Ron', balance: 100000000, owner: false },
+    { id: 5, label: 'Some Company', balance: 100000000, owner: true },
+    { id: 6, label: 'Another Company', balance: 100000000, owner: false },
+    { id: 7, label: 'A Real Rando Company', balance: 100000000, owner: false },
+    { id: 8, label: 'This Be A Company', balance: 100000000, owner: false },
+    { id: 9, label: 'Wow I Am Original', balance: 100000000, owner: false },
+    { id: 10, label: 'What Is This?', balance: 100000000, owner: true },
+]
+
+export default { PlayerDetails, Contacts, Messages, Calls, Tweets, Adverts, FactoryTunes, Tunes, Accounts };

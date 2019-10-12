@@ -12,7 +12,8 @@ window.addEventListener('message', function(event) {
 });
 
 $('.phone-screen').on('click', '#home-container .app-button', function(event) {
-    App.OpenApp($(this).data('container'));
+    let app = $(this).data('app');
+    App.OpenApp(app.container, null, false, false, app.customExit);
 });
 
 window.addEventListener('home-open-app', function() {
@@ -58,7 +59,7 @@ function SetupApp() {
                 inDuration: 0
             });
 
-            $app.data('container', app.container);
+            $app.data('app', app);
         }
     });
 }

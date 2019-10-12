@@ -37,6 +37,7 @@ $(function() {
         { name: 'adverts', data: Test.Adverts },
         { name: 'factory-tunes', data: Test.FactoryTunes },
         { name: 'custom-tunes', data: Test.Tunes },
+        { name: 'bank-accounts', data: Test.Accounts }
     ]);
 
     OpenApp('home', null, true);
@@ -157,64 +158,65 @@ function ClosePhone() {
     });
 }
 
-function SetupApp(app, data, pop, disableFade, html) {
-    $('#screen-content').html(html);
-    InitShit();
-
-    window.dispatchEvent(new CustomEvent(`${appTrail[appTrail.length - 1].app}-close-app`));
-    if (pop) {
-        appTrail.pop();
-        disableFade = null;
-        appTrail.pop();
-    }
-
-    appTrail.push({
-        app: app,
-        data: data,
-        fade: disableFade
+function SetupApp(app, data, pop, disableFade, exit) {
+    $.ajax({
+        url: `./html/apps/${app}.html`,
+        cache: false,
+        dataType: "html",
+        statusCode: {
+            404: function() {
+                appTrail.push({ app: app, data: null, fade: false, close: exit });
+                Notif.Alert('App Doesn\'t Exist', 1000);
+                GoHome();
+            }
+        },
+        success: function(response) {
+            $('#screen-content').html(response);
+            InitShit();
+        
+            window.dispatchEvent(new CustomEvent(`${appTrail[appTrail.length - 1].app}-close-app`));
+            if (pop) {
+                appTrail.pop();
+                disableFade = null;
+                appTrail.pop();
+            }
+        
+            appTrail.push({
+                app: app,
+                data: data,
+                fade: disableFade,
+                close: exit
+            });
+        
+            $('.material-tooltip').remove();
+            window.dispatchEvent(new CustomEvent(`${app}-open-app`, { data: data }));
+            
+            $('#screen-content').show();
+        }
     });
-
-    $('.material-tooltip').remove();
-    window.dispatchEvent(new CustomEvent(`${app}-open-app`, { data: data }));
 }
 
-function OpenApp(app, data = null, pop = false, disableFade = false) {
+window.addEventListener('custom-close-finish', function(data) {
+    SetupApp(data.detail.app, data.detail.data, data.detail.pop, data.detail.disableFade, data.detail.customExit)
+});
+
+function OpenApp(app, data = null, pop = false, disableFade = false, customExit = false) {
     if ($('#screen-content .app-container').length <= 0 || disableFade) {
-        $.ajax({
-            url: `./html/apps/${app}.html`,
-            cache: false,
-            dataType: "html",
-            statusCode: {
-                404: function() {
-                    appTrail.push({ app: app, data: null, fade: false });
-                    Notif.Alert('App Doesn\'t Exist', 1000);
-                    GoHome();
-                }
-            },
-            success: function(response) {
-                SetupApp(app, data, pop, disableFade, response);
-                $('#screen-content').show();
-            }
-        });
+        if (appTrail[appTrail.length - 1].close) {
+            window.dispatchEvent(new CustomEvent(`${appTrail[appTrail.length - 1].app}-custom-close-app`, { detail: { app: app, data: data, pop: pop, disableFade: disableFade, customExit: customExit } }));
+        } else {
+            SetupApp(app, data, pop, disableFade, customExit);
+        }
+        
     } else {
-        $('#screen-content').fadeOut('fast', function() {
-            $.ajax({
-                url: `./html/apps/${app}.html`,
-                cache: false,
-                dataType: "html",
-                statusCode: {
-                    404: function() {
-                        appTrail.push({ app: app, data: null, fade: false });
-                        Notif.Alert('App Doesn\'t Exist', 1000);
-                        GoHome();
-                    }
-                },
-                success: function(response) {
-                    SetupApp(app, data, pop, disableFade, response);
-                    $('#screen-content').fadeIn('fast');
-                }
+        console.log(JSON.stringify(appTrail[appTrail.length - 1]));
+        if (appTrail[appTrail.length - 1].close) {
+            window.dispatchEvent(new CustomEvent(`${appTrail[appTrail.length - 1].app}-custom-close-app`, { detail: { app: app, data: data, pop: pop, disableFade: disableFade, customExit: customExit } }));
+        } else {
+            $('#screen-content').fadeOut('fast', function() {
+                SetupApp(app, data, pop, disableFade, customExit);
             });
-        });
+        }
     }
 }
 
@@ -236,7 +238,8 @@ function GoBack() {
                 appTrail[appTrail.length - 2].app,
                 appTrail[appTrail.length - 2].data,
                 true,
-                appTrail[appTrail.length - 1].fade
+                appTrail[appTrail.length - 1].fade,
+                appTrail[appTrail.length - 2].close
             );
         } else {
             GoHome();

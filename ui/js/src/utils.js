@@ -11,6 +11,10 @@ window.addEventListener('message', function(event) {
     }
 });
 
+function FormatCurrency(str) {
+    return `$${str.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
+}
+
 function DateSortNewest(a, b) {
     if (a.time != null) {
         return a.time < b.time ? 1 : -1;
@@ -64,6 +68,7 @@ function SetMute(status) {
 }
 
 export default {
+    FormatCurrency,
     DateSortNewest,
     DateSortOldest,
     UpdateClock,
