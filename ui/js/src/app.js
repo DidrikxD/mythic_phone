@@ -87,6 +87,7 @@ function InitShit() {
         constrainWidth: false
     });
     $('.tabs').tabs();
+    //$('select').formSelect();
     $('.char-count-input').characterCounter();
     $('.phone-number').mask('000-000-0000', { placeholder: '###-###-####' });
 }
@@ -197,7 +198,13 @@ function SetupApp(app, data, pop, disableFade, exit) {
 }
 
 window.addEventListener('custom-close-finish', function(data) {
-    SetupApp(data.detail.app, data.detail.data, data.detail.pop, data.detail.disableFade, data.detail.customExit)
+    if (data.detail.disableFade) {
+        SetupApp(data.detail.app, data.detail.data, data.detail.pop, data.detail.disableFade, data.detail.customExit);
+    } else {
+        $('#screen-content').fadeOut('fast', function() {
+            SetupApp(data.detail.app, data.detail.data, data.detail.pop, data.detail.disableFade, data.detail.customExit);
+        });
+    }
 });
 
 function OpenApp(app, data = null, pop = false, disableFade = false, customExit = false) {
@@ -209,7 +216,6 @@ function OpenApp(app, data = null, pop = false, disableFade = false, customExit 
         }
         
     } else {
-        console.log(JSON.stringify(appTrail[appTrail.length - 1]));
         if (appTrail[appTrail.length - 1].close) {
             window.dispatchEvent(new CustomEvent(`${appTrail[appTrail.length - 1].app}-custom-close-app`, { detail: { app: app, data: data, pop: pop, disableFade: disableFade, customExit: customExit } }));
         } else {

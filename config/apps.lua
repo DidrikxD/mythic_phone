@@ -31,7 +31,8 @@ Config.Apps = {
         icon = '<i class="fas fa-university"></i>',
         color = '#d7252a',
         unread = 0,
-        enabled = true
+        enabled = true,
+        customExit = true
     },
     {
         name = 'Twitter',

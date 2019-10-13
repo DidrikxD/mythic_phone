@@ -25,9 +25,7 @@ $('#screen-content').on('click', '.phone-nav-button', function(e) {
     }
 });
 
-$('#screen-content').on('click', '[data-section=keypad] .keypad-top .delete-num-btn', function(
-    e
-) {
+$('#screen-content').on('click', '[data-section=keypad] .keypad-top .delete-num-btn', function(e) {
     let number = $('.keypad-top #number').val();
     if (number.length > 0) {
         let delNum = number.substring(0, number.length - 1);

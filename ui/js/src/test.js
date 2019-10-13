@@ -272,16 +272,34 @@ var Tunes = [
 ]
 
 var Accounts = [
-    { id: 1, label: 'Personal Account', balance: 100000000, owner: true },
-    { id: 2, label: 'Premium Deluxe Motorsport', balance: 100000000, owner: true },
-    { id: 3, label: 'Albany Custom Imports', balance: 100000000, owner: true },
-    { id: 4, label: 'Ron', balance: 100000000, owner: false },
-    { id: 5, label: 'Some Company', balance: 100000000, owner: true },
-    { id: 6, label: 'Another Company', balance: 100000000, owner: false },
-    { id: 7, label: 'A Real Rando Company', balance: 100000000, owner: false },
-    { id: 8, label: 'This Be A Company', balance: 100000000, owner: false },
-    { id: 9, label: 'Wow I Am Original', balance: 100000000, owner: false },
-    { id: 10, label: 'What Is This?', balance: 100000000, owner: true },
+    { id: 1, label: 'Personal Account', type: 1, balance: 100000000, owner: true },
+    { id: 2, label: 'Premium Deluxe Motorsport', type: 2, balance: 100000000, owner: true },
+    { id: 3, label: 'Albany Custom Imports', type: 2, balance: 100000000, owner: true },
+    { id: 4, label: 'Ron', type: 2, balance: 100000000, owner: false },
+    { id: 5, label: 'Some Company', type: 2, balance: 100000000, owner: true },
+    { id: 6, label: 'Another Company', type: 2, balance: 100000000, owner: false },
+    { id: 7, label: 'A Real Rando Company', type: 2, balance: 100000000, owner: false },
+    { id: 8, label: 'This Be A Company', type: 2, balance: 100000000, owner: false },
+    { id: 9, label: 'Wow I Am Original', type: 2, balance: 100000000, owner: false },
+    { id: 10, label: 'Los Santos Judges', type: 3, balance: 150000000000, owner: false }
 ]
 
-export default { PlayerDetails, Contacts, Messages, Calls, Tweets, Adverts, FactoryTunes, Tunes, Accounts };
+var MazePayTransactions = [
+    { id: 1, type: 'Sent', amount: 10000, player: 'Some Name', date: 1562263235000 },
+    { id: 2, type: 'Sent', amount: 10000, player: 'Some Name', date: 1562263235000 },
+    { id: 3, type: 'Received', amount: 10000, player: 'Some Name', date: 1562263235000 },
+    { id: 4, type: 'Sent', amount: 10000, player: 'Some Name', date: 1562263235000 },
+    { id: 5, type: 'Received', amount: 10000, player: 'Some Name', date: 1562263235000 },
+    { id: 6, type: 'Sent', amount: 10000, player: 'Some Name', date: 1562263235000 },
+    { id: 7, type: 'Sent', amount: 10000, player: 'Some Name', date: 1562263235000 },
+    { id: 8, type: 'Received', amount: 10000, player: 'Some Name', date: 1562263235000 },
+    { id: 9, type: 'Received', amount: 10000, player: 'Some Name', date: 1562263235000 },
+    { id: 10, type: 'Received', amount: 10000, player: 'Some Name', date: 1562263235000 },
+    { id: 11, type: 'Sent', amount: 10000, player: 'Some Name', date: 1562263235000 },
+    { id: 12, type: 'Received', amount: 10000, player: 'Some Name', date: 1562263235000 },
+    { id: 13, type: 'Sent', amount: 10000, player: 'Some Name', date: 1562263235000 },
+    { id: 14, type: 'Received', amount: 10000, player: 'Some Name', date: 1562263235000 },
+    { id: 15, type: 'Received', amount: 10000, player: 'Some Name', date: 1562263235000 },
+]
+
+export default { PlayerDetails, Contacts, Messages, Calls, Tweets, Adverts, FactoryTunes, Tunes, Accounts, MazePayTransactions };

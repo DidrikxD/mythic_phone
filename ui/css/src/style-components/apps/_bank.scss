@@ -18,6 +18,18 @@
             margin-bottom: 5px;
             box-shadow: 0px 0px 5px #1e1e1e inset;
 
+            &.type-1 {
+                border-left: 5px solid color('green', 'darken-4');
+            }
+
+            &.type-2 {
+                border-left: 5px solid color('light-blue', 'darken-4');
+            }
+
+            &.type-3 {
+                border-left: 5px solid color('yellow', 'darken-4');
+            }
+
             &:hover {
                 transition: all ease-in 0.15s;
                 //box-shadow: 0px 0px 5px #aeaeae inset;
@@ -124,6 +136,9 @@
         bottom: 0;
         width: 100%;
         height: 100%;
+        text-align: center;
+        display: flex;
+        justify-content: space-evenly;
 
         .bank-quick-action {
             display: none;
@@ -132,6 +147,9 @@
             color: $alt-text;
             text-align: center;
             font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
 
             i {
                 display: block;
@@ -141,8 +159,10 @@
                 background: $background;
                 border-radius: 100px;
                 font-size: 23px;
-                padding: 20px;
                 border: 1px solid $border-color;
+                height: 65px;
+                width: 65px;
+                line-height: 65px;
             }
 
             &:hover {
@@ -164,26 +184,153 @@
     background: $primary;
     color: $primary;
 
-    .transfer-wrapper {
-        position: absolute;
-        bottom: 0;
-        background: $primary;
-        border-top: 1px solid $border-color;
-        height: 100%;
-        width: 100%;
-
-        .transfer-inner-wrapper {
-            display: none;
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
+    .inner-app {
+        #bank-app-page {
+            width: 100%;
+            height: 0%;
             margin: auto;
-            height: 80%;
-            width: 80%;
-            background-color: $background;
-            padding: 25px;
+            border-radius: 5px;
+            background: $primary;
+            border-bottom: 1px solid $border-color;
+
+            .alert {
+                padding: 10px;
+                border-radius: 5px;
+                background-color: #650d10;
+                margin-bottom: 5px;
+                -webkit-box-shadow: 0px 0px 5px #1e1e1e inset;
+                box-shadow: 0px 0px 5px #1e1e1e inset;
+                font-size: 14px;
+                border-left: 5px solid #ff0000;
+            }
+
+            .maze-pay-section {
+                padding: 15px;
+                height: 93.5%;
+                overflow-y: auto;
+                overflow-x: hidden;
+
+                &#maze-pay-history {
+                    table {
+                        table-layout: fixed;
+                        width: 100%;
+                    
+                        td {
+                            width: 20%;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            white-space: nowrap; 
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+#bank-mp-container {
+    background: $primary;
+    color: $primary;
+
+    .inner-app {
+        #bank-app-page {
+            width: 100%;
+            height: 0%;
+            margin: auto;
+            border-radius: 5px;
+            background: $primary;
+            border-bottom: 1px solid $border-color;
+
+            .alert {
+                padding: 10px;
+                border-radius: 5px;
+                background-color: #650d10;
+                margin-bottom: 5px;
+                -webkit-box-shadow: 0px 0px 5px #1e1e1e inset;
+                box-shadow: 0px 0px 5px #1e1e1e inset;
+                font-size: 14px;
+                border-left: 5px solid #ff0000;
+            }
+            
+            .col {
+                padding: 0;
+                
+                .tabs {
+                    background-color: $main-color;
+                    border-top-left-radius: 5px;
+                    border-top-right-radius: 5px;
+
+                    .tab {
+                        a {
+                            color: $primary;
+                            font-weight: 500;
+                        }
+                    }
+
+                    .indicator {
+                        background-color: $primary;
+                        height: 5px;
+                    }
+                }
+            }
+
+            .maze-pay-section {
+                padding: 15px;
+                height: 93.5%;
+                overflow-y: auto;
+                overflow-x: hidden;
+
+                &#maze-pay-history {
+                    table {
+                        table-layout: fixed;
+                        width: 100%;
+                    
+                        td {
+                            width: 20%;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            white-space: nowrap; 
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+#bank-nearest-container {
+    background: $primary;
+    color: $primary;
+
+    .inner-app {
+        #bank-app-page {
+            width: 100%;
+            height: 0%;
+            margin: auto;
+            border-radius: 5px;
+            background: $primary;
+            border-bottom: 1px solid $border-color;
+
+            .maze-pay-section {
+                padding: 15px;
+                height: 93.5%;
+                overflow-y: auto;
+                overflow-x: hidden;
+
+                &#maze-pay-history {
+                    table {
+                        table-layout: fixed;
+                        width: 100%;
+                    
+                        td {
+                            width: 20%;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            white-space: nowrap; 
+                        }
+                    }
+                }
+            }
         }
     }
 }

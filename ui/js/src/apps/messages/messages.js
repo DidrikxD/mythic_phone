@@ -139,8 +139,6 @@ window.addEventListener('message-open-app', function(data) {
 
     $('#message-new-number').val('');
     $('#message-new-body').val('');
-
-    $('#message-new-contact').formSelect();
 });
 
 function SendNewText(data, cb) {
