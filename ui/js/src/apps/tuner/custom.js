@@ -1,7 +1,7 @@
 import App from '../../app';
 import Config from '../../config';
-import Data from '../../data';
-import Notif from '../../notification';
+import Data from '../../utils/data';
+import Notif from '../../utils/notification';
 
 var sliders = {
     boost: document.getElementById('slider-boost'),

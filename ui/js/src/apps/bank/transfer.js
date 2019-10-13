@@ -1,7 +1,7 @@
 import App from '../../app';
 import Config from '../../config';
-import Data from '../../data';
-import Utils from '../../utils';
+import Data from '../../utils/data';
+import Utils from '../../utils/utils';
 import Test from '../../test';
 
 window.addEventListener('bank-transfer-open-app', function(data) {

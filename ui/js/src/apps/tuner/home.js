@@ -1,6 +1,6 @@
 import App from '../../app';
 import Config from '../../config';
-import Data from '../../data';
+import Data from '../../utils/data';
 import anime from 'animejs/lib/anime.es.js';
 
 import Custom from './custom';

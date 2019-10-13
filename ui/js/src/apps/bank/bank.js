@@ -1,12 +1,12 @@
 import App from '../../app';
 import Config from '../../config';
-import Data from '../../data';
-import Utils from '../../utils';
+import Data from '../../utils/data';
+import Utils from '../../utils/utils';
+import Notif from '../../utils/notification';
 
 import Transfer from './transfer';
 import MazePay from './maze-pay';
 import Transaction from './transaction'
-import Nearest from './nearest';
 
 var timeInt = null;
 
@@ -45,11 +45,52 @@ $('#screen-content').on('keyup keydown blur', '#transfer-amount', function(e) {
     });
 });
 
+$('#screen-content').on('click', '.bank-quick-nav', function(e) {
+    if (!$(this).hasClass('disabled')) {
+        let type = $(this).data('type');
+
+        if (type != 'back') {
+            $(this).addClass('disabled');
+            Notif.Alert(`Marked Nearest ${type} On Your GPS`);
+        }
+
+        $('.quick-actions').animate({
+            height: '0%'
+        }, { duration: 500 }).promise().then(function() {
+            $('.bank-quick-action').show();
+            $('.bank-quick-nav').hide();
+
+            $('.quick-actions').animate({
+                height: '20%'
+            }, { duration: 500 }).promise().then(function() {
+                $(this).removeClass('disabled');
+            });
+        });
+
+    }
+});
+
 $('#screen-content').on('click', '.bank-quick-action', function(e) {
     if (!$(this).hasClass('disabled')) {
         let app = $(this).data('nav');
-        $(this).addClass('disabled');
-        App.OpenApp(app, null, false, true, true);
+
+        if (app != null) {
+            $(this).addClass('disabled');
+            App.OpenApp(app, null, false, true, true);
+        } else {
+            $('.quick-actions').animate({
+                height: '0%'
+            }, { duration: 500 }).promise().then(function() {
+                $('.bank-quick-action').hide();
+                $('.bank-quick-nav').show();
+
+                $('.quick-actions').animate({
+                    height: '20%'
+                }, { duration: 500 }).promise().then(function() {
+                    $(this).removeClass('disabled');
+                });
+            });
+        }
     }
 });
 

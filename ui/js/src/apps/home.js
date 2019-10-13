@@ -1,5 +1,5 @@
 import App from '../app';
-import Data from '../data';
+import Data from '../utils/data';
 
 var apps = null;
 

@@ -1,8 +1,8 @@
 import App from '../app';
 import Config from '../config';
-import Utils from '../utils';
-import Data from '../data';
-import Notif from '../notification';
+import Utils from '../utils/utils';
+import Data from '../utils/data';
+import Notif from '../utils/notification';
 import Phone from './phone/phone';
 
 var ads = null;

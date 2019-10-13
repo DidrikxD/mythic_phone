@@ -1,7 +1,6 @@
 import App from '../../app';
 import Config from '../../config';
-import Utils from '../../utils';
-import Data from '../../data';
+import Data from '../../utils/data';
 
 var factoryTunes = null;
 var customTunes = null;

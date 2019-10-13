@@ -1,6 +1,6 @@
 import App from '../../app';
 import Config from '../../config';
-import Data from '../../data';
+import Data from '../../utils/data';
 
 // TODO : Need To Verify Flow Works As It Should Once Back-End Communication Is Setup
 var contacts = null;

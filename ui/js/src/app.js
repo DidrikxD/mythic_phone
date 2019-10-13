@@ -1,7 +1,7 @@
 import Config from './config';
-import Data from './data';
-import Utils from './utils';
-import Notif from './notification';
+import Data from './utils/data';
+import Utils from './utils/utils';
+import Notif from './utils/notification';
 import Apps from './apps/apps';
 
 import Test from './test';

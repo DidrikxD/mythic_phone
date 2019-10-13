@@ -1,8 +1,8 @@
 import App from '../../app';
-import Notif from '../../notification';
 import Config from '../../config';
-import Utils from '../../utils';
-import Data from '../../data';
+import Utils from '../../utils/utils';
+import Data from '../../utils/data';
+import Notif from '../../utils/notification';
 import Convo from './convo';
 
 var myNumber = null;
