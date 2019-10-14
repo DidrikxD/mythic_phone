@@ -309,3 +309,58 @@
         }
     }
 }
+
+#bank-transaction-container {
+    background: $background;
+    color: $primary;
+
+    .inner-app {
+        #bank-app-page {
+            width: 100%;
+            height: 0%;
+            margin: auto;
+            border-radius: 5px;
+            background: $primary;
+            border-bottom: 1px solid $border-color;
+            border-left: 10px solid #ffff;
+
+            &.type-1 {
+                border-color: color('green', 'darken-4');
+            }
+
+            &.type-2 {
+                border-color: color('light-blue', 'darken-4');
+            }
+
+            &.type-3 {
+                border-color: color('yellow', 'darken-4');
+            }
+
+            .transaction-header {
+                padding: 0 15px 0 5px;
+                height: 6%;
+
+                .select-dropdown {
+                    max-height: 600px !important;
+                    overflow-y: auto !important;
+                    backface-visibility: hidden !important;
+                }
+            }
+
+            .transaction-body {
+                padding: 0 15px 0 5px;
+                height: 94%;
+                overflow-y: auto;
+                overflow-x: hidden;
+                
+                .no-transactions {
+                    padding: 25px;
+                    font-size: 25px;
+                    color: $main-color;
+                    text-align: center;
+                    font-weight: 500;
+                }
+            }
+        }
+    }
+}

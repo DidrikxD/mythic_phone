@@ -41,8 +41,8 @@
             right: 49px;
             top: 100px;
             display: flex;
-            color: #1e1e1e;
-            background: #eaeaea;
+            color: $alt-text;
+            background: $background;
             overflow: hidden;
 
             .phone-header {
@@ -51,7 +51,7 @@
                 line-height: 24px;
                 padding: 0px 20px 0px 24px;
                 width: 100%;
-                color: white;
+                color: $primary;
                 background-color: rgba(0, 0, 0, 1);
                 position: absolute;
                 z-index: 99;
@@ -153,7 +153,7 @@
                 align-content: center;
                 -ms-flex-pack: center;
                 justify-content: center;
-                color: gray;
+                color: $background;
                 background-image: url(../imgs/back003.png);
 
                 #screen-content {
@@ -176,11 +176,11 @@
                             overflow-x: hidden;
     
                             .btn-flat {
-                                color: #1e1e1e;
+                                color: $alt-text;
                             }
     
                             input {
-                                color: #1e1e1e;
+                                color: $alt-text;
                                 font-weight: bold;
                             }
                         }
@@ -198,7 +198,7 @@
                 font-size: 17px;
                 line-height: 24px;
                 width: 100%;
-                color: white;
+                color: $primary;
                 background-color: rgba(0, 0, 0, 1);
                 position: absolute;
                 z-index: 99;
@@ -212,18 +212,22 @@
                     i {
                         line-height: 40px
                     }
+
+                    &.disabled {
+                        color: $primary;
+                    }
                 }
 
                 .footer-button:hover {
                     transition: all ease-in 0.15s;
-                    color: color("materialize-red", "darken-4");
+                    color: $main-color;
                 }
             }
         }
     }
 
     input::placeholder {
-        color: #c4c4c4;
+        color: $primary-hover;
     }
 }
 

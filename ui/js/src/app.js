@@ -14,8 +14,6 @@ var appTrail = [
     }
 ];
 
-var navDisabled = false;
-
 moment.fn.fromNowOrNow = function(a) {
     if (Math.abs(moment().diff(this)) < 60000) {
         return 'just now';
@@ -107,22 +105,16 @@ $('.phone-header').on('click', '.in-call', function(e) {
 });
 
 $('.back-button').on('click', function(e) {
-    if (!navDisabled) {
+    if (!$(this).hasClass('disabled')) {
+        $('.footer-button').addClass('disabled');
         GoBack();
-        navDisabled = true;
-        setTimeout(function() {
-            navDisabled = false;
-        }, 500);
     }
 });
 
 $('.home-button').on('click', function(e) {
-    if (!navDisabled) {
+    if (!$(this).hasClass('disabled')) {
+        $('.footer-button').addClass('disabled');
         GoHome();
-        navDisabled = true;
-        setTimeout(function() {
-            navDisabled = false;
-        }, 500);
     }
 });
 
@@ -169,6 +161,7 @@ function SetupApp(app, data, pop, disableFade, exit) {
                 appTrail.push({ app: app, data: null, fade: false, close: exit });
                 Notif.Alert('App Doesn\'t Exist', 1000);
                 GoHome();
+                $('.footer-button').removeClass('disabled');
             }
         },
         success: function(response) {
@@ -193,6 +186,7 @@ function SetupApp(app, data, pop, disableFade, exit) {
             window.dispatchEvent(new CustomEvent(`${app}-open-app`, { detail: data }));
             
             $('#screen-content').show();
+            $('.footer-button').removeClass('disabled');
         }
     });
 }

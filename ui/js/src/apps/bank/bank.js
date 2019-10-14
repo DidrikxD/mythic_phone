@@ -17,6 +17,10 @@ $('#screen-content').on('submit', '#bank-transfer', function(e) {
     console.log(data);
 });
 
+$('#screen-content').on('click', '.account', function(e) {
+    App.OpenApp('bank-transaction', $(this).data('account'), false, true, true);
+});
+
 $('#screen-content').on('keyup keydown blur', '#target-account', function(e) {
     switch(e.which) {
         case 69:
@@ -112,6 +116,8 @@ window.addEventListener('bank-open-app', function() {
         } else {
             $('.accounts').append(`<div class="account type-${account.type}" data-tooltip="Account #${account.id} - Balance: ${Utils.FormatCurrency(account.balance)}"><div class="account-label"><div class="bank-label-name">${account.label}</div><small>Authorized User</small></div><div class="account-balance">${Utils.FormatCurrency(account.balance)}</div></div>`)
         }
+
+        $('.accounts .account:last-child').data('account', account);
     });
 
     $('.account').tooltip({
@@ -128,13 +134,16 @@ window.addEventListener('bank-open-app', function() {
 });
 
 window.addEventListener('bank-custom-close-app', function(data) {
-    $('.bank-quick-action').fadeOut('normal').promise().then(function() {
-        $('.quick-actions').animate({
-            height: '100%'
-        }, { duration: 1000 }).promise().then(function() {
-            window.dispatchEvent(new CustomEvent('custom-close-finish', { detail: data.detail }));
+    if (!$('#bank-container').hasClass('disabled')) {
+        $('#bank-container').addClass('disabled');
+        $('.bank-quick-action').fadeOut('normal').promise().then(function() {
+            $('.quick-actions').animate({
+                height: '100%'
+            }, { duration: 1000 }).promise().then(function() {
+                window.dispatchEvent(new CustomEvent('custom-close-finish', { detail: data.detail }));
+            });
         });
-    });
+    }
 });
 
 window.addEventListener('bank-close-app', function() {

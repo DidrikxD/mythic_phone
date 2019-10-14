@@ -60,7 +60,6 @@ function ResetScan() {
 
 var dots = null;
 window.addEventListener('tuner-open-app', function() {
-    console.log('what the fuck bro')
     if (!hasScanned) {
         $('.splash').fadeIn();
         dots = setInterval( function() {
@@ -71,7 +70,6 @@ window.addEventListener('tuner-open-app', function() {
         }, 500);
 
         $.post(Config.ROOT_ADDRESS + '/SetupTuner', JSON.stringify({}), function(status) {
-            console.log(JSON.stringify(status));
             $('.splash').fadeOut();
             clearInterval(dots);
             if (status) {
@@ -118,6 +116,7 @@ window.addEventListener('tuner-open-app', function() {
 });
 
 window.addEventListener('tuner-close-app', function() {
+    clearInterval(dots);
     clearTimeout(timer);
     $('.no-chip-error').hide();
     $('#tuner-home-screen').hide();
