@@ -35,6 +35,33 @@ $tuner-color: color('teal', 'darken-4');
 
 #tuner-container {
     .inner-app {
+        .splash {
+            display: none;
+            height: 100%;
+            width: 100%;
+            text-align: center;
+
+            span {
+                height: fit-content;
+                width: fit-content;
+                display: block;
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                margin: auto;
+                font-size: 25px;
+                color: #ffffff;
+
+                .dots {
+                    width: 100%;
+                    position: absolute;
+                    text-align: center;
+                }
+            }
+        }
+
         .no-chip-error {
             display: none;
             position: absolute;
@@ -121,6 +148,24 @@ $tuner-color: color('teal', 'darken-4');
                             }
                         }
                     }
+                }
+            }
+
+            .connection-note {
+                width: 100%;
+                padding: 15px;
+                position: absolute;
+                bottom: 0;
+                display: inline-block;
+                text-align: center;
+                background: #004d40;
+                color: #ffffff;
+                font-weight: 500;
+                font-size: 19px;
+
+                .connected-car {
+                    display: inline-block;
+                    font-weight: bold;
                 }
             }
         }

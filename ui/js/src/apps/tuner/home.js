@@ -36,22 +36,44 @@ function ShowError() {
 }
 
 function SetupTuner(tunerActive) {
-    hasScanned = true;
-    if (Data.GetData('currentVeh') == null || Data.GetData('currentVeh').id != tunerActive.id) {
-        Data.StoreData('currentVeh', tunerActive);
+    if (tunerActive.sameVeh) {
+        tunerActive = Data.GetData('currentVeh');
     }
 
-    $('#tuner-home-screen').fadeIn('normal');
+    if (tunerActive.id != null) {
+        hasScanned = true;
+        if (Data.GetData('currentVeh') == null || Data.GetData('currentVeh').id != tunerActive.id) {
+            Data.StoreData('currentVeh', tunerActive);
+        }
+    
+        $('.connected-car').html(tunerActive.model);
+    
+        $('#tuner-home-screen').fadeIn('normal');
+    } else {
+        ShowError()
+    }
 }
 
 function ResetScan() {
     hasScanned = false;
 }
 
+var dots = null;
 window.addEventListener('tuner-open-app', function() {
+    console.log('what the fuck bro')
     if (!hasScanned) {
-        $.post(Config.ROOT_ADDRESS + '/SetupTuner', JSON.stringify({}), 
-        function(status) {
+        $('.splash').fadeIn();
+        dots = setInterval( function() {
+            if ( $('.dots').html().length >= 3 )
+                $('.dots').html('');
+            else 
+                $('.dots').html($('.dots').html() + '.');
+        }, 500);
+
+        $.post(Config.ROOT_ADDRESS + '/SetupTuner', JSON.stringify({}), function(status) {
+            console.log(JSON.stringify(status));
+            $('.splash').fadeOut();
+            clearInterval(dots);
             if (status) {
                 SetupTuner(status);
             } else {
@@ -63,11 +85,22 @@ window.addEventListener('tuner-open-app', function() {
             veh: Data.GetData('currentVeh')
         }), function(status) {
             if (status != null) {
+                console.log(JSON.stringify(status));
                 if (status.sameVeh) {
                     SetupTuner(status);
                 } else if(status) {
+                    $('.splash').fadeIn();
+                    dots = setInterval( function() {
+                        if ($('.dots').html().length >= 3 )
+                            $('.dots').html('');
+                        else 
+                            $('.dots').html($('.dots').html() + '.');
+                    }, 500);
+
                     $.post(Config.ROOT_ADDRESS + '/SetupTuner', JSON.stringify({}), 
                     function(status) {
+                        $('.splash').fadeOut();
+                        clearInterval(dots);
                         if (status) {
                             SetupTuner(status);
                         } else {

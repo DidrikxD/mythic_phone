@@ -5,5 +5,6 @@ import Messages from './messages/messages';
 import Twitter from './twitter';
 import Adverts from './yp';
 import Bank from './bank/bank';
+import Tuner from './tuner/home';
 
-export default { Home, Contacts, Phone, Messages, Twitter, Adverts, Bank }
+export default { Home, Contacts, Phone, Messages, Twitter, Adverts, Bank, Tuner }

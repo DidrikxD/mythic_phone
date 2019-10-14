@@ -35,9 +35,8 @@ function InitSliders() {
 $('#screen-content').on('submit', '#new-tune', function(e) {
     e.preventDefault();
     let data = $(this).serializeArray();
-    let tunes = Data.GetData('custom-tunes');
 
-    $.post(Config.ROOT_ADDRESS + 'TunerNew', JSON.stringify({
+    $.post(Config.ROOT_ADDRESS + '/TunerNew', JSON.stringify({
         label: data[0].value,
         carOnly: data[1] != null ? true : false,
         carModel: null,
@@ -59,16 +58,13 @@ $('#screen-content').on('submit', '#new-tune', function(e) {
 })
 
 $('#screen-content').on('click', '#tuner-custom-saved', function() {
-    //App.OpenApp('tuner-saved', null, false, true);
-
     let tunes = Data.GetData('custom-tunes');
     let factory = Data.GetData('factory-tunes');
     $('#custom-tunes-popup').find('#car-only').html('');
     $('#custom-tunes-popup').find('#generic').html('');
 
-    let testModel = 'RUINER'; // TODO : Update to pull current car model
     let carOnly = tunes.filter(function(tune) {
-        return tune.carOnly && tune.carModel === testModel;
+        return tune.carOnly && tune.carModel === Data.GetData('currentVeh').model;
     });
 
     let generic = tunes.filter(function(tune) {
