@@ -190,19 +190,20 @@ function ReceiveText(sender, text) {
     });
 }
 
-window.addEventListener('convo-open-app', function(data) {
+window.addEventListener('message-convo-open-app', function(data) {
+    console.log(JSON.stringify(data.detail));
     myNumber = Data.GetData('myData').phone;
     contacts = Data.GetData('contacts');
     messages = Data.GetData('messages');
 
-    $('#message-convo-container').data('data', data);
+    $('#message-convo-container').data('data', data.detail);
 
     let texts = messages.filter(
         c =>
             (c.sender == data.number && c.receiver == myNumber) ||
-            (c.sender == myNumber && c.receiver == data.number)
+            (c.sender == myNumber && c.receiver == data.detail.number)
     );
-    let contact = contacts.filter(c => c.number == data.number)[0];
+    let contact = contacts.filter(c => c.number == data.detail.number)[0];
 
     if (contact != null) {
         $('.convo-action-addcontact').hide();
@@ -213,7 +214,7 @@ window.addEventListener('convo-open-app', function(data) {
         );
     } else {
         $('.convo-action-addcontact').show();
-        $('.convo-top-number').html(data.number);
+        $('.convo-top-number').html(data.detail.number);
     }
 
     $('.convo-texts-list').html('');
@@ -284,7 +285,7 @@ window.addEventListener('convo-open-app', function(data) {
     }
 });
 
-window.addEventListener('convo-close-app', function(data) {
+window.addEventListener('message-convo-close-app', function(data) {
     myNumber = null;
     contacts = null;
     messages = null;

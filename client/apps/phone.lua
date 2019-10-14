@@ -136,17 +136,13 @@ end)
 
 RegisterNetEvent('mythic_phone:client:OtherToggleHold')
 AddEventHandler('mythic_phone:client:OtherToggleHold', function(number)
-    print('received')
     if Call.number ~= nil and Call.status ~= 0 then
-        print('changing')
         Call.OtherHold = not Call.OtherHold
     end
 end)
 
 RegisterNUICallback( 'CreateCall', function( data, cb )
-    print(data.number)
-    actionCb['CreateCall'] = cb
-    TriggerServerEvent('mythic_phone:server:CreateCall', securityToken, 'CreateCall', data.number, data.nonStandard)
+    Callbacks:ServerCallback('mythic_phone:server:CreateCall', { number = data.number, nonStandard = data.nonStandard }, cb)
 end)
 
 RegisterNUICallback( 'AcceptCall', function( data, cb )
@@ -178,8 +174,7 @@ RegisterNUICallback( 'ToggleHold', function( data, cb )
 end)
 
 RegisterNUICallback( 'DeleteCallRecord', function( data, cb )
-    actionCb['DeleteCallRecord'] = cb
-    TriggerServerEvent('mythic_phone:server:DeleteCallRecord', securityToken, 'DeleteCallRecord', data.id)
+    Callbacks:ServerCallback('mythic_phone:server:DeleteCallRecord', { id = data.id }, cb)
 end)
 
 RegisterNetEvent('mythic_base:client:Logout')

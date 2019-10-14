@@ -6,11 +6,9 @@ AddEventHandler('mythic_base:server:CharacterSpawned', function()
 end)
 
 AddEventHandler('mythic_base:shared:ComponentsReady', function()
-    while Callbacks == nil do
-        Citizen.Wait(100)
-    end
+    Callbacks = Callbacks or exports['mythic_base']:FetchComponent('Callbacks')
 
-    Callbacks:RegisterServerCallback('mythic_phone:server:NewAd', function(source, event, data)
+    Callbacks:RegisterServerCallback('mythic_phone:server:NewAd', function(source, data, cb)
         local char = exports['mythic_base']:FetchComponent('Fetch'):Source(source):GetData('character')
         local id = char:GetData('id')
 
@@ -24,14 +22,14 @@ AddEventHandler('mythic_base:shared:ComponentsReady', function()
         }
 
         TriggerClientEvent('mythic_phone:client:ReceiveAd', -1, Advertisements[id])
-        return
+        cb()
     end)
 
-    Callbacks:RegisterServerCallback('mythic_phone:server:DeleteAd', function(source, event, data)
+    Callbacks:RegisterServerCallback('mythic_phone:server:DeleteAd', function(source, data, cb)
         local char = exports['mythic_base']:FetchComponent('Fetch'):Source(source):GetData('character')
         local id = char:GetData('id')
         Advertisements[id] = nil
         TriggerClientEvent('mythic_phone:client:DeleteAd', -1, id)
-        return
+        cb()
     end)
 end)

@@ -18,11 +18,9 @@ AddEventHandler('mythic_phone:client:ReceiveText', function(sender, text)
 end)
 
 RegisterNUICallback( 'SendText', function( data, cb )
-    actionCb['SendText'] = cb
-    TriggerServerEvent('mythic_phone:server:SendText', securityToken, 'SendText', data.receiver, data.message)
+    Callbacks:ServerCallback('mythic_phone:server:SendText', { receiver = data.receiver, message = data.message }, cb)
 end)
 
 RegisterNUICallback( 'DeleteConversation', function( data, cb )
-    actionCb['DeleteConversation'] = cb
-    TriggerServerEvent('mythic_phone:server:DeleteConversation', securityToken, 'DeleteConversation', data.number)
+    Callbacks:ServerCallback('mythic_phone:server:DeleteConversation', { number = data.number }, cb)
 end)

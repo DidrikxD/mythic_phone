@@ -1,14 +1,11 @@
 RegisterNUICallback( 'CreateContact', function( data, cb )
-    actionCb['CreateContact'] = cb
-    TriggerServerEvent('mythic_phone:server:CreateContact', securityToken, 'CreateContact', data.name, data.number)
+    Callbacks:ServerCallback('mythic_phone:server:CreateContact', { name = data.name, number = data.number }, cb)
 end)
 
 RegisterNUICallback( 'EditContact', function( data, cb )
-    actionCb['EditContact'] = cb
-    TriggerServerEvent('mythic_phone:server:EditContact', securityToken, 'EditContact', data.originName, data.originNumber, data.name, data.number)
+    Callbacks:ServerCallback('mythic_phone:server:EditContact', { name = data.name, number = data.number, originName = data.originName, originNumber = data.originNumber }, cb)
 end)
 
 RegisterNUICallback( 'DeleteContact', function( data, cb )
-    actionCb['DeleteContact'] = cb
-    TriggerServerEvent('mythic_phone:server:DeleteContact', securityToken, 'DeleteContact', data.name, data.number)
+    Callbacks:ServerCallback('mythic_phone:server:DeleteContact', { name = data.name, number = data.number }, cb)
 end)

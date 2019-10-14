@@ -1,4 +1,5 @@
 AppData = {}
+Callbacks = nil
 
 function RegisterData(source, key, data)
     if AppData[source] ~= nil then
@@ -8,20 +9,6 @@ function RegisterData(source, key, data)
         AppData[source].key = data
     end
 end
-
-Callbacks = nil
-AddEventHandler('mythic_base:shared:ComponentsReady', function()
-    Callbacks = exports['mythic_base']:FetchComponent('Callbacks')
-
-    Callbacks:RegisterServerCallback('mythic_phone:server:GetData', function(source, event, data)
-        RegisterData(source, data.key, data.data)
-        return true
-    end)
-
-    Callbacks:RegisterServerCallback('mythic_phone:server:GetData', function(source, event, data)
-        return AppData[source][data.key]
-    end)
-end)
 
 RegisterServerEvent('mythic_base:server:CharacterSpawned')
 AddEventHandler('mythic_base:server:CharacterSpawned', function()
@@ -37,4 +24,17 @@ AddEventHandler('mythic_base:server:CharacterSpawned', function()
         }},
         { name = 'apps', data = Config.Apps }
     })
+end)
+
+AddEventHandler('mythic_base:shared:ComponentsReady', function()
+    Callbacks = Callbacks or exports['mythic_base']:FetchComponent('Callbacks')
+
+    Callbacks:RegisterServerCallback('mythic_phone:server:GetData', function(source, data, cb)
+        RegisterData(source, data.key, data.data)
+        cb(true)
+    end)
+
+    Callbacks:RegisterServerCallback('mythic_phone:server:GetData', function(source, data, cb)
+        cb(AppData[source][data.key])
+    end)
 end)

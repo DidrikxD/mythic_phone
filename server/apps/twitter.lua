@@ -9,16 +9,12 @@ AddEventHandler('mythic_base:server:CharacterSpawned', function()
 end)
 
 AddEventHandler('mythic_base:shared:ComponentsReady', function()
-    while Callbacks == nil do
-        Citizen.Wait(100)
-    end
+    Callbacks = Callbacks or exports['mythic_base']:FetchComponent('Callbacks')
 
-    Callbacks:RegisterServerCallback('mythic_phone:server:NewTweet', function(source, event, data)
-        local returnVal = nil
-        local tweet = {}
-
+    Callbacks:RegisterServerCallback('mythic_phone:server:NewTweet', function(source, data, cb)
         Citizen.CreateThread(function()
-            local returnData = nil
+            local tweet = {}
+    
             local char = exports['mythic_base']:FetchComponent('Fetch'):Source(source):GetData('character')
             local author = char:GetData('firstName') .. '_' .. char:GetData('lastName')
             local users = exports['mythic_base']:FetchComponent('Fetch'):All()
@@ -41,21 +37,15 @@ AddEventHandler('mythic_base:shared:ComponentsReady', function()
                     tweet.message = data.message
                     tweet.time = data.time
 
-                    returnVal = tweet
+                    cb(tweet)
                 else
-                    returnVal = false
+                    cb(false)
                 end
             end)
+
+            if tweet.message ~= nil then
+                TriggerClientEvent('mythic_phone:client:ReceiveNewTweet', -1, tweet)
+            end
         end)
-
-        while returnVal == nil do
-            Citizen.Wait(100)
-        end
-
-        if tweet.message ~= nil then
-            TriggerClientEvent('mythic_phone:client:ReceiveNewTweet', -1, tweet)
-        end
-
-        return tweet
     end)
 end)

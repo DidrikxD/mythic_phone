@@ -190,7 +190,7 @@ function SetupApp(app, data, pop, disableFade, exit) {
             });
         
             $('.material-tooltip').remove();
-            window.dispatchEvent(new CustomEvent(`${app}-open-app`, { data: data }));
+            window.dispatchEvent(new CustomEvent(`${app}-open-app`, { detail: data }));
             
             $('#screen-content').show();
         }

@@ -20,15 +20,13 @@ AddEventHandler('mythic_base:server:CharacterSpawned', function()
 end)
 
 AddEventHandler('mythic_base:shared:ComponentsReady', function()
-    while Callbacks == nil do
-        Citizen.Wait(100)
-    end
+    Callbacks = Callbacks or exports['mythic_base']:FetchComponent('Callbacks')
 
-    Callbacks:RegisterServerCallback('mythic_phone:server:SaveTune', function(source, event, data)
+    Callbacks:RegisterServerCallback('mythic_phone:server:SaveTune', function(source, data, cb)
 
     end)
 
-    Callbacks:RegisterServerCallback('mythic_phone:server:DeleteTune', function(source, event, data)
+    Callbacks:RegisterServerCallback('mythic_phone:server:DeleteTune', function(source, data, cb)
 
     end)
 end)

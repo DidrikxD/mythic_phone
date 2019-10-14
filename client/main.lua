@@ -2,13 +2,12 @@ local isLoggedIn = false
 
 CharData = nil
 Callbacks = nil
-actionCb = {}
 isPhoneOpen = false
 
 Death = nil
 Callbacks = nil
 AddEventHandler('mythic_base:shared:ComponentsReady', function()
-  Callbacks = exports['mythic_base']:FetchComponent('Callbacks')
+  Callbacks = Callbacks or exports['mythic_base']:FetchComponent('Callbacks')
   Death = exports['mythic_base']:FetchComponent('Death')
   
   Citizen.CreateThread(function()
@@ -22,14 +21,6 @@ end)
 RegisterNetEvent('mythic_base:client:CharacterDataChanged')
 AddEventHandler('mythic_base:client:CharacterDataChanged', function(charData)
     CharData = charData
-end)
-
-RegisterNetEvent('mythic_phone:client:ActionCallback')
-AddEventHandler('mythic_phone:client:ActionCallback', function(identifier, data)
-  if actionCb[identifier] ~= nil then
-    actionCb[identifier](data)
-    actionCb[identifier] = nil
-  end
 end)
 
 RegisterNetEvent('mythic_phone:client:TogglePhone')
@@ -79,10 +70,6 @@ function CalculateTimeToDisplay()
 
   return obj
 end
-
-AddEventHandler('mythic_base:shared:ComponentsReady', function()
-	Callbacks = exports['mythic_base']:FetchComponent('Callbacks')
-end)
 
 function hasPhone(cb)
   Callbacks:ServerCallback('mythic_inventory:server:CheckItem', { { item = 'phone', count = 1 } }, cb)
