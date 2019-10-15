@@ -247,28 +247,30 @@ var Adverts = [
 ];
 
 var FactoryTunes = [
-    { label: 'Sport', boost: 100, throttle: 100, tranny: 100, brakes: 100, dt: 100 },
+    { label: 'Sport', boost: 10, suspension: 10, tranny: 10, brakes: 10, dt: 10 },
 ]
 
 var Tunes = [
-    { id: 1, label: 'Generic 1', carOnly: false, carModel: null, boost: 10, throttle: 20, tranny: 30, brakes: 40, dt: 50 },
-    { id: 2, label: 'Generic 2', carOnly: false, carModel: null, boost: 100, throttle: 90, tranny: 80, brakes: 70, dt: 60 },
-    { id: 3, label: 'Generic 3', carOnly: false, carModel: null, boost: 100, throttle: 100, tranny: 100, brakes: 100, dt: 100 },
-    { id: 4, label: 'Generic 4', carOnly: false, carModel: null, boost: 100, throttle: 100, tranny: 100, brakes: 100, dt: 100 },
-    { id: 5, label: 'Generic 5', carOnly: false, carModel: null, boost: 100, throttle: 100, tranny: 100, brakes: 100, dt: 100 },
-    { id: 6, label: 'Generic 6', carOnly: false, carModel: null, boost: 100, throttle: 100, tranny: 100, brakes: 100, dt: 100 },
-    { id: 7, label: 'Generic 7', carOnly: false, carModel: null, boost: 100, throttle: 100, tranny: 100, brakes: 100, dt: 100 },
-    { id: 8, label: 'Generic 8', carOnly: false, carModel: null, boost: 100, throttle: 100, tranny: 100, brakes: 100, dt: 100 },
-    { id: 9, label: 'Generic 9', carOnly: false, carModel: null, boost: 100, throttle: 100, tranny: 100, brakes: 100, dt: 100 },
-    { id: 10, label: 'Ruiner 1', carOnly: true, carModel: 'RUINER', boost: 10, throttle: 20, tranny: 30, brakes: 40, dt: 50 },
-    { id: 11, label: 'Ruiner 2', carOnly: true, carModel: 'RUINER', boost: 100, throttle: 90, tranny: 80, brakes: 70, dt: 60 },
-    { id: 12, label: 'Ruiner 3', carOnly: true, carModel: 'RUINER', boost: 100, throttle: 100, tranny: 100, brakes: 100, dt: 100 },
-    { id: 13, label: 'Ruiner 4', carOnly: true, carModel: 'RUINER', boost: 100, throttle: 100, tranny: 100, brakes: 100, dt: 100 },
-    { id: 14, label: 'Ruiner 5', carOnly: true, carModel: 'RUINER', boost: 100, throttle: 100, tranny: 100, brakes: 100, dt: 100 },
-    { id: 15, label: 'Ruiner 6', carOnly: true, carModel: 'RUINER', boost: 100, throttle: 100, tranny: 100, brakes: 100, dt: 100 },
-    { id: 16, label: 'Ruiner 7', carOnly: true, carModel: 'RUINER', boost: 100, throttle: 100, tranny: 100, brakes: 100, dt: 100 },
-    { id: 17, label: 'Ruiner 8', carOnly: true, carModel: 'RUINER', boost: 100, throttle: 100, tranny: 100, brakes: 100, dt: 100 },
-    { id: 18, label: 'LWGTR 1', carOnly: true, carModel: 'LWGTR', boost: 100, throttle: 100, tranny: 100, brakes: 100, dt: 100 },
+    { id: 1, label: 'Generic 1', carOnly: false, carModel: null, boost: 1, suspension: 2, tranny: 3, brakes: 4, dt: 5 },
+    { id: 2, label: 'Generic 2', carOnly: false, carModel: null, boost: 10, suspension: 9, tranny: 8, brakes: 7, dt: 6 },
+    { id: 3, label: 'Generic 3', carOnly: false, carModel: null, boost: 10, suspension: 10, tranny: 10, brakes: 10, dt: 10 },
+    { id: 4, label: 'Generic 4', carOnly: false, carModel: null, boost: 10, suspension: 10, tranny: 10, brakes: 10, dt: 10 },
+    { id: 5, label: 'Generic 5', carOnly: false, carModel: null, boost: 10, suspension: 10, tranny: 10, brakes: 10, dt: 10 },
+    { id: 6, label: 'Generic 6', carOnly: false, carModel: null, boost: 10, suspension: 10, tranny: 10, brakes: 10, dt: 10 },
+    { id: 7, label: 'Generic 7', carOnly: false, carModel: null, boost: 10, suspension: 10, tranny: 10, brakes: 10, dt: 10 },
+    { id: 8, label: 'Generic 8', carOnly: false, carModel: null, boost: 10, suspension: 10, tranny: 10, brakes: 10, dt: 10 },
+    { id: 9, label: 'Generic 9', carOnly: false, carModel: null, boost: 10, suspension: 10, tranny: 10, brakes: 10, dt: 10 },
+    { id: 10, label: 'Ruiner 1', carOnly: true, carModel: 'RUINER', boost: 1, suspension: 2, tranny: 3, brakes: 4, dt: 5 },
+    { id: 11, label: 'Ruiner 2', carOnly: true, carModel: 'RUINER', boost: 10, suspension: 9, tranny: 8, brakes: 7, dt: 6 },
+    { id: 12, label: 'Ruiner 3', carOnly: true, carModel: 'RUINER', boost: 10, suspension: 10, tranny: 10, brakes: 10, dt: 10 },
+    { id: 13, label: 'Ruiner 4', carOnly: true, carModel: 'RUINER', boost: 10, suspension: 10, tranny: 10, brakes: 10, dt: 10 },
+    { id: 14, label: 'Ruiner 5', carOnly: true, carModel: 'RUINER', boost: 10, suspension: 10, tranny: 10, brakes: 10, dt: 10 },
+    { id: 15, label: 'Ruiner 6', carOnly: true, carModel: 'RUINER', boost: 10, suspension: 10, tranny: 10, brakes: 10, dt: 10 },
+    { id: 16, label: 'Ruiner 7', carOnly: true, carModel: 'RUINER', boost: 10, suspension: 10, tranny: 10, brakes: 10, dt: 10 },
+    { id: 17, label: 'Ruiner 8', carOnly: true, carModel: 'RUINER', boost: 10, suspension: 10, tranny: 10, brakes: 10, dt: 10 },
+    { id: 18, label: 'LWGTR 1', carOnly: true, carModel: 'LWGTR', boost: 10, suspension: 10, tranny: 10, brakes: 10, dt: 10 },
+    { id: 1, label: 'LWGTR 2', carOnly: true, carModel: 'LWGTR', boost: 1, suspension: 2, tranny: 3, brakes: 4, dt: 5 },
+    { id: 2, label: 'LWGTR 3', carOnly: true, carModel: 'LWGTR', boost: 10, suspension: 9, tranny: 8, brakes: 7, dt: 6 },
 ]
 
 var Accounts = [

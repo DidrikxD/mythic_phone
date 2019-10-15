@@ -104,7 +104,6 @@ local counter = 0
 Citizen.CreateThread(function()
   while true do
     if IsDisabledControlJustReleased(1, 170) or IsControlJustReleased(1, 170) then
-      print("???")
       TogglePhone()
     end
 

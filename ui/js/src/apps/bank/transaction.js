@@ -60,10 +60,13 @@ window.addEventListener('bank-transaction-open-app', function(data) {
 
     $('#bank-app-page').animate({
         height: '100%'
-    }, { duration: 1000 });
+    }, { duration: 1000 }).promise().then(function() {
+        $('.select-wrapper').fadeIn('fast');
+    });
 });
 
 window.addEventListener('bank-transaction-custom-close-app', function(data) {
+    $('.select-wrapper').fadeOut('fast');
     $('#bank-app-page').animate({
         height: '0%'
     }, { duration: 1000 }).promise().then(function() {

@@ -340,6 +340,10 @@
                 padding: 0 15px 0 5px;
                 height: 6%;
 
+                .select-wrapper {
+                    display: none;
+                }
+
                 .select-dropdown {
                     max-height: 600px !important;
                     overflow-y: auto !important;

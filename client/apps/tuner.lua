@@ -1,6 +1,118 @@
 local TunedVehs = {}
 local currentVehicle = nil
 
+-- TODO : Need to figure out calculations for all this shit
+function ModifyBoost(plate, value)
+    if value == 0 then
+      SetVehicleHandlingFloat(currentVehicle, 'CHandlingData', 'fInitialDriveForce', TunedVehs[plate].default.fInitialDriveForce)
+      SetVehicleHandlingFloat(currentVehicle, 'CHandlingData', 'fLowSpeedTractionLossMult', TunedVehs[plate].default.fLowSpeedTractionLossMult)
+    else
+      SetVehicleHandlingFloat(currentVehicle, 'CHandlingData', 'fInitialDriveForce', TunedVehs[plate].default.fInitialDriveForce + (TunedVehs[plate].default.fInitialDriveForce * (value / 100)))
+      SetVehicleHandlingFloat(currentVehicle, 'CHandlingData', 'fLowSpeedTractionLossMult', TunedVehs[plate].default.fLowSpeedTractionLossMult + (TunedVehs[plate].default.fLowSpeedTractionLossMult * (value / 10)))
+    end
+end
+
+function ModifySuspension(plate, value)
+    if value == 5 then
+        SetVehicleHandlingFloat(veh, 'CHandlingData', 'fCamberStiffnesss', TunedVehs[plate].default.fCamberStiffnesss)
+        SetVehicleHandlingFloat(veh, 'CHandlingData', 'fSuspensionCompDamp', TunedVehs[plate].default.fSuspensionCompDamp)
+    else
+        -- This is just totally and uttery broken, lmfao
+        -- SetVehicleHandlingFloat(veh, 'CHandlingData', 'fCamberStiffnesss', value)
+        -- SetVehicleHandlingFloat(veh, 'CHandlingData', 'fSuspensionCompDamp', value)
+    end
+end
+
+function ModifyTransmission(plate, value)
+    if value == 5 then
+      SetVehicleHandlingFloat(currentVehicle, 'CHandlingData', 'fClutchChangeRateScaleUpShift', TunedVehs[plate].default.fClutchChangeRateScaleUpShift)
+      SetVehicleHandlingFloat(currentVehicle, 'CHandlingData', 'fClutchChangeRateScaleDownShift', TunedVehs[plate].default.fClutchChangeRateScaleDownShift)
+      SetVehicleHandlingFloat(currentVehicle, 'CHandlingData', 'fInitialDragCoeff', TunedVehs[plate].default.fInitialDragCoeff)
+    else
+      SetVehicleHandlingFloat(currentVehicle, 'CHandlingData', 'fClutchChangeRateScaleUpShift', TunedVehs[plate].default.fClutchChangeRateScaleUpShift + value)
+      SetVehicleHandlingFloat(currentVehicle, 'CHandlingData', 'fClutchChangeRateScaleDownShift', TunedVehs[plate].default.fClutchChangeRateScaleUpShift + value)
+      SetVehicleHandlingFloat(currentVehicle, 'CHandlingData', 'fInitialDragCoeff', TunedVehs[plate].default.fInitialDragCoeff + (value / 10))
+    end
+end
+
+function ModifyBrakes(plate, value)
+    if value == 5 then
+        SetVehicleHandlingFloat(currentVehicle, 'CHandlingData', 'fBrakeBiasFront', TunedVehs[plate].default.fBrakeBiasFront)
+      else
+        if value == 0 then value = 1 end
+        SetVehicleHandlingFloat(currentVehicle, 'CHandlingData', 'fBrakeBiasFront', (value / 10))
+      end
+end
+
+function ModifyDriveTrain(plate, value)
+    if value == 5 then
+        SetVehicleHandlingFloat(currentVehicle, 'CHandlingData', 'fDriveBiasFront', TunedVehs[plate].default.fDriveBiasFront)
+    else
+        if value == 0 then value = 1 end
+        SetVehicleHandlingFloat(currentVehicle, 'CHandlingData', 'fDriveBiasFront', (value / 10))
+    end
+end
+
+function ApplyTune(boost, suspension, tranny, brakes, dt)
+    if currentVehicle ~= 0 and currentVehicle ~= nil then
+        local plate = GetVehicleNumberPlateText(currentVehicle)
+
+        ModifyBoost(plate, boost)
+        ModifySuspension(plate, suspension)
+        ModifyTransmission(plate, tranny)
+        ModifyBrakes(plate, brakes)
+        ModifyDriveTrain(plate, dt)
+
+        TunedVehs[plate].active = {
+            boost = boost,
+            suspension = suspension,
+            tranny = tranny,
+            brakes = brakes,
+            dt = dt
+        }
+
+        return true
+    else
+        return false
+    end
+
+end
+
+function SetupVeh(veh)
+    local plate = GetVehicleNumberPlateText(veh)
+
+    if TunedVehs[plate] == nil then
+        TunedVehs[plate] = {
+            default = {
+                fInitialDriveForce = GetVehicleHandlingFloat(veh, 'CHandlingData', 'fInitialDriveForce'), 
+                fLowSpeedTractionLossMult = GetVehicleHandlingFloat(veh, 'CHandlingData', 'fLowSpeedTractionLossMult'),
+                fClutchChangeRateScaleUpShift = GetVehicleHandlingFloat(veh, 'CHandlingData', 'fClutchChangeRateScaleUpShift'),
+                fClutchChangeRateScaleDownShift = GetVehicleHandlingFloat(veh, 'CHandlingData', 'fClutchChangeRateScaleDownShift'),
+                fInitialDragCoeff = GetVehicleHandlingFloat(veh, 'CHandlingData', 'fInitialDragCoeff'),
+                fTractionSpringDeltaMax = GetVehicleHandlingFloat(veh, 'CHandlingData', 'fTractionSpringDeltaMax'),
+                fCamberStiffnesss = GetVehicleHandlingFloat(veh, 'CHandlingData', 'fCamberStiffnesss'),
+                fBrakeBiasFront = GetVehicleHandlingFloat(veh, 'CHandlingData', 'fBrakeBiasFront'),
+                fDriveBiasFront = GetVehicleHandlingFloat(veh, 'CHandlingData', 'fDriveBiasFront')
+            }
+        }
+
+        TunedVehs[plate].active = {
+            boost = 0,
+            suspension = 5,
+            tranny = 5,
+            brakes = 5,
+            dt = 5
+        }
+    end
+
+    return {
+        id = veh,
+        model = GetDisplayNameFromVehicleModel(GetEntityModel(veh)):upper(),
+        plate = plate,
+        tune = TunedVehs[plate]
+    }
+end
+
 RegisterNetEvent('mythic_veh:client:EnteredVehicle')
 AddEventHandler('mythic_veh:client:EnteredVehicle', function(currVeh, currSeat, name)
     if currentVehicle ~= currVeh then  
@@ -39,15 +151,8 @@ RegisterNUICallback( 'SetupTuner', function( data, cb )
         }, function(status)
             if not status then
                 if GetPedInVehicleSeat(veh, -1) == PlayerPedId() and DecorExistOn(veh, 'MYTH_TUNER_CHIP') then
-                    local plate = GetVehicleNumberPlateText(veh)
-                    local data = {
-                        id = veh,
-                        model = GetDisplayNameFromVehicleModel(GetEntityModel(veh)):upper(),
-                        plate = plate,
-                        tune = TunedVehs[plate]
-                    }
                     currentVehicle = veh
-                    cb(data)
+                    cb(SetupVeh(veh))
                 else
                     cb(false)
                 end
@@ -66,14 +171,8 @@ RegisterNUICallback( 'SetupTuner', function( data, cb )
 
             if dist < 5.0 then
                 if DecorExistOn(veh2, 'MYTH_TUNER_CHIP') then
-                    local plate = GetVehicleNumberPlateText(veh2)
-                    matchVeh = {
-                        id = veh,
-                        model = GetDisplayNameFromVehicleModel(GetEntityModel(veh2)):upper(),
-                        plate = plate,
-                        tune = TunedVehs[plate]
-                    }
                     currentVehicle = veh2
+                    matchVeh = SetupVeh(veh)
                     break
                 end
             end
@@ -107,18 +206,10 @@ end)
 
 RegisterNUICallback( 'CheckInVeh', function( data, cb )
     local veh = GetVehiclePedIsUsing(PlayerPedId()) 
-    if veh ~= 0 then 
+    if veh ~= 0 then
         if GetPedInVehicleSeat(veh, -1) == PlayerPedId() and DecorExistOn(veh, 'MYTH_TUNER_CHIP') then
             if currentVehicle ~= veh then
-                local plate = GetVehicleNumberPlateText(veh)
-                local data = {
-                    id = veh,
-                    model = GetDisplayNameFromVehicleModel(GetEntityModel(veh)):upper(),
-                    plate = plate,
-                    tune = TunedVehs[plate]
-                }
-                currentVehicle = veh
-                cb(data)
+                cb(SetupVeh(veh))
             else
                 cb({ sameVeh = true })
             end
@@ -136,14 +227,8 @@ RegisterNUICallback( 'CheckInVeh', function( data, cb )
 
             if dist < 5.0 then
                 if DecorExistOn(veh2, 'MYTH_TUNER_CHIP') then
-                    local plate = GetVehicleNumberPlateText(veh2)
-                    matchVeh = {
-                        id = veh2,
-                        model = GetDisplayNameFromVehicleModel(GetEntityModel(veh2)):upper(),
-                        plate = plate,
-                        tune = TunedVehs[plate]
-                    }
                     currentVehicle = veh2
+                    matchVeh = SetupVeh(veh2)
                     break
                 end
             end
@@ -170,13 +255,13 @@ RegisterNUICallback( 'CheckInVeh', function( data, cb )
                 end
             end)
         else
-            cb(matchVeh)
+            cb({ sameVeh = true })
         end
     end
 end)
 
 RegisterNUICallback( 'ApplyTune', function( data, cb )
-
+    cb(ApplyTune(data.boost, data.suspension, data.tranny, data.brakes, data.dt))
 end)
 
 RegisterNUICallback( 'SaveTune', function( data, cb )

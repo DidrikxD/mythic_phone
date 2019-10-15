@@ -83,7 +83,6 @@ window.addEventListener('tuner-open-app', function() {
             veh: Data.GetData('currentVeh')
         }), function(status) {
             if (status != null) {
-                console.log(JSON.stringify(status));
                 if (status.sameVeh) {
                     SetupTuner(status);
                 } else if(status) {

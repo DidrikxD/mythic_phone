@@ -5,7 +5,7 @@ import Notif from '../../utils/notification';
 
 var sliders = {
     boost: document.getElementById('slider-boost'),
-    throttle: document.getElementById('slider-throttle'),
+    suspension: document.getElementById('slider-suspension'),
     tranny: document.getElementById('slider-tranny'),
     brakes: document.getElementById('slider-brakes'),
     dt: document.getElementById('slider-dt')
@@ -15,13 +15,13 @@ function InitSliders() {
     for (let key in sliders) {
         let slider = sliders[key];
         noUiSlider.create(slider, {
-            start: [50],
+            start: [5],
             connect: [true, false],
-            step: 10,
+            step: 1,
             orientation: 'horizontal',
             range: {
                 'min': 0,
-                'max': 100
+                'max': 10
             },
             pips: {
                 mode: 'steps',
@@ -41,7 +41,7 @@ $('#screen-content').on('submit', '#new-tune', function(e) {
         carOnly: data[1] != null ? true : false,
         carModel: null,
         boost: sliders.boost.noUiSlider.get(),
-        throttle: sliders.throttle.noUiSlider.get(),
+        suspension: sliders.suspension.noUiSlider.get(),
         tranny: sliders.tranny.noUiSlider.get(),
         brakes: sliders.brakes.noUiSlider.get(),
         dt: sliders.dt.noUiSlider.get()
@@ -90,7 +90,7 @@ $('#screen-content').on('click', '#tuner-custom-saved', function() {
 $('#screen-content').on('click', '#custom-tunes-popup .quick-tune-button', function(e) {
     let tune = $(this).data('tune');
     sliders.boost.noUiSlider.set(tune.boost);
-    sliders.throttle.noUiSlider.set(tune.throttle);
+    sliders.suspension.noUiSlider.set(tune.suspension);
     sliders.tranny.noUiSlider.set(tune.tranny);
     sliders.brakes.noUiSlider.set(tune.brakes);
     sliders.dt.noUiSlider.set(tune.dt);
@@ -142,14 +142,14 @@ function CreateSavedTuneList(element, tunes, removeDelete = false) {
 
 function ApplyTune(tune) {
     let boost = sliders.boost.noUiSlider.get();
-    let throttle = sliders.throttle.noUiSlider.get();
+    let suspension = sliders.suspension.noUiSlider.get();
     let tranny = sliders.tranny.noUiSlider.get();
     let brakes = sliders.brakes.noUiSlider.get();
     let dt = sliders.dt.noUiSlider.get();
 
     if (tune != null) {
         boost = tune.boost;
-        throttle = tune.throttle;
+        suspension = tune.suspension;
         tranny = tune.tranny;
         brakes = tune.brakes;
         dt = tune.dt;
@@ -157,7 +157,7 @@ function ApplyTune(tune) {
 
     $.post(Config.ROOT_ADDRESS + '/ApplyTune', JSON.stringify({
         boost: boost,
-        throttle: throttle,
+        suspension: suspension,
         tranny: tranny,
         brakes: brakes,
         dt: dt
@@ -170,10 +170,10 @@ function ApplyTune(tune) {
     });
 }
 
-window.addEventListener('tuner-custom-open-app', function(tune) {
+window.addEventListener('tuner-custom-open-app', function(data) {
     sliders = {
         boost: document.getElementById('slider-boost'),
-        throttle: document.getElementById('slider-throttle'),
+        suspension: document.getElementById('slider-suspension'),
         tranny: document.getElementById('slider-tranny'),
         brakes: document.getElementById('slider-brakes'),
         dt: document.getElementById('slider-dt')
@@ -181,8 +181,16 @@ window.addEventListener('tuner-custom-open-app', function(tune) {
 
     InitSliders();
 
-    if (tune != null) {
-        console.log('woot');
+    if (data.detail != null && data.detail.tune != null) {
+        // Need to apply tune
+
+        Notif.Alert('Tune Applied', 1000);
+    } else {
+        sliders.boost.noUiSlider.set(0);
+        sliders.tranny.noUiSlider.set(5);
+        sliders.suspension.noUiSlider.set(5);
+        sliders.brakes.noUiSlider.set(5);
+        sliders.dt.noUiSlider.set(5);
     }
 
     $('#tuner-custom-container .inner-app').fadeIn();
