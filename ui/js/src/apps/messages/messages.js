@@ -72,9 +72,9 @@ window.addEventListener('message-open-app', function(data) {
                 $.each(convos, function(index, c) {
                     if (c == convo) {
                         convos[index] = obj;
+                        return false;
                     }
                 });
-                convos[convo.number] = obj;
             }
         }
     });

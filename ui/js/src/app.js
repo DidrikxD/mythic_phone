@@ -35,7 +35,8 @@ $(function() {
         { name: 'adverts', data: Test.Adverts },
         { name: 'factory-tunes', data: Test.FactoryTunes },
         { name: 'custom-tunes', data: Test.Tunes },
-        { name: 'bank-accounts', data: Test.Accounts }
+        { name: 'bank-accounts', data: Test.Accounts },
+        { name: 'irc-messages', data: Test.IRCMessages }
     ]);
 
     OpenApp('home', null, true);
@@ -104,21 +105,21 @@ $('.phone-header').on('click', '.in-call', function(e) {
     }
 });
 
-$('.back-button').on('click', function(e) {
+$('.phone').on('click', '.back-button', function(e) {
     if (!$(this).hasClass('disabled')) {
         $('.footer-button').addClass('disabled');
         GoBack();
     }
 });
 
-$('.home-button').on('click', function(e) {
+$('.phone').on('click', '.home-button', function(e) {
     if (!$(this).hasClass('disabled')) {
         $('.footer-button').addClass('disabled');
         GoHome();
     }
 });
 
-$('.close-button').on('click', function(e) {
+$('.phone').on('click', '.close-button', function(e) {
     ClosePhone();
 });
 

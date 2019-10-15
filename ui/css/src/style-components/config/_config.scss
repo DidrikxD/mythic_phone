@@ -10,7 +10,11 @@ $text: color('shades', 'white');
 $alt-text: color('grey', 'darken-4');
 $border-color: color('grey', 'darken-4');
 
-
+/* APP-SPECIFIC COLORS */
+$irc-background: #101010;
+$irc-channel-bg: #1e1e1e;
+$irc-channel-brdr: #333333;
+$irc-accent: #1be8b5;
 
 .other-0 {
     background: color("yellow", "darken-3") !important;

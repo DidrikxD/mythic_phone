@@ -52,7 +52,7 @@ $tuner-color: color('teal', 'darken-4');
                 right: 0;
                 margin: auto;
                 font-size: 25px;
-                color: #ffffff;
+                color: $primary;
 
                 .dots {
                     width: 100%;
@@ -158,8 +158,8 @@ $tuner-color: color('teal', 'darken-4');
                 bottom: 0;
                 display: inline-block;
                 text-align: center;
-                background: #004d40;
-                color: #ffffff;
+                background: $tuner-color;
+                color: $primary;
                 font-weight: 500;
                 font-size: 19px;
 
