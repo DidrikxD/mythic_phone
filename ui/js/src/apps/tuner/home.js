@@ -60,49 +60,43 @@ function ResetScan() {
 
 var dots = null;
 window.addEventListener('tuner-open-app', function() {
-    if (!hasScanned) {
-        $('.splash').fadeIn();
-        dots = setInterval( function() {
-            if ( $('.dots').html().length >= 3 )
-                $('.dots').html('');
-            else 
-                $('.dots').html($('.dots').html() + '.');
-        }, 500);
+    $('.splash').fadeIn();
+    dots = setInterval( function() {
+        if ( $('.dots').html().length >= 3 )
+            $('.dots').html('');
+        else 
+            $('.dots').html($('.dots').html() + '.');
+    }, 500);
 
+    if (!hasScanned) {
         $.post(Config.ROOT_ADDRESS + '/SetupTuner', JSON.stringify({}), function(status) {
-            $('.splash').fadeOut();
             clearInterval(dots);
-            if (status) {
-                SetupTuner(status);
-            } else {
-                ShowError();
-            }
+            $('.splash').fadeOut('fast').promise().then(function() {
+                if (status) {
+                    SetupTuner(status);
+                } else {
+                    ShowError();
+                }
+            });
         });
     } else {
         $.post(Config.ROOT_ADDRESS + '/CheckInVeh', JSON.stringify({
             veh: Data.GetData('currentVeh')
         }), function(status) {
+            clearInterval(dots);
             if (status != null) {
                 if (status.sameVeh) {
                     SetupTuner(status);
                 } else if(status) {
-                    $('.splash').fadeIn();
-                    dots = setInterval( function() {
-                        if ($('.dots').html().length >= 3 )
-                            $('.dots').html('');
-                        else 
-                            $('.dots').html($('.dots').html() + '.');
-                    }, 500);
-
                     $.post(Config.ROOT_ADDRESS + '/SetupTuner', JSON.stringify({}), 
                     function(status) {
-                        $('.splash').fadeOut();
-                        clearInterval(dots);
-                        if (status) {
-                            SetupTuner(status);
-                        } else {
-                            ShowError();
-                        }
+                        $('.splash').fadeOut('fast').promise().then(function() {
+                            if (status) {
+                                SetupTuner(status);
+                            } else {
+                                ShowError();
+                            }
+                        });
                     });
                 } else {
                     ShowError();

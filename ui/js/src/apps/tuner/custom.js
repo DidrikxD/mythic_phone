@@ -32,6 +32,16 @@ function InitSliders() {
     }
 }
 
+function SetSliders(boost, tranny, suspension, brakes, dt) {
+    if (sliders.boost != null) {
+        sliders.boost.noUiSlider.set(boost);
+        sliders.tranny.noUiSlider.set(tranny);
+        sliders.suspension.noUiSlider.set(suspension);
+        sliders.brakes.noUiSlider.set(brakes);
+        sliders.dt.noUiSlider.set(dt);
+    }
+}
+
 $('#screen-content').on('submit', '#new-tune', function(e) {
     e.preventDefault();
     let data = $(this).serializeArray();
@@ -89,14 +99,8 @@ $('#screen-content').on('click', '#tuner-custom-saved', function() {
 
 $('#screen-content').on('click', '#custom-tunes-popup .quick-tune-button', function(e) {
     let tune = $(this).data('tune');
-    sliders.boost.noUiSlider.set(tune.boost);
-    sliders.suspension.noUiSlider.set(tune.suspension);
-    sliders.tranny.noUiSlider.set(tune.tranny);
-    sliders.brakes.noUiSlider.set(tune.brakes);
-    sliders.dt.noUiSlider.set(tune.dt);
-
+    SetSliders(tune.boost, tune.suspension, tune.tranny, tune.brakes, tune.dt);
     Notif.Alert('Tune Loaded, Press Apply To Apply It');
-
     let modal = M.Modal.getInstance($('#custom-tunes-popup'));
     modal.close();
 });
@@ -140,7 +144,7 @@ function CreateSavedTuneList(element, tunes, removeDelete = false) {
     });
 }
 
-function ApplyTune(tune) {
+function ApplyTune(tune = null) {
     let boost = sliders.boost.noUiSlider.get();
     let suspension = sliders.suspension.noUiSlider.get();
     let tranny = sliders.tranny.noUiSlider.get();
@@ -163,6 +167,15 @@ function ApplyTune(tune) {
         dt: dt
     }), function(status) {
         if (status) {
+            let veh = Data.GetData('currentVeh');
+            veh.tune.active = {
+                boost: boost,
+                suspension: suspension,
+                tranny: tranny,
+                brakes: brakes,
+                dt: dt
+            }
+            Data.StoreData('currentVeh', veh);
             Notif.Alert('Tune Applied');
         } else {
             Notif.Alert('Unable To Apply Tune');
@@ -182,15 +195,12 @@ window.addEventListener('tuner-custom-open-app', function(data) {
     InitSliders();
 
     if (data.detail != null && data.detail.tune != null) {
-        // Need to apply tune
-
+        SetSliders(data.detail.tune.boost, data.detail.tune.tranny, data.detail.tune.suspension, data.detail.tune.brakes, data.detail.tune.dt);
+        ApplyTune(data.detail.tune);
         Notif.Alert('Tune Applied', 1000);
     } else {
-        sliders.boost.noUiSlider.set(0);
-        sliders.tranny.noUiSlider.set(5);
-        sliders.suspension.noUiSlider.set(5);
-        sliders.brakes.noUiSlider.set(5);
-        sliders.dt.noUiSlider.set(5);
+        let veh = Data.GetData('currentVeh');
+        SetSliders(veh.tune.active.boost, veh.tune.active.tranny, veh.tune.active.suspension, veh.tune.active.brakes, veh.tune.active.dt);
     }
 
     $('#tuner-custom-container .inner-app').fadeIn();
@@ -200,4 +210,4 @@ window.addEventListener('tuner-custom-close-app', function() {
     $('#tuner-custom-container .inner-app').fadeOut();
 });
 
-export default {}
+export default { }
