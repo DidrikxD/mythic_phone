@@ -182,7 +182,7 @@ AddEventHandler('mythic_base:client:Logout', function()
     isLoggedIn = false
 end)
 
-AddEventHandler('mythic_base:client:CharacterSpawned', function()
+AddEventHandler('mythic_base:shared:CharacterSpawned', function()
     isLoggedIn = true
 
     Citizen.CreateThread(function()

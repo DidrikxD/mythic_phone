@@ -1,5 +1,5 @@
-RegisterServerEvent('mythic_base:server:CharacterSpawned')
-AddEventHandler('mythic_base:server:CharacterSpawned', function()
+RegisterServerEvent('mythic_base:shared:CharacterSpawned')
+AddEventHandler('mythic_base:shared:CharacterSpawned', function()
     local src = source
     local char = exports['mythic_base']:FetchComponent('Fetch'):Source(src):GetData('character')
     local cData = char:GetData()

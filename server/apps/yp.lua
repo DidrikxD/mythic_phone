@@ -1,7 +1,7 @@
 local Advertisements = {}
 
-RegisterServerEvent('mythic_base:server:CharacterSpawned')
-AddEventHandler('mythic_base:server:CharacterSpawned', function()
+RegisterServerEvent('mythic_base:shared:CharacterSpawned')
+AddEventHandler('mythic_base:shared:CharacterSpawned', function()
     TriggerClientEvent('mythic_phone:client:SetupData', source, { { name = 'adverts', data = Advertisements } })
 end)
 
