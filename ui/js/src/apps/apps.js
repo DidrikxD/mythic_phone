@@ -7,5 +7,6 @@ import Adverts from './yp';
 import Bank from './bank/bank';
 import Tuner from './tuner/home';
 import IRC from './irc/irc';
+import Settings from './settings';
 
-export default { Home, Contacts, Phone, Messages, Twitter, Adverts, Bank, Tuner, IRC }
+export default { Home, Contacts, Phone, Messages, Twitter, Adverts, Bank, Tuner, IRC, Settings }
