@@ -395,10 +395,6 @@ var IRCMessages = [
     { channel: 'aaaa', message: 'Test', date: 1972263235000},
 ];
 
-var Settings = [
-
-];
-
 export default {
     PlayerDetails,
     Contacts,
@@ -411,6 +407,5 @@ export default {
     Accounts,
     Transactions,
     MazePayTransactions,
-    IRCMessages,
-    Settings
+    IRCMessages
  };
