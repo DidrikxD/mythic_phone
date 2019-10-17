@@ -371,13 +371,13 @@ var MazePayTransactions = [
 ];
 
 var IRCMessages = [
-    { channel: '123', message: 'Test', date: 1562263235000},
-    { channel: '123', message: 'Test', date: 1362263235000},
-    { channel: '123', message: 'Test', date: 1262263235000},
-    { channel: '123', message: 'Test', date: 1162263235000},
-    { channel: '123', message: 'Test', date: 1062263235000},
-    { channel: '123', message: 'Test', date: 1762263235000},
-    { channel: '123', message: 'Test', date: 1262263235000},
+    { channel: '123', message: 'Test1', date: 1562263235000},
+    { channel: '123', message: 'Test2', date: 1362263235000},
+    { channel: '123', message: 'Test3', date: 1262263235000},
+    { channel: '123', message: 'Test4', date: 1162263235000},
+    { channel: '123', message: 'Test5', date: 1062263235000},
+    { channel: '123', message: 'Test6', date: 1762263235000},
+    { channel: '123', message: 'Test7', date: 1262263235000},
     { channel: '456', message: 'Test', date: 1562263235000},
     { channel: '456', message: 'Test', date: 1362263235000},
     { channel: '456', message: 'Test', date: 1262263235000},

@@ -51,6 +51,37 @@
             background-color: $irc-accent !important;
         }
     }
+
+    .modal {
+        background: $irc-background !important;
+        border: 1px solid $irc-accent !important;
+
+        .modal-content {
+            input[type=text]:not(.browser-default):focus.invalid ~ label {
+                color: #ffffff !important;
+            }
+    
+            input {
+                &.invalid[type=text]:not(.browser-default) {
+                    border-bottom: 1px solid $irc-accent !important;
+                    -webkit-box-shadow: 0 1px 0 0 $irc-accent !important;
+                    box-shadow: 0 1px 0 0 $irc-accent !important;
+    
+    
+                }
+    
+                
+            }
+        }
+
+        .modal-footer {
+            background-color: $irc-background !important;
+        }
+    }
+
+    .teal.accent-3 {
+        color: #000000;
+    }
 }
 
 #irc-convo-container {
@@ -116,10 +147,34 @@
             height: 83%;
             overflow-y: auto;
             overflow-x: hidden;
+
+            .irc-message {
+                padding: 15px 15px 0 15px;
+                background: $irc-channel-bg; /*#171717*/
+                border-bottom: 1px solid $irc-channel-brdr;
+
+                span.message-text {
+                    display: block;
+                    font-size: 18px;
+                }
+
+                .message-time {
+                    display: block;
+                    width: 100%;
+                    position: relative;
+                    right: 0;
+                    bottom: 10px;
+                    font-size: 13px;
+                    color: #1be8b5;
+                    text-align: right;
+                    line-height: 20px;
+                    font-weight: 500;
+                }
+            }
         }
 
         .irc-text-input {
-            height: 10%;
+            height: 9.5%;
             border-top: 1px solid $irc-channel-brdr;
             background: $irc-channel-bg;
 
@@ -167,5 +222,32 @@
                 }
             }
         }
+    }
+
+    .modal {
+        background: $irc-background !important;
+        border: 1px solid $irc-accent !important;
+
+        .modal-content {
+            input[type=text]:not(.browser-default):focus.invalid ~ label {
+                color: #ffffff !important;
+            }
+    
+            input {
+                &.invalid[type=text]:not(.browser-default) {
+                    border-bottom: 1px solid $irc-accent !important;
+                    -webkit-box-shadow: 0 1px 0 0 $irc-accent !important;
+                    box-shadow: 0 1px 0 0 $irc-accent !important;
+                }
+            }
+        }
+
+        .modal-footer {
+            background-color: $irc-background !important;
+        }
+    }
+
+    .teal.accent-3 {
+        color: #000000;
     }
 }

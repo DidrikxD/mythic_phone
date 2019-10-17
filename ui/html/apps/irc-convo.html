@@ -6,7 +6,7 @@
                 abc123
             </div>
             <div class="irc-top-actions">
-                <i class="fas fa-sign-out-alt leave-channel"></i>
+                <i class="fas fa-sign-out-alt leave-channel modal-trigger" data-target="irc-leave-modal"></i>
             </div>
         </div>
         <div class="message-list">
@@ -19,6 +19,18 @@
                 </div>
                 <i class="fas fa-paper-plane"></i>
             </form>
+        </div>
+    </div>
+    <div id="irc-leave-modal" class="modal">
+        <div class="modal-content">
+            <h6>Leave Channel?</h6>
+            <form id="irc-leave-channel">
+                <input id="irc-channel-name" name="irc-channel-name" type="hidden" required>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class="modal-close waves-effect waves-dark btn teal accent-3">No</a>
+            <button class="btn waves-effect waves-dark teal accent-3" type="submit" form="irc-leave-channel">Yes</button>
         </div>
     </div>
 </div>
