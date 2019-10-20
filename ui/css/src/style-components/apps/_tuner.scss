@@ -71,6 +71,7 @@ $tuner-color: color('teal', 'darken-4');
             background: rgba(0,0,0,0.7);
 
             .error-details {
+                display: none;
                 position: absolute;
                 top: 0;
                 bottom: 0;
@@ -347,6 +348,42 @@ $tuner-color: color('teal', 'darken-4');
                 content: '*';
                 color: $tuner-color;
             }
+        }
+    }
+}
+
+#tuner-container, #tuner-custom-container {
+    .modal {
+        background: $alt-text !important;
+        border: 1px solid $tuner-color !important;
+
+        .modal-content {
+            [type="checkbox"]:checked + span:not(.lever)::before {
+                border-right: 2px solid $tuner-color !important;
+                border-bottom: 2px solid $tuner-color !important;
+            }
+
+            input[type=text]:not(.browser-default):focus.invalid ~ label {
+                color: $text !important;
+            }
+    
+            input {
+                color: $text !important;
+                
+                &.invalid[type=text]:not(.browser-default), &.valid[type=text]:not(.browser-default), &:not(.browser-default) {
+                    border-bottom: 1px solid $tuner-color !important;
+                    -webkit-box-shadow: 0 1px 0 0 $tuner-color !important;
+                    box-shadow: 0 1px 0 0 $tuner-color !important;
+                }
+            }
+
+            label {
+                color: $text !important;
+            }
+        }
+
+        .modal-footer {
+            background-color: $alt-text !important;
         }
     }
 }

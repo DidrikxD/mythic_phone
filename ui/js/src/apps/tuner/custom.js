@@ -46,7 +46,7 @@ $('#screen-content').on('submit', '#new-tune', function(e) {
     e.preventDefault();
     let data = $(this).serializeArray();
 
-    $.post(Config.ROOT_ADDRESS + '/TunerNew', JSON.stringify({
+    $.post(Config.ROOT_ADDRESS + '/SaveTune', JSON.stringify({
         label: data[0].value,
         carOnly: data[1] != null ? true : false,
         carModel: null,
@@ -145,11 +145,11 @@ function CreateSavedTuneList(element, tunes, removeDelete = false) {
 }
 
 function ApplyTune(tune = null) {
-    let boost = sliders.boost.noUiSlider.get();
-    let suspension = sliders.suspension.noUiSlider.get();
-    let tranny = sliders.tranny.noUiSlider.get();
-    let brakes = sliders.brakes.noUiSlider.get();
-    let dt = sliders.dt.noUiSlider.get();
+    let boost = 0.0;
+    let suspension = 0.0;
+    let tranny = 0.0;
+    let brakes = 0.0;
+    let dt = 0.0;
 
     if (tune != null) {
         boost = tune.boost;
@@ -157,6 +157,12 @@ function ApplyTune(tune = null) {
         tranny = tune.tranny;
         brakes = tune.brakes;
         dt = tune.dt;
+    } else {
+        boost = sliders.boost.noUiSlider.get();
+        suspension = sliders.suspension.noUiSlider.get();
+        tranny = sliders.tranny.noUiSlider.get();
+        brakes = sliders.brakes.noUiSlider.get();
+        dt = sliders.dt.noUiSlider.get();
     }
 
     $.post(Config.ROOT_ADDRESS + '/ApplyTune', JSON.stringify({
@@ -210,4 +216,4 @@ window.addEventListener('tuner-custom-close-app', function() {
     $('#tuner-custom-container .inner-app').fadeOut();
 });
 
-export default { }
+export default { ApplyTune }

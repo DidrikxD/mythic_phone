@@ -6,6 +6,7 @@ import anime from 'animejs/lib/anime.es.js';
 import Custom from './custom';
 import Quick from './quick';
 import Legal from './legal';
+import Info from './info';
 
 var timer = null;
 var hasScanned = false;
@@ -30,12 +31,15 @@ $('#screen-content').on('click', '#no-chip-quit', function() {
 });
 
 function ShowError() {
-    $('.no-chip-error').show('scale', function() {
-        $('.tuner-nav').data('disabled', true);
+    $('.no-chip-error').fadeIn('fast', function() {
+        $('.error-details').show('scale', function() {
+            $('.tuner-nav').data('disabled', true);
+        });
     });
 }
 
 function SetupTuner(tunerActive) {
+    $('.splash').hide();
     if (tunerActive.sameVeh) {
         tunerActive = Data.GetData('currentVeh');
     }
@@ -46,7 +50,7 @@ function SetupTuner(tunerActive) {
             Data.StoreData('currentVeh', tunerActive);
         }
     
-        $('.connected-car').html(tunerActive.model);
+        $('.connected-car').html(tunerActive.name);
     
         $('#tuner-home-screen').fadeIn('normal');
     } else {
@@ -60,7 +64,7 @@ function ResetScan() {
 
 var dots = null;
 window.addEventListener('tuner-open-app', function() {
-    $('.splash').fadeIn();
+    $('.splash').show();
     dots = setInterval( function() {
         if ( $('.dots').html().length >= 3 )
             $('.dots').html('');
@@ -71,7 +75,8 @@ window.addEventListener('tuner-open-app', function() {
     if (!hasScanned) {
         $.post(Config.ROOT_ADDRESS + '/SetupTuner', JSON.stringify({}), function(status) {
             clearInterval(dots);
-            $('.splash').fadeOut('fast').promise().then(function() {
+            $('.splash').fadeOut('fast', function() {
+
                 if (status) {
                     SetupTuner(status);
                 } else {

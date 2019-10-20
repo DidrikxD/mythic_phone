@@ -1,9 +1,15 @@
 import App from '../../app';
 import Config from '../../config';
 import Data from '../../utils/data';
+import Custom from './custom';
 
 var factoryTunes = null;
 var customTunes = null;
+
+$('#screen-content').on('click', '.quick-tune-button', function() {
+    let tune = $(this).data('tune');
+    Custom.ApplyTune(tune);
+});
 
 $('#screen-content').on('click', '#quick-custom-open', function() {
     App.OpenApp('tuner-custom', null, false, true);

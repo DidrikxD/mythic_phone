@@ -156,7 +156,8 @@ function SetupVeh(veh)
 
     return {
         id = veh,
-        model = GetDisplayNameFromVehicleModel(GetEntityModel(veh)):upper(),
+        model = GetEntityModel(veh),
+        name = GetLabelText(GetDisplayNameFromVehicleModel(GetEntityModel(veh))),
         plate = plate,
         tune = TunedVehs[plate]
     }
@@ -283,28 +284,32 @@ RegisterNUICallback( 'CheckInVeh', function( data, cb )
             end
         end
 
-        if matchVeh.id == nil or currentVehicle ~= matchVeh.id then
-            exports['mythic_base']:FetchComponent('Progress'):Progress({
-                name = "tuner_action",
-                duration = 5000,
-                label = 'Scanning For Chip',
-                useWhileDead = false,
-                canCancel = true,
-                controlDisables = {
-                    disableMovement = true,
-                    disableCarMovement = true,
-                    disableMouse = false,
-                    disableCombat = true,
-                },
-            }, function(status)
-                if not status then
-                    cb(matchVeh)
-                else
-                    cb(false)
-                end
-            end)
+        if matchVeh ~= -1 then
+            if matchVeh.id == nil or currentVehicle ~= matchVeh.id then
+                exports['mythic_base']:FetchComponent('Progress'):Progress({
+                    name = "tuner_action",
+                    duration = 5000,
+                    label = 'Scanning For Chip',
+                    useWhileDead = false,
+                    canCancel = true,
+                    controlDisables = {
+                        disableMovement = true,
+                        disableCarMovement = true,
+                        disableMouse = false,
+                        disableCombat = true,
+                    },
+                }, function(status)
+                    if not status then
+                        cb(matchVeh)
+                    else
+                        cb(false)
+                    end
+                end)
+            else
+                cb({ sameVeh = true })
+            end
         else
-            cb({ sameVeh = true })
+            cb(false)
         end
     end
 end)
@@ -314,7 +319,19 @@ RegisterNUICallback( 'ApplyTune', function( data, cb )
 end)
 
 RegisterNUICallback( 'SaveTune', function( data, cb )
-    Callbacks:ServerCallback('mythic_phone:server:SaveTune', {  }, function(status)
+    if currentVehicle ~= nil and currentVehicle ~= 0 then
+        if data.carOnly then
+            data.carModel = GetEntityModel(currentVehicle)
+        else
+            data.carModel = nil
+        end
+    else
+        data.carOnly = false
+        data.carModel = nil
+    end
+
+    Callbacks:ServerCallback('mythic_phone:server:SaveTune', { tune = data }, function(status)
+        print(json.encode(status))
         cb(status)
     end)
 end)

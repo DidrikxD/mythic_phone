@@ -62,15 +62,13 @@
             }
     
             input {
+                color: #ffffff !important;
+                
                 &.invalid[type=text]:not(.browser-default) {
                     border-bottom: 1px solid $irc-accent !important;
                     -webkit-box-shadow: 0 1px 0 0 $irc-accent !important;
                     box-shadow: 0 1px 0 0 $irc-accent !important;
-    
-    
                 }
-    
-                
             }
         }
 

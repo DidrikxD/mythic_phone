@@ -1,5 +1,5 @@
-RegisterServerEvent('mythic_base:shared:CharacterSpawned')
-AddEventHandler('mythic_base:shared:CharacterSpawned', function()
+RegisterServerEvent('mythic_base:server:CharacterSpawned')
+AddEventHandler('mythic_base:server:CharacterSpawned', function()
     local src = source
     Citizen.CreateThread(function()
         exports['ghmattimysql']:execute('SELECT * FROM phone_tweets ORDER BY time DESC', {}, function(tweets) 

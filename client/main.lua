@@ -6,8 +6,10 @@ isPhoneOpen = false
 
 Death = nil
 Callbacks = nil
+Inventory = nil
 AddEventHandler('mythic_base:shared:ComponentsReady', function()
   Callbacks = Callbacks or exports['mythic_base']:FetchComponent('Callbacks')
+  Inventory = Inventory or exports['mythic_base']:FetchComponent('Inventory')
   Death = exports['mythic_base']:FetchComponent('Death')
   
   Citizen.CreateThread(function()
@@ -72,11 +74,15 @@ function CalculateTimeToDisplay()
 end
 
 function hasPhone(cb)
-  Callbacks:ServerCallback('mythic_inventory:server:CheckItem', { { item = 'phone', count = 1 } }, cb)
+  print("??????")
+  Inventory.Checks:HasItem({ { item = 'phone', count = 1 } }, function(status)
+    print(status)
+    cb(status)
+  end)
 end
 
 function hasDecrypt(cb)
-  Callbacks:ServerCallback('mythic_inventory:server:CheckItem', { { item = 'decryptor', count = 1 } }, cb)
+  Inventory.Checks:HasItem({ { item = 'decryptor', count = 1 } }, cb)
 end
   
 function toggleIrc(status)
@@ -96,7 +102,9 @@ AddEventHandler('mythic_base:client:Logout', function()
   isLoggedIn = false
 end)
 
-AddEventHandler('mythic_base:shared:CharacterSpawned', function()
+RegisterNetEvent('mythic_base:client:CharacterSpawned')
+AddEventHandler('mythic_base:client:CharacterSpawned', function()
+  print('CharacterSpawned')
   isLoggedIn = true
 end)
 

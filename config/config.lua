@@ -4,5 +4,5 @@ Config.IncomingNotifId = 'MPH_INCOMING_CALL'
 Config.ActiveNotifId = 'MPH_ACTIVE_CALL'
 
 Config.FactoryTunes = {
-    { label = 'Sport', val1 = 10, val2 = 10, val3 = 10, val4 = 10 }
+    { label = 'Sport', boost = 10, suspension = 5, tranny = 10, brakes = 5, dt = 5 }
 }
