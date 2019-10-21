@@ -42,6 +42,11 @@ function SetSliders(boost, tranny, suspension, brakes, dt) {
     }
 }
 
+$('#screen-content').on('click', '#tuner-custom-reset', function(e) {
+    SetSliders(0, 5, 5, 5, 5);
+    Notif.Alert('Tune Reset');
+})
+
 $('#screen-content').on('submit', '#new-tune', function(e) {
     e.preventDefault();
     let data = $(this).serializeArray();
@@ -57,10 +62,10 @@ $('#screen-content').on('submit', '#new-tune', function(e) {
         dt: sliders.dt.noUiSlider.get()
     }), function(tune) {
         if (tune != null) {
+            $('#new-tune')[0].reset();
             Data.AddData('custom-tunes', tune);
             Notif.Alert('Tune Saved');
-            let modal = M.Modal.getInstance($('#save-tune-popup'));
-            modal.close();
+            M.Modal.getInstance($('#save-tune-popup')).close();
         } else {
             Notif.Alert('Error Saving Tune');
         }
@@ -93,32 +98,30 @@ $('#screen-content').on('click', '#tuner-custom-saved', function() {
     CreateSavedTuneList($('#custom-tunes-popup').find('#generic'), factory, true);
     CreateSavedTuneList($('#custom-tunes-popup').find('#generic'), generic);
 
-    let modal = M.Modal.getInstance($('#custom-tunes-popup'));
-    modal.open();
+    M.Modal.getInstance($('#custom-tunes-popup')).open();
 });
 
 $('#screen-content').on('click', '#custom-tunes-popup .quick-tune-button', function(e) {
     let tune = $(this).data('tune');
-    SetSliders(tune.boost, tune.suspension, tune.tranny, tune.brakes, tune.dt);
+    SetSliders(tune.boost, tune.tranny, tune.suspension, tune.brakes, tune.dt);
     Notif.Alert('Tune Loaded, Press Apply To Apply It');
-    let modal = M.Modal.getInstance($('#custom-tunes-popup'));
-    modal.close();
+    M.Modal.getInstance($('#custom-tunes-popup')).close();
 });
 
 $('#screen-content').on('click', '#custom-tunes-popup .quick-tune-delete', function(e) {
-    let tune = $(this).parent().find('.quick-tune-button').data('tune');
+    let fuck = this;
+    let tune = $(fuck).parent().find('.quick-tune-button').data('tune');
 
-    $.post(Config.ROOT_ADDRESS + '/TunerDelete', JSON.stringify({
+    $.post(Config.ROOT_ADDRESS + '/DeleteTune', JSON.stringify({
         id: tune.id
     }), function(status) {
         if (status) {
             Data.RemoveObjectData('custom-tunes', 'id', tune.id);
-            $(this).parent().fadeOut('fast', function() {
-                $(this).remove();
-            });
+            $(fuck).remove();
+            M.Modal.getInstance($('#custom-tunes-popup')).close();
             Notif.Alert('Tune Deleted');
         } else {
-
+            Notif.Alert('Unable To Delete Tune');
         }
     })
 });

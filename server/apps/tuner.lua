@@ -9,7 +9,9 @@ AddEventHandler('mythic_base:server:CharacterSpawned', function()
             local tunes = {}
             if dbTunes[1] ~= nil then
                 for k, v in pairs(dbTunes) do
-                    table.insert(tunes, json.decode(v.data))
+                    table.insert(tunes, {
+                        json.decode(v.data)
+                    })
                 end
             end
 

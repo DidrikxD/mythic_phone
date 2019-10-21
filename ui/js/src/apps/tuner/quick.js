@@ -17,7 +17,9 @@ $('#screen-content').on('click', '#quick-custom-open', function() {
 
 window.addEventListener('tuner-quick-open-app', function() {
     factoryTunes = Data.GetData('factory-tunes');
-    customTunes = Data.GetData('custom-tunes');
+    customTunes = Data.GetData('custom-tunes').filter(function(tune) {
+        return !tune.carOnly || (tune.carOnly && tune.carModel == Data.GetData('currentVeh').model);
+    });
 
     $.each(factoryTunes, function(index, tune) {
         $('.tuner-quick-section#factory').find('.tuner-quick-buttons').append(`<button type="button" class="btn waves-effect waves-light teal darken-4 quick-tune-button">${tune.label}</button>`);

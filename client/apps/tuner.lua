@@ -23,33 +23,6 @@ function ModifySuspension(plate, value)
     end
 end
 
-
-
-function DrawUIText(font, centre, x, y, scale, r, g, b, a, text)
-    SetTextFont(font)
-    SetTextProportional(0)
-    SetTextScale(scale, scale)
-    SetTextColour(r, g, b, a)
-    SetTextDropShadow(0, 0, 0, 0,255)
-    SetTextEdge(1, 0, 0, 0, 255)
-    SetTextDropShadow()
-    SetTextOutline()
-    SetTextCentre(centre)
-    SetTextEntry("STRING")
-    AddTextComponentString(text)
-    DrawText(x , y) 
-end
-
-Citizen.CreateThread(function()
-    while true do
-        if IsPedInAnyVehicle(PlayerPedId(), true) then
-            DrawUIText(4, 0, 0.015, 0.58, 0.35, 255, 255, 255, 255, GetVehicleCurrentGear(GetVehiclePedIsIn(PlayerPedId(), false)))
-        end
-
-        Citizen.Wait(1)
-    end
-end)
-
 function ModifyTransmission(plate, value)
     print(GetVehicleHandlingFloat(currentVehicle, 'CHandlingData', 'fClutchChangeRateScaleUpShift'))
     print(GetVehicleHandlingFloat(currentVehicle, 'CHandlingData', 'fClutchChangeRateScaleDownShift'))
@@ -58,16 +31,16 @@ function ModifyTransmission(plate, value)
       SetVehicleHandlingFloat(currentVehicle, 'CHandlingData', 'fClutchChangeRateScaleDownShift', TunedVehs[plate].default.fClutchChangeRateScaleDownShift)
       SetVehicleHandlingFloat(currentVehicle, 'CHandlingData', 'fInitialDragCoeff', TunedVehs[plate].default.fInitialDragCoeff)
     elseif tonumber(value) < 5 then
-        if TunedVehs[plate].default.fClutchChangeRateScaleUpShift > 5 then
+        if TunedVehs[plate].default.fClutchChangeRateScaleUpShift > 5 and TunedVehs[plate].default.fClutchChangeRateScaleUpShift - (tonumber(value) + 5) > 1.0 then
             SetVehicleHandlingFloat(currentVehicle, 'CHandlingData', 'fClutchChangeRateScaleUpShift', TunedVehs[plate].default.fClutchChangeRateScaleUpShift - (tonumber(value) + 5))
         else
-            SetVehicleHandlingFloat(currentVehicle, 'CHandlingData', 'fClutchChangeRateScaleUpShift', 0.75)
+            SetVehicleHandlingFloat(currentVehicle, 'CHandlingData', 'fClutchChangeRateScaleUpShift', 1.0)
         end
 
-        if TunedVehs[plate].default.fClutchChangeRateScaleDownShift > 5 then
+        if TunedVehs[plate].default.fClutchChangeRateScaleDownShift > 5 and TunedVehs[plate].default.fClutchChangeRateScaleDownShift - (tonumber(value) + 5) > 1.0 then
             SetVehicleHandlingFloat(currentVehicle, 'CHandlingData', 'fClutchChangeRateScaleDownShift', TunedVehs[plate].default.fClutchChangeRateScaleDownShift - (tonumber(value) + 5))
         else
-            SetVehicleHandlingFloat(currentVehicle, 'CHandlingData', 'fClutchChangeRateScaleDownShift', 0.75)
+            SetVehicleHandlingFloat(currentVehicle, 'CHandlingData', 'fClutchChangeRateScaleDownShift', 1.0)
         end
 
         SetVehicleHandlingFloat(currentVehicle, 'CHandlingData', 'fInitialDragCoeff', TunedVehs[plate].default.fInitialDragCoeff + (tonumber(value) / 10))
@@ -331,13 +304,23 @@ RegisterNUICallback( 'SaveTune', function( data, cb )
     end
 
     Callbacks:ServerCallback('mythic_phone:server:SaveTune', { tune = data }, function(status)
-        print(json.encode(status))
         cb(status)
     end)
 end)
 
 RegisterNUICallback( 'DeleteTune', function( data, cb )
-    Callbacks:ServerCallback('mythic_phone:server:DeleteTune', {  }, function(status)
+    Callbacks:ServerCallback('mythic_phone:server:DeleteTune', { id = data.id }, function(status)
         cb(status)
     end)
+end)
+
+RegisterNUICallback( 'GetVehHealth', function( data, cb )
+    if currentVehicle ~= nil and currentVehicle ~= 0 then
+        Callbacks:ServerCallback('mythic_veh:server:GetVehicleHealth', { plate = GetVehicleNumberPlateText(currentVehicle), model = GetEntityModel(currentVehicle) }, function(data)
+            print(json.encode(data))
+            cb(data)
+        end)
+    else
+        cb(nil)
+    end
 end)
