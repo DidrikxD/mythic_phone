@@ -17,7 +17,5 @@ AddEventHandler('mythic_phone:client:MentionedInTweet', function(author)
 end)
 
 RegisterNUICallback( 'NewTweet', function( data, cb )
-    Callbacks:ServerCallback('mythic_phone:server:NewTweet', { message = data.message, mentions = data.mentions, hashtags = data.hashtags }, function(status)
-        cb(status)
-    end)
+    Callbacks:ServerCallback('mythic_phone:server:NewTweet', data, cb)
 end)

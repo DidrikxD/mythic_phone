@@ -18,14 +18,10 @@ AddEventHandler('mythic_phone:client:DeleteAd', function(id)
     end
 end)
 
-RegisterNUICallback( 'NewAd', function( data, cb )
-    Callbacks:ServerCallback('mythic_phone:server:NewAd', { title = data.title, message = data.message, date = data.date }, function()
-        cb(true)
-    end)
+RegisterNUICallback('NewAd', function(data, cb)
+    Callbacks:ServerCallback('mythic_phone:server:NewAd', data, cb)
 end)
 
 RegisterNUICallback( 'DeleteAd', function( data, cb )
-    Callbacks:ServerCallback('mythic_phone:server:DeleteAd', {}, function()
-        cb(true)
-    end)
+    Callbacks:ServerCallback('mythic_phone:server:DeleteAd', data, cb)
 end)

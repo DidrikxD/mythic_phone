@@ -10,6 +10,19 @@ import Transaction from './transaction'
 
 var timeInt = null;
 
+window.addEventListener('message', function(event) {
+    switch (event.data.action) {
+        case 'BankBalanceUpdate':
+            let accounts = Data.GetData('bank-accounts');
+            $.each(accounts, function(index, account) {
+                if (account.id === event.data.account) {
+                    UpdateObjectData('bank-accounts', 'id', event.data.account, 'balance', (account.balance + event.data.balance));
+                }
+            });
+            break;
+    }
+});
+
 $('#screen-content').on('submit', '#bank-transfer', function(e) {
     e.preventDefault();
     let data = $(this).serializeArray();
@@ -101,22 +114,23 @@ $('#screen-content').on('click', '.bank-quick-action', function(e) {
 window.addEventListener('bank-open-app', function() {
     let myData = Data.GetData('myData');
     $('.message-name').html(myData.name);
-
     $('.message-text').html(`${moment().format('MMMM Do YYYY, h:mm:ss a')}`);
 
     timeInt = setInterval(function() {
         $('.message-text').html(`${moment().format('MMMM Do YYYY, h:mm:ss a')}`);
     }, 1000);
 
-    $('.accounts').html('');
+
+    /// TODO : Seriously find a better way to do this, fucking kill me please
     let accounts = Data.GetData('bank-accounts');
+    $('.accounts').html('');
+
     $.each(accounts, function(index, account) {
-        if (account.owner) {
+        if (account.rank === 1) {
             $('.accounts').append(`<div class="account type-${account.type}" data-tooltip="Account #${account.id} - Balance: ${Utils.FormatCurrency(account.balance)}"><div class="account-label"><div class="bank-label-name">${account.label}</div><small>Account Owner</small></div><div class="account-balance">${Utils.FormatCurrency(account.balance)}</div></div>`)
         } else {
             $('.accounts').append(`<div class="account type-${account.type}" data-tooltip="Account #${account.id} - Balance: ${Utils.FormatCurrency(account.balance)}"><div class="account-label"><div class="bank-label-name">${account.label}</div><small>Authorized User</small></div><div class="account-balance">${Utils.FormatCurrency(account.balance)}</div></div>`)
         }
-
         $('.accounts .account:last-child').data('account', account);
     });
 

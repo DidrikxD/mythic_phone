@@ -17,10 +17,10 @@ AddEventHandler('mythic_phone:client:ReceiveText', function(sender, text)
     end
 end)
 
-RegisterNUICallback( 'SendText', function( data, cb )
-    Callbacks:ServerCallback('mythic_phone:server:SendText', { receiver = data.receiver, message = data.message }, cb)
+RegisterNUICallback('SendText', function(data, cb)
+    Callbacks:ServerCallback('mythic_phone:server:SendText', data, cb)
 end)
 
-RegisterNUICallback( 'DeleteConversation', function( data, cb )
-    Callbacks:ServerCallback('mythic_phone:server:DeleteConversation', { number = data.number }, cb)
+RegisterNUICallback('DeleteConversation', function(data, cb)
+    Callbacks:ServerCallback('mythic_phone:server:DeleteConversation', data, cb)
 end)

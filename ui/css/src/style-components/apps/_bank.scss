@@ -311,7 +311,7 @@
 }
 
 #bank-transaction-container {
-    background: $background;
+    background: $primary;
     color: $primary;
 
     .inner-app {
@@ -358,11 +358,15 @@
                 overflow-x: hidden;
                 
                 .no-transactions {
+                    position: absolute;
+                    width: 100%;
+                    top: 5%;
                     padding: 25px;
                     font-size: 25px;
                     color: $main-color;
                     text-align: center;
                     font-weight: 500;
+                    display: none;
                 }
             }
         }

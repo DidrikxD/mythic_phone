@@ -49,6 +49,17 @@ function UpdateData(name, index, data) {
     StoreData(name, arr);
 }
 
+function UpdateObjectData(name, searchKey, searchValue, updateKey, updateValue) {
+    let arr = GetData(name);
+    $.each(arr, function(index, item) {
+        if (item[searchKey] == searchValue) {
+            arr[index][updateKey] = updateValue;
+            StoreData(name, arr);
+            return false;
+        }
+    });
+}
+
 function GetData(name) {
     return JSON.parse(window.localStorage.getItem(name));
 }
@@ -72,4 +83,4 @@ function ClearData() {
     window.localStorage.clear();
 }
 
-export default { SetupData, StoreData, AddData, RemoveData, RemoveObjectData, UpdateData, GetData, ClearData, StoreDataLua, GetDataLua };
+export default { SetupData, StoreData, AddData, RemoveData, RemoveObjectData, UpdateData, UpdateObjectData, GetData, ClearData, StoreDataLua, GetDataLua, };
