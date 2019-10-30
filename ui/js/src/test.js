@@ -352,6 +352,19 @@ var Transactions = [
     },
 ]
 
+var BankTransfers = [
+    { id: 1, status: 0, amount: 10000, origin: 1, destination: 2, date: 1562263235000 },
+    { id: 2, status: 1, amount: 10000, origin: 1, destination: 2, date: 1562263235000 },
+    { id: 3, status: 2, amount: 10000, origin: 1, destination: 2, date: 1562263235000 },
+    { id: 4, status: 3, amount: 10000, origin: 1, destination: 2, date: 1562263235000 },
+    { id: 5, status: 0, amount: 10000, origin: 1, destination: 2, date: 1562263235000 },
+    { id: 6, status: 0, amount: 10000, origin: 1, destination: 2, date: 1562263235000 },
+    { id: 7, status: 1, amount: 10000, origin: 1, destination: 2, date: 1562263235000 },
+    { id: 8, status: 2, amount: 10000, origin: 3, destination: 2, date: 1562263235000 },
+    { id: 9, status: 1, amount: 10000, origin: 2, destination: 1, date: 1562263235000 },
+    { id: 10, status: 3, amount: 10000, origin: 2, destination: 1, date: 1562263235000 },
+];
+
 var MazePayTransactions = [
     { id: 1, type: 'Sent', amount: 10000, player: 'Some Name', date: 1562263235000 },
     { id: 2, type: 'Sent', amount: 10000, player: 'Some Name', date: 1562263235000 },
@@ -406,6 +419,7 @@ export default {
     Tunes,
     Accounts,
     Transactions,
+    BankTransfers,
     MazePayTransactions,
     IRCMessages
  };

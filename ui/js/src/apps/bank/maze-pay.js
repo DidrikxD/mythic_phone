@@ -3,6 +3,25 @@ import Data from '../../utils/data';
 import Utils from '../../utils/utils';
 import Test from '../../test';
 
+$('#screen-content').on('submit', '#maze-pay-form', function(e) {
+    e.preventDefault();
+    let data = $(this).serializeArray();
+
+    $.post(Config.ROOT_ADDRESS + '/MazePay', JSON.stringify({
+        account: data[0].value,
+        destination: data[1].value,
+        amount: data[2].value,
+    }), function(status) {
+        if (status != null) {
+            Data.AddData('maze-pay', status);
+            Notif.Alert('Transfer Submitted, Will Be Processed Within 3 Days (3 hours)');
+            App.GoBack();
+        } else {
+            Notif.Alert('Error Occured While Attempting The Transfer');
+        }
+    });
+});
+
 window.addEventListener('bank-mp-open-app', function(data) {
     let accounts = Data.GetData('bank-accounts');
     let stuff = new Array();

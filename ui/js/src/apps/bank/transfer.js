@@ -2,7 +2,25 @@ import App from '../../app';
 import Config from '../../config';
 import Data from '../../utils/data';
 import Utils from '../../utils/utils';
-import Test from '../../test';
+import Notif from '../../utils/notification';
+
+$('#screen-content').on('submit', '#send-quick-pay', function(e) {
+    e.preventDefault();
+    let data = $(this).serializeArray();
+
+    $.post(Config.ROOT_ADDRESS + '/Transfer', JSON.stringify({
+        account: data[0].value,
+        destination: data[1].value,
+        amount: data[2].value,
+    }), function(status) {
+        if (status) {
+            Notif.Alert('Transfer Submitted, Will Be Processed Within 3 Days (3 hours)');
+            App.GoBack();
+        } else {
+            Notif.Alert('Error Occured While Attempting The Transfer');
+        }
+    });
+});
 
 window.addEventListener('bank-transfer-open-app', function(data) {
     let accounts = Data.GetData('bank-accounts');

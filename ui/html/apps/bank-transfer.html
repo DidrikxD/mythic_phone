@@ -1,11 +1,17 @@
-<div class="app-container" id="bank-transfer-container">
+<div class="app-container" id="bank-mp-container">
     <div class="inner-app">
-        <div id="bank-app-page">
+        <div class="row" id="bank-app-page">
+            <div class="col s12">
+                <ul class="tabs">
+                <li class="tab col s6"><a href="#maze-pay-form" class="active">Transfer Money</a></li>
+                <li class="tab col s6"><a class="active" href="#maze-pay-history">Transfer History</a></li>
+                </ul>
+            </div>
             <div id="maze-pay-form" class="col s12 maze-pay-section">
-                    <div class="alert materialize-red darken-4">
-                        The Maze App currently has a limit of $10,000 per transaction with a $50,000 transfer limit per day. If you would like to transfer more than this please visit your local Maze Bank or one of their partners branches.
-                    </div>
-                    <hr />
+                <div class="alert materialize-red darken-4">
+                    Bank transfers take 3 Days (3 Hours) to process, there is a limit of $100,000 per transfer. If you'd like to transfer more than this amount please visit your nearest Maze Bank branch.
+                </div>
+                <hr />
                 <form id="send-quick-pay">
                     <div class="input-field col s12">
                         <select id="bank-transfer-accounts" name="bank-transfer-accounts" required="required"></select>
@@ -24,6 +30,20 @@
                         <button type="submit" class="btn waves-effect waves-light materialize-red darken-4">Transfer Funds</button>
                     </div>
                 </form>
+            </div>
+            <div id="maze-pay-history" class="col s12 maze-pay-section">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Type</th>
+                            <th>Amount</th>
+                            <th>Origin</th>
+                            <th>Dest.</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
             </div>
         </div>
     </div>
