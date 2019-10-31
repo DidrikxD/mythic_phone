@@ -23,13 +23,6 @@ window.addEventListener('message', function(event) {
     }
 });
 
-$('#screen-content').on('submit', '#bank-transfer', function(e) {
-    e.preventDefault();
-    let data = $(this).serializeArray();
-
-    console.log(data);
-});
-
 $('#screen-content').on('click', '.account', function(e) {
     App.OpenApp('bank-transaction', $(this).data('account'), false, true, true);
 });

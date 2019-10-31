@@ -21,26 +21,26 @@ moment.fn.fromNowOrNow = function(a) {
     return this.fromNow(a);
 };
 
-$(function() {
-    $('.wrapper').fadeIn();
-    Data.ClearData();
-    Data.SetupData([
-        { name: 'myData', data: Test.PlayerDetails },
-        { name: 'contacts', data: Test.Contacts },
-        { name: 'messages', data: Test.Messages },
-        { name: 'history', data: Test.Calls },
-        { name: 'apps', data: Config.Apps },
-        { name: 'muted', data: false },
-        { name: 'tweets', data: Test.Tweets },
-        { name: 'adverts', data: Test.Adverts },
-        { name: 'factory-tunes', data: Test.FactoryTunes },
-        { name: 'custom-tunes', data: Test.Tunes },
-        { name: 'bank-accounts', data: Test.Accounts },
-        { name: 'irc-messages', data: Test.IRCMessages }
-    ]);
+// $(function() {
+//     $('.wrapper').fadeIn();
+//     Data.ClearData();
+//     Data.SetupData([
+//         { name: 'myData', data: Test.PlayerDetails },
+//         { name: 'contacts', data: Test.Contacts },
+//         { name: 'messages', data: Test.Messages },
+//         { name: 'history', data: Test.Calls },
+//         { name: 'apps', data: Config.Apps },
+//         { name: 'muted', data: false },
+//         { name: 'tweets', data: Test.Tweets },
+//         { name: 'adverts', data: Test.Adverts },
+//         { name: 'factory-tunes', data: Test.FactoryTunes },
+//         { name: 'custom-tunes', data: Test.Tunes },
+//         { name: 'bank-accounts', data: Test.Accounts },
+//         { name: 'irc-messages', data: Test.IRCMessages }
+//     ]);
 
-    OpenApp('home', null, true);
-});
+//     OpenApp('home', null, true);
+// });
 
 window.addEventListener('message', function(event) {
     switch (event.data.action) {

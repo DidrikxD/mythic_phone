@@ -3,7 +3,7 @@ import Data from '../../utils/data';
 import Utils from '../../utils/utils';
 import Test from '../../test';
 
-$('#screen-content').on('submit', '#maze-pay-form', function(e) {
+$('#screen-content').on('submit', '#send-maze-pay', function(e) {
     e.preventDefault();
     let data = $(this).serializeArray();
 

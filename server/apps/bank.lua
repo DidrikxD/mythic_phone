@@ -62,11 +62,11 @@ AddEventHandler('mythic_base:shared:ComponentsReady', function()
         end)
     end)
 
-    Callbacks:RegisterServerCallback('mythic_phone:server:Transer', function(source, data, cb)
+    Callbacks:RegisterServerCallback('mythic_phone:server:Transfer', function(source, data, cb)
         local src = source
-        if data.amount <= 100000 then
+        if tonumber(data.amount) >= 500 and tonumber(data.amount) <= 100000 then
             local char = exports['mythic_base']:FetchComponent('Fetch'):Source(src):GetData('character')
-            char.Bank.Transfer:Create(data.account, data.destination, data.amount, cb)
+            char.Bank.Transfer:Create(tonumber(data.account), tonumber(data.destination), tonumber(data.amount), cb)
         else
             cb(false)
         end
