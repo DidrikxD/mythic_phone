@@ -63,7 +63,7 @@ window.addEventListener('bank-transaction-open-app', function(data) {
                         $('.transaction-body table').append(`<tr><td>${moment(trans.date).calendar()}</td><td class="trans-positive">${Utils.FormatCurrency(trans.amount)}</td><td>${trans.note}</td></tr>`)
                         break;
                     default:
-                        $('.transaction-body table').append(`<tr><td>${moment(trans.date).calendar()}</td><td class="trans-postive">${Utils.FormatCurrency(trans.amount)}</td><td>${trans.note}</td></tr>`)
+                        $('.transaction-body table').append(`<tr><td>${moment(trans.date).calendar()}</td><td class="trans-positive">${Utils.FormatCurrency(trans.amount)}</td><td>${trans.note}</td></tr>`)
                         break;
                 }
 

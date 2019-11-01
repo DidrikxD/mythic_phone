@@ -160,7 +160,7 @@ RegisterNUICallback( 'SetupTuner', function( data, cb )
     local veh = GetVehiclePedIsUsing(PlayerPedId())
     if veh ~= 0 then
         exports['mythic_base']:FetchComponent('Progress'):Progress({
-            name = "tuner_action",
+            name = "tuner_search_action",
             duration = 5000,
             label = 'Scanning For Chip',
             useWhileDead = false,
@@ -203,7 +203,7 @@ RegisterNUICallback( 'SetupTuner', function( data, cb )
 
         if matchVeh.id == nil or currentVehicle ~= matchVeh.id then
             exports['mythic_base']:FetchComponent('Progress'):Progress({
-                name = "tuner_action",
+                name = "tuner_search_action",
                 duration = 5000,
                 label = 'Scanning For Chip',
                 useWhileDead = false,
@@ -260,7 +260,7 @@ RegisterNUICallback( 'CheckInVeh', function( data, cb )
         if matchVeh ~= -1 then
             if matchVeh.id == nil or currentVehicle ~= matchVeh.id then
                 exports['mythic_base']:FetchComponent('Progress'):Progress({
-                    name = "tuner_action",
+                    name = "tuner_search_action",
                     duration = 5000,
                     label = 'Scanning For Chip',
                     useWhileDead = false,
@@ -322,5 +322,11 @@ RegisterNUICallback( 'GetVehHealth', function( data, cb )
         end)
     else
         cb(nil)
+    end
+end)
+
+RegisterNUICallback( 'CancelTunerSearch', function( data, cb )
+    if exports['mythic_base']:FetchComponent('Progress'):CurrentAction() == 'tuner_search_action' then
+        exports['mythic_base']:FetchComponent('Progress'):Cancel()
     end
 end)

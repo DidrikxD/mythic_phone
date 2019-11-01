@@ -359,8 +359,10 @@
 
                 table {
                     td {
+                        font-weight: 500;
+                        
                         &.trans-negative {
-                            color: $primary;
+                            color: $main-color;
                         }
 
                         &.trans-positive {

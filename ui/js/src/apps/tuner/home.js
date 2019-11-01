@@ -119,6 +119,8 @@ window.addEventListener('tuner-close-app', function() {
     $('.no-chip-error').hide();
     $('#tuner-home-screen').hide();
     $('.tuner-nav').removeData('disabled');
+
+    $.post(Config.ROOT_ADDRESS + '/CancelTunerSearch', JSON.stringify({}));
 });
 
 export default {}
