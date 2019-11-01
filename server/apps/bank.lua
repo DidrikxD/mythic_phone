@@ -16,15 +16,6 @@ AddEventHandler('mythic_base:server:CharacterSpawned', function()
     end)
 end)
 
--- RegisterServerEvent('mythic_phone:server:Bank_test')
--- AddEventHandler('mythic_phone:server:Bank_test', function()
---     local src = source
---     local char = exports['mythic_base']:FetchComponent('Fetch'):Source(src):GetData('character')
---     char.Bank.GetFull:All(function(accounts)
---         TriggerClientEvent('mythic_phone:client:SetupData', src, { { name = 'bank-accounts', data = accounts } })
---     end)
--- end)
-
 AddEventHandler('mythic_base:shared:ComponentsReady', function()
     Callbacks = Callbacks or exports['mythic_base']:FetchComponent('Callbacks')
 
@@ -63,9 +54,8 @@ AddEventHandler('mythic_base:shared:ComponentsReady', function()
     end)
 
     Callbacks:RegisterServerCallback('mythic_phone:server:Transfer', function(source, data, cb)
-        local src = source
         if tonumber(data.amount) >= 500 and tonumber(data.amount) <= 100000 then
-            local char = exports['mythic_base']:FetchComponent('Fetch'):Source(src):GetData('character')
+            local char = exports['mythic_base']:FetchComponent('Fetch'):Source(source):GetData('character')
             char.Bank.Transfer:Create(tonumber(data.account), tonumber(data.destination), tonumber(data.amount), cb)
         else
             cb(false)
@@ -73,10 +63,13 @@ AddEventHandler('mythic_base:shared:ComponentsReady', function()
     end)
 
     Callbacks:RegisterServerCallback('mythic_phone:server:MazePay', function(source, data, cb)
-        local src = source
-        if data.amount <= 10000 then
-            local char = exports['mythic_base']:FetchComponent('Fetch'):Source(src):GetData('character')
-            char.MazePay:Transfer(src, data.destination, data.amount, cb)
+        if tonumber(data.amount) >= 100 and tonumber(data.amount) <= 10000 then
+            if source ~= tonumber(data.destination) then
+                local char = exports['mythic_base']:FetchComponent('Fetch'):Source(source):GetData('character')
+                char.MazePay:Transfer(tonumber(data.destination), tonumber(data.amount), cb)
+            else
+                cb(false)
+            end
         else
             cb(false)
         end

@@ -356,6 +356,18 @@
                 height: 94%;
                 overflow-y: auto;
                 overflow-x: hidden;
+
+                table {
+                    td {
+                        &.trans-negative {
+                            color: $primary;
+                        }
+
+                        &.trans-positive {
+                            color: color('green', 'darken-4');
+                        }
+                    }
+                }
                 
                 .no-transactions {
                     position: absolute;

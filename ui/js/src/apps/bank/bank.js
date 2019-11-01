@@ -16,7 +16,8 @@ window.addEventListener('message', function(event) {
             let accounts = Data.GetData('bank-accounts');
             $.each(accounts, function(index, account) {
                 if (account.id === event.data.account) {
-                    UpdateObjectData('bank-accounts', 'id', event.data.account, 'balance', (account.balance + event.data.balance));
+                    Data.UpdateObjectData('bank-accounts', 'id', event.data.account, 'balance', (account.balance + event.data.balance));
+                    return false;
                 }
             });
             break;
@@ -46,22 +47,23 @@ $('#screen-content').on('keyup keydown blur', '#target-account', function(e) {
     }
 });
 
-$('#screen-content').on('keyup keydown blur', '#transfer-amount', function(e) {
-    $(this).val(function(index, value) {
-        return value
-        .replace(/\D/g, "")
-        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-        ;
-    });
-});
-
 $('#screen-content').on('click', '.bank-quick-nav', function(e) {
     if (!$(this).hasClass('disabled')) {
         let type = $(this).data('type');
 
         if (type != 'back') {
             $(this).addClass('disabled');
-            Notif.Alert(`Marked Nearest ${type} On Your GPS`);
+            
+            switch(type) {
+                case 'atm':
+                    Notif.Alert(`Marked Nearest ATM On Your GPS`);
+                    $.post(Config.ROOT_ADDRESS + '/FindNearestAtm', JSON.stringify({}));
+                    break;
+                case 'bank':
+                    Notif.Alert(`Marked Nearest Branch On Your GPS`);
+                    $.post(Config.ROOT_ADDRESS + '/FindNearestBranch', JSON.stringify({}));
+                    break;
+            }
         }
 
         $('.quick-actions').animate({
@@ -73,7 +75,7 @@ $('#screen-content').on('click', '.bank-quick-nav', function(e) {
             $('.quick-actions').animate({
                 height: '20%'
             }, { duration: 500 }).promise().then(function() {
-                $(this).removeClass('disabled');
+                $('.bank-quick-nav.disabled').removeClass('disabled');
             });
         });
 

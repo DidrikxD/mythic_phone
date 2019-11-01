@@ -52,7 +52,21 @@ window.addEventListener('bank-transaction-open-app', function(data) {
     
         if (transactions != null && transactions.length > 0) {
             $.each(transactions, function(index, trans) {
-                $('.transaction-body table').append(`<tr><td>${moment(trans.date).calendar()}</td><td>${Utils.FormatCurrency(trans.amount)}</td><td>${trans.note}</td></tr>`)
+                switch(trans.type) {
+                    case 1:
+                        $('.transaction-body table').append(`<tr><td>${moment(trans.date).calendar()}</td><td class="trans-negative">${Utils.FormatCurrency(trans.amount)}</td><td>${trans.note}</td></tr>`)
+                        break;
+                    case 2:
+                        $('.transaction-body table').append(`<tr><td>${moment(trans.date).calendar()}</td><td class="trans-negative">${Utils.FormatCurrency(trans.amount)}</td><td>${trans.note}</td></tr>`)
+                        break;
+                    case 3:
+                        $('.transaction-body table').append(`<tr><td>${moment(trans.date).calendar()}</td><td class="trans-positive">${Utils.FormatCurrency(trans.amount)}</td><td>${trans.note}</td></tr>`)
+                        break;
+                    default:
+                        $('.transaction-body table').append(`<tr><td>${moment(trans.date).calendar()}</td><td class="trans-postive">${Utils.FormatCurrency(trans.amount)}</td><td>${trans.note}</td></tr>`)
+                        break;
+                }
+
             });
         } else {
             $('.transaction-body').html('<div class="no-transactions">No Recent Transactions</div>')

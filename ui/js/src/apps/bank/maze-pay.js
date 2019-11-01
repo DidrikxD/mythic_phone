@@ -1,45 +1,30 @@
+import App from '../../app';
 import Config from '../../config';
 import Data from '../../utils/data';
 import Utils from '../../utils/utils';
 import Test from '../../test';
+import Notif from '../../utils/notification';
 
 $('#screen-content').on('submit', '#send-maze-pay', function(e) {
     e.preventDefault();
     let data = $(this).serializeArray();
 
     $.post(Config.ROOT_ADDRESS + '/MazePay', JSON.stringify({
-        account: data[0].value,
-        destination: data[1].value,
-        amount: data[2].value,
+        destination: data[0].value,
+        amount: data[1].value,
     }), function(status) {
-        if (status != null) {
+        if (status) {
             Data.AddData('maze-pay', status);
-            Notif.Alert('Transfer Submitted, Will Be Processed Within 3 Days (3 hours)');
+            Notif.Alert('Money Has Been Transferred');
             App.GoBack();
         } else {
-            Notif.Alert('Error Occured While Attempting The Transfer');
+            Notif.Alert('Unable To Process Payment');
         }
     });
 });
 
 window.addEventListener('bank-mp-open-app', function(data) {
-    let accounts = Data.GetData('bank-accounts');
-    let stuff = new Array();
-    
-    stuff.push({ label: 'Personal Accounts', data: accounts.filter(function(account) {
-        return account.type === 1;
-    })});
-
-    $.each(stuff, function(index, type) {
-        $('#bank-transfer-accounts').append(`<optgroup label="${type.label}"></optgroup>`);
-
-        $.each(type.data, function(index2, account) {
-            $('#bank-transfer-accounts').append(`<option value="${account.id}">Account #${account.id} ${Utils.FormatCurrency(account.balance)}</option>`);
-        });
-    });
-
-    $('#bank-transfer-accounts').formSelect();
-
+    let history = Data.GetData('maze-pay');
     $.each(Test.MazePayTransactions, function(index, transaction) {
         $('#maze-pay-history table tbody').append(`<tr><td data-tooltip="${moment(transaction.date).calendar()}">${moment(transaction.date).calendar()}</td><td data-tooltip="${transaction.type}">${transaction.type}</td><td data-tooltip="${Utils.FormatCurrency(transaction.amount)}">${Utils.FormatCurrency(transaction.amount)}</td><td data-tooltip="${transaction.player}">${transaction.player}</td></tr>`)
     });

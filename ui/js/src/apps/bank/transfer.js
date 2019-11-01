@@ -17,7 +17,7 @@ $('#screen-content').on('submit', '#send-quick-pay', function(e) {
             Notif.Alert('Transfer Submitted, Will Be Processed Within 3 Days (3 hours)');
             App.GoBack();
         } else {
-            Notif.Alert('Error Occured While Attempting The Transfer');
+            Notif.Alert('Unable To Process Transfer');
         }
     });
 });
@@ -47,6 +47,46 @@ window.addEventListener('bank-transfer-open-app', function(data) {
     });
 
     $('#bank-transfer-accounts').formSelect();
+
+    let history = Data.GetData('bank-transfers');
+
+    $.each(history, function(index, transfer) {
+        switch(history.status) {
+            case 1:
+                $('#bank-transfer-history table tbody').append(`
+                    <tr>
+                        <td class="transfer-status pending">Pending</td>
+                        <td>${moment(transfer.date).calendar()}</td>
+                        <td>${Utils.FormatCurrency(transfer.amoun)}</td>
+                        <td>${transfer.origin}</td>
+                        <td>${transfer.destination}</td>
+                    </tr>
+                `)
+                break;
+            case 2:
+                $('#bank-transfer-history table tbody').append(`
+                    <tr>
+                        <td class="transfer-status cancelled">Cancelled</td>
+                        <td>${moment(transfer.date).calendar()}</td>
+                        <td>${Utils.FormatCurrency(transfer.amoun)}</td>
+                        <td>${transfer.origin}</td>
+                        <td>${transfer.destination}</td>
+                    </tr>
+                `)
+                break;
+            default:
+                    $('#bank-transfer-history table tbody').append(`
+                        <tr>
+                            <td class="transfer-status completed">Completed</td>
+                            <td>${moment(transfer.date).calendar()}</td>
+                            <td>${Utils.FormatCurrency(transfer.amoun)}</td>
+                            <td>${transfer.origin}</td>
+                            <td>${transfer.destination}</td>
+                        </tr>
+                    `)
+                break;
+        }
+    });
 
     $('#bank-app-page').animate({
         height: '100%'
