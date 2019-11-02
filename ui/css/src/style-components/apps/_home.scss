@@ -52,7 +52,7 @@
 
             &:hover {
                 .app-icon {
-                    transition: all ease-in 0.15s;
+                    transition: filter ease-in 0.15s;
                     filter: brightness(85%);
                 }
             }

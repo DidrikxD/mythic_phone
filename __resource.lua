@@ -18,11 +18,11 @@ files {
     'ui/libs/*.min.css',
     'ui/libs/*.min.js',
 
-	'html/webfonts/*.eot',
-	'html/webfonts/*.svg',
-	'html/webfonts/*.ttf',
-	'html/webfonts/*.woff',
-	'html/webfonts/*.woff2',
+	'ui/webfonts/*.eot',
+	'ui/webfonts/*.svg',
+	'ui/webfonts/*.ttf',
+	'ui/webfonts/*.woff',
+	'ui/webfonts/*.woff2',
 
     'ui/imgs/*.png',
 }
@@ -45,4 +45,5 @@ server_script {
 dependencies {
     'mythic_base',
     'mythic_inventory',
+    'mythic_sounds'
 }

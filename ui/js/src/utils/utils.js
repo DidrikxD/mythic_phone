@@ -11,6 +11,11 @@ window.addEventListener('message', function(event) {
     }
 });
 
+function UpdateWallpaper(wallpaper) {
+    console.log(wallpaper);
+    $('.phone-screen').css('background-image', wallpaper);
+}
+
 function FormatCurrency(str) {
     return `$${str.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
 }
@@ -68,6 +73,7 @@ function SetMute(status) {
 }
 
 export default {
+    UpdateWallpaper,
     FormatCurrency,
     DateSortNewest,
     DateSortOldest,

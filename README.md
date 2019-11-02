@@ -4,6 +4,7 @@ This is a custom phone written for Mythic RP. It is replacing an existing port o
 ## Dependencies
 * Mythic Base | Not Released
 * Mythic Inventory | Not Released
+* Mythic Sounds | Not Released (Modified [InteractSound](https://github.com/plunkettscott/interact-sound))
 * [GHMattiMySQL](https://github.com/GHMatti/ghmattimysql)
 * ???
 
