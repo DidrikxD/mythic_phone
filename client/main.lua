@@ -38,6 +38,14 @@ AddEventHandler('mythic_phone:client:SetupData', function(data)
   })
 end)
 
+RegisterNetEvent('mythic_phone:client:SetSettings')
+AddEventHandler('mythic_phone:client:SetSettings', function(data)
+  SendNUIMessage({
+    action = 'setup',
+    data = data
+  })
+end)
+
 function DrawUIText(text, font, centre, x, y, scale, r, g, b, a)
     SetTextFont(font)
     SetTextProportional(0)
@@ -74,7 +82,6 @@ function CalculateTimeToDisplay()
 end
 
 function hasPhone(cb)
-  print("??????")
   Inventory.Checks:HasItem({ { item = 'phone', count = 1 } }, function(status)
     print(status)
     cb(status)

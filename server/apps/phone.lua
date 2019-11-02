@@ -120,12 +120,8 @@ AddEventHandler('mythic_base:shared:ComponentsReady', function()
 end)
 
 RegisterServerEvent('mythic_phone:server:ToggleHold')
-AddEventHandler('mythic_phone:server:ToggleHold', function(token, call)
+AddEventHandler('mythic_phone:server:ToggleHold', function(call)
     local src = source
-    if not exports['salty_tokenizer']:secureServerEvent(GetCurrentResourceName(), src, token) then
-		return false
-    end
-
     local char = exports['mythic_base']:FetchComponent('Fetch'):Source(src):GetData('character')
     local cData = char:GetData()
     local tPlayer = exports['mythic_base']:FetchComponent('Fetch'):Phone(Calls[call.number].number)
@@ -133,12 +129,8 @@ AddEventHandler('mythic_phone:server:ToggleHold', function(token, call)
 end)
 
 RegisterServerEvent('mythic_phone:server:AcceptCall')
-AddEventHandler('mythic_phone:server:AcceptCall', function(token)
+AddEventHandler('mythic_phone:server:AcceptCall', function()
     local src = source
-    if not exports['salty_tokenizer']:secureServerEvent(GetCurrentResourceName(), src, token) then
-		return false
-    end
-    
     local char = exports['mythic_base']:FetchComponent('Fetch'):Source(src):GetData('character')
     local cData = char:GetData()
 
@@ -164,7 +156,7 @@ AddEventHandler('mythic_phone:server:AcceptCall', function(token)
 end)
 
 RegisterServerEvent('mythic_phone:server:EndCall')
-AddEventHandler('mythic_phone:server:EndCall', function(token)
+AddEventHandler('mythic_phone:server:EndCall', function()
     local src = source
     
     local char = exports['mythic_base']:FetchComponent('Fetch'):Source(src):GetData('character')

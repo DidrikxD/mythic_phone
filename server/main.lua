@@ -24,6 +24,10 @@ AddEventHandler('mythic_base:server:CharacterSpawned', function()
         }},
         { name = 'apps', data = Config.Apps }
     })
+
+    exports['ghmattimysql']:scalar('SELECT data FROM phone_settings WHERE charid = @charid', { ['charid'] = cData.id }, function(data)
+        TriggerClientEvent('mythic_phone:client:SetSettings', src, json.decode(data))
+    end)
 end)
 
 AddEventHandler('mythic_base:shared:ComponentsReady', function()

@@ -18,39 +18,24 @@ files {
     'ui/libs/*.min.css',
     'ui/libs/*.min.js',
 
-    'ui/webfonts/fa-brands-400.eot',
-    'ui/webfonts/fa-brands-400.svg',
-    'ui/webfonts/fa-brands-400.ttf',
-    'ui/webfonts/fa-brands-400.woff',
-    'ui/webfonts/fa-brands-400.woff2',
-    'ui/webfonts/fa-regular-400.eot',
-    'ui/webfonts/fa-regular-400.svg',
-    'ui/webfonts/fa-regular-400.ttf',
-    'ui/webfonts/fa-regular-400.woff',
-    'ui/webfonts/fa-regular-400.woff2',
-    'ui/webfonts/fa-solid-900.eot',
-    'ui/webfonts/fa-solid-900.svg',
-    'ui/webfonts/fa-solid-900.ttf',
-    'ui/webfonts/fa-solid-900.woff',
-    'ui/webfonts/fa-solid-900.woff2',
+	'html/webfonts/*.eot',
+	'html/webfonts/*.svg',
+	'html/webfonts/*.ttf',
+	'html/webfonts/*.woff',
+	'html/webfonts/*.woff2',
 
-    'ui/imgs/back001.png',
-    'ui/imgs/back002.png',
-    'ui/imgs/back003.png',
-    'ui/imgs/iphonex.png',
-    'ui/imgs/s8.png',
+    'ui/imgs/*.png',
 }
 
 client_script {
-	'@salty_tokenizer/init.lua',
     'config/*.lua',
     'client/main.lua',
     'client/animation.lua',
+    'client/settings.lua',
 	'client/apps/*.lua',
 }
 
 server_script {
-	'@salty_tokenizer/init.lua',
     'config/*.lua',
     'server/main.lua',
     'server/commands.lua',
@@ -58,7 +43,6 @@ server_script {
 }
 
 dependencies {
-    'salty_tokenizer',
     'mythic_base',
     'mythic_inventory',
 }

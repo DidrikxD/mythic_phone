@@ -29,7 +29,7 @@ AddEventHandler('mythic_phone:client:CreateCall', function(number)
     Citizen.CreateThread(function()
         while Call.status == 0 do
             if count >= 30 then
-                TriggerServerEvent('mythic_phone:server:EndCall', securityToken)
+                TriggerServerEvent('mythic_phone:server:EndCall')
                 TriggerEvent('mythic_sounds:client:StopOnOne', 'dialtone')
 
                 if isPhoneOpen then
@@ -124,7 +124,7 @@ AddEventHandler('mythic_phone:client:ReceiveCall', function(number)
         while Call.status == 0 do
             if count >= 30 then
                 TriggerServerEvent('mythic_sounds:server:StopWithinDistance', 'ringtone2')
-                TriggerServerEvent('mythic_phone:server:EndCall', securityToken)
+                TriggerServerEvent('mythic_phone:server:EndCall')
                 Call = {}
             else
                 count = count + 1
@@ -146,17 +146,17 @@ RegisterNUICallback( 'CreateCall', function( data, cb )
 end)
 
 RegisterNUICallback( 'AcceptCall', function( data, cb )
-    TriggerServerEvent('mythic_phone:server:AcceptCall', securityToken)
+    TriggerServerEvent('mythic_phone:server:AcceptCall')
 end)
 
 RegisterNUICallback( 'EndCall', function( data, cb )
-    TriggerServerEvent('mythic_phone:server:EndCall', securityToken, Call)
+    TriggerServerEvent('mythic_phone:server:EndCall', Call)
 end)
 
 RegisterNUICallback( 'ToggleHold', function( data, cb )
     if Call.number ~= nil and Call.number ~= 0 then
         Call.Hold = not Call.Hold
-        TriggerServerEvent('mythic_phone:server:ToggleHold', securityToken, Call)
+        TriggerServerEvent('mythic_phone:server:ToggleHold', Call)
         if Call.Hold then
             exports['tokovoip_script']:removePlayerFromRadio(Call.channel)
             if isPhoneOpen then
@@ -190,7 +190,7 @@ AddEventHandler('mythic_base:client:CharacterSpawned', function()
             if IsInCall() and Call ~= nil and Call.status ~= 0 then
                 if IsControlJustReleased(1, 51) then
                     Call.Hold = not Call.Hold
-                    TriggerServerEvent('mythic_phone:server:ToggleHold', securityToken, Call)
+                    TriggerServerEvent('mythic_phone:server:ToggleHold', Call)
                     if Call.Hold then
                         exports['tokovoip_script']:removePlayerFromRadio(Call.channel)
                         if isPhoneOpen then
@@ -203,11 +203,11 @@ AddEventHandler('mythic_base:client:CharacterSpawned', function()
                         PhonePlayCall(false)
                     end
                 elseif IsControlJustReleased(1, 47) and not Call.Hold then
-                    TriggerServerEvent('mythic_phone:server:EndCall', securityToken, Call)
+                    TriggerServerEvent('mythic_phone:server:EndCall', Call)
                 end
     
                 if Death:IsDead() then
-                    TriggerServerEvent('mythic_phone:server:EndCall', securityToken, Call)
+                    TriggerServerEvent('mythic_phone:server:EndCall', Call)
                 end
     
                 Citizen.Wait(1)

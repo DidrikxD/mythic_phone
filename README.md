@@ -5,7 +5,6 @@ This is a custom phone written for Mythic RP. It is replacing an existing port o
 * Mythic Base | Not Released
 * Mythic Inventory | Not Released
 * [GHMattiMySQL](https://github.com/GHMatti/ghmattimysql)
-* [Salty Tokenizer](https://forum.fivem.net/t/release-dev-server-event-security-tokens-anticheat/139189)
 * ???
 
 > This is a WIP resource so this dependency list is very likely to expand as features are added.
