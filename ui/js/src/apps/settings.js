@@ -3,16 +3,45 @@ import Config from '../config';
 import Data from '../utils/data';
 import Notif from '../utils/notification';
 import Utils from '../utils/utils';
-import Test from '../test';
+
+$('#screen-content').on('submit', '#phone-settings', function(e) {
+    e.preventDefault();
+    let data = $(this).serializeArray();
+    console.log(JSON.stringify(data));
+
+    let settings ={
+        volume: parseInt(data[0].value),
+        wallpaper: parseInt(data[1].value),
+        ringtone: parseInt(data[2].value),
+        text: parseInt(data[3].value)
+    }
+
+    $.post(Config.ROOT_ADDRESS + '/UpdateSettings', JSON.stringify(settings), function(status) {
+        if (status) {
+            Data.StoreData('settings', settings);
+            Notif.Alert('Settings Saved');
+        } else {
+            Notif.Alert('Unable To Save Settings');
+        }
+    });
+    Data.StoreData('settings', settings);
+
+    Utils.UpdateWallpaper(`url(./imgs/back00${settings.wallpaper}.png)`);
+    Utils.SetMute(settings.volume === 0);
+})
 
 window.addEventListener('settings-open-app', function(data) {
-    $.each(Config.Settings, function(index, category) {
-        $('.inner-app').append(`<div class="settings-category">${category.category}</div>`);
+    let settings = Data.GetData('settings');
 
-        $.each(category.data, function(index, data) {
-            $('.inner-app .settings-category:last-child').append(`<div>${data.label}</div>`);
-        });
-    });
+    $('#settings-volume').val(settings.volume);
+    $('#settings-wallpaper').val(settings.wallpaper);
+    $('#settings-ringtone').val(settings.ringtone);
+    $('#settings-text').val(settings.text);
+
+    $('#settings-volume').formSelect();
+    $('#settings-wallpaper').formSelect();
+    $('#settings-ringtone').formSelect();
+    $('#settings-text').formSelect();
 });
 
 window.addEventListener('settings-close-app', function() {

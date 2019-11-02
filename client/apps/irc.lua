@@ -1,6 +1,9 @@
 RegisterNetEvent('mythic_phone:client:ReceiveNewIRCMessage')
 AddEventHandler('mythic_phone:client:ReceiveNewIRCMessage', function(data)
-    TriggerServerEvent('mythic_sounds:server:PlayWithinDistance', 10.0, 'text_message', 0.05)
+    if not Config.Settings.Sound.Muted then
+        TriggerServerEvent('mythic_sounds:server:PlayWithinDistance', 10.0, 'text_message', 0.05 * (Config.Settings.volume / 100))
+    end
+    
     exports['mythic_notify']:SendAlert('inform', 'You Received An IRC Message')
     SendNUIMessage({
         action = 'receiveIRCChat',

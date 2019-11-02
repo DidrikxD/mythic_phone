@@ -38,14 +38,6 @@ AddEventHandler('mythic_phone:client:SetupData', function(data)
   })
 end)
 
-RegisterNetEvent('mythic_phone:client:SetSettings')
-AddEventHandler('mythic_phone:client:SetSettings', function(data)
-  SendNUIMessage({
-    action = 'setup',
-    data = data
-  })
-end)
-
 function DrawUIText(text, font, centre, x, y, scale, r, g, b, a)
     SetTextFont(font)
     SetTextProportional(0)

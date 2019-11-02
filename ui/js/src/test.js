@@ -1,3 +1,10 @@
+var Settings = {
+    volume: 0,
+    wallpaper: 1,
+    ringtone: 1,
+    text: 1
+}
+
 var PlayerDetails = {
     id: 199,
     name: 'Please Work',
@@ -409,6 +416,7 @@ var IRCMessages = [
 ];
 
 export default {
+    Settings,
     PlayerDetails,
     Contacts,
     Messages,

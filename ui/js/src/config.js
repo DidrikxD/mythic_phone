@@ -1,22 +1,5 @@
 var ROOT_ADDRESS = 'http://mythic_phone2';
 
-var Settings = [
-    {
-        category: "General",
-        data: [
-            { label: "Volume", setting: "volume", value: 100 },
-            { label: "Zoom", setting: "zoom", value: 100 },
-        ]
-    },
-    {
-        category: "Sounds",
-        data: [
-            { label: "Ringtone", setting: "ringtone", value: 'default' },
-            { label: "Text", setting: "text", value: 'default' },
-        ]
-    }
-];
-
 var Apps = [
     {
         name: 'Contacts',
@@ -93,4 +76,4 @@ var Apps = [
     }
 ];
 
-export default { ROOT_ADDRESS, Settings, Apps };
+export default { ROOT_ADDRESS, Apps };

@@ -110,14 +110,13 @@ AddEventHandler('mythic_phone:client:ReceiveCall', function(number)
         number = number
     })
 
-    -- TODO : Add Check For Muted Sound
     Citizen.CreateThread(function()
         while Call.status == 0 do
-            TriggerServerEvent('mythic_sounds:server:PlayWithinDistance', 2.0, 'ringtone2', 0.1)
+            TriggerServerEvent('mythic_sounds:server:PlayWithinDistance', 10.0, 'ringtone2', 0.1 * (Config.Settings.volume / 100))
+
             Citizen.Wait(500)
         end
     end)
-    --TriggerServerEvent('mythic_sounds:server:LoopWithinDistance', 2.0, 'ringtone2', 0.1)
 
     local count = 0
     Citizen.CreateThread(function()

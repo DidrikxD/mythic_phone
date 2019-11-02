@@ -26,6 +26,7 @@ moment.fn.fromNowOrNow = function(a) {
 //     Data.ClearData();
 //     Data.SetupData([
 //         { name: 'myData', data: Test.PlayerDetails },
+//         { name: 'settings', data: Test.Settings },
 //         { name: 'contacts', data: Test.Contacts },
 //         { name: 'messages', data: Test.Messages },
 //         { name: 'history', data: Test.Calls },
@@ -92,6 +93,14 @@ function InitShit() {
 }
 
 $(function() {
+    let settings = Data.GetData('settings');
+
+    Utils.UpdateWallpaper(`url(./imgs/back00${settings.wallpaper}.png)`)
+
+    if (settings.volume === 0) {
+        Utils.SetMute(true);
+    }
+
     document.onkeyup = function(data) {
         if (data.which == 114 || data.which == 27) {
             ClosePhone();
