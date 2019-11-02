@@ -19,15 +19,13 @@ $('#screen-content').on('submit', '#phone-settings', function(e) {
     $.post(Config.ROOT_ADDRESS + '/UpdateSettings', JSON.stringify(settings), function(status) {
         if (status) {
             Data.StoreData('settings', settings);
+            Utils.UpdateWallpaper(`url(./imgs/back00${settings.wallpaper}.png)`);
+            Utils.SetMute(settings.volume === 0);
             Notif.Alert('Settings Saved');
         } else {
             Notif.Alert('Unable To Save Settings');
         }
     });
-    Data.StoreData('settings', settings);
-
-    Utils.UpdateWallpaper(`url(./imgs/back00${settings.wallpaper}.png)`);
-    Utils.SetMute(settings.volume === 0);
 })
 
 window.addEventListener('settings-open-app', function(data) {

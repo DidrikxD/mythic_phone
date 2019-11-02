@@ -31,7 +31,6 @@ moment.fn.fromNowOrNow = function(a) {
 //         { name: 'messages', data: Test.Messages },
 //         { name: 'history', data: Test.Calls },
 //         { name: 'apps', data: Config.Apps },
-//         { name: 'muted', data: false },
 //         { name: 'tweets', data: Test.Tweets },
 //         { name: 'adverts', data: Test.Adverts },
 //         { name: 'factory-tunes', data: Test.FactoryTunes },
@@ -95,11 +94,8 @@ function InitShit() {
 $(function() {
     let settings = Data.GetData('settings');
 
-    Utils.UpdateWallpaper(`url(./imgs/back00${settings.wallpaper}.png)`)
-
-    if (settings.volume === 0) {
-        Utils.SetMute(true);
-    }
+    Utils.UpdateWallpaper(`url(./imgs/back00${settings.wallpaper}.png)`);
+    Utils.SetMute(settings.volume === 0);
 
     document.onkeyup = function(data) {
         if (data.which == 114 || data.which == 27) {
@@ -140,8 +136,16 @@ $('#remove-sim-card').on('click', function(e) {
 });
 
 $('.mute').on('click', function(e) {
-    let muted = Data.GetData('muted');
-    Utils.SetMute(!muted);
+    let volume = Data.GetData('settings').volume;
+    
+    $.post(Config.ROOT_ADDRESS + '/ToggleMute', JSON.stringify({
+        muted: volume === 0 ? false : true
+    }), function(status) {
+        if (status) {
+            Data.UpdateData('settings', 'volume', volume === 0 ? 100 : 0);
+            Utils.SetMute(volume !== 0);
+        }
+    });
 });
 
 function ClosePhone() {

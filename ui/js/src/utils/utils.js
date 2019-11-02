@@ -62,13 +62,15 @@ function SetMute(status) {
         $('.mute')
             .removeClass('not-muted')
             .addClass('muted');
-        Data.StoreData('muted', true);
+        Data.UpdateData('settings', 'volume', 0);
+        console.log(Data.GetData('settings').volume);
     } else {
         $('.mute').html('<i class="fas fa-volume-up"></i>');
         $('.mute')
             .removeClass('muted')
             .addClass('not-muted');
-        Data.StoreData('muted', false);
+        Data.UpdateData('settings', 'volume', 100);
+        console.log(Data.GetData('settings').volume);
     }
 }
 
