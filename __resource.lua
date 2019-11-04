@@ -31,6 +31,7 @@ client_script {
     'config/*.lua',
     'client/main.lua',
     'client/unread.lua',
+    'client/items.lua',
     'client/animation.lua',
 	'client/apps/*.lua',
 }
@@ -39,6 +40,7 @@ server_script {
     'config/*.lua',
     'server/main.lua',
     'server/unread.lua',
+    'server/items.lua',
     'server/commands.lua',
 	'server/apps/*.lua',
 }

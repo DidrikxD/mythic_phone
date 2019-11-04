@@ -29,15 +29,25 @@ AddEventHandler('mythic_base:server:CharacterSpawned', function()
     local char = exports['mythic_base']:FetchComponent('Fetch'):Source(src):GetData('character')
     exports['ghmattimysql']:scalar('SELECT data FROM phone_unread WHERE charid = @charid', { ['charid'] = char:GetData('id') }, function(unread)
         if unread ~= nil then
-            local apps = Config.Apps
-            local unreads = json.decode(unread)
-            Unreads[char:GetData('id')] = unreads
-
-            for k, v in ipairs(apps) do
-                apps[k].unread = unreads[v.container]
+            if  json.decode(unread) ~= nil then
+                local apps = Config.Apps
+                local unreads = json.decode(unread)
+                Unreads[char:GetData('id')] = unreads
+    
+                for k, v in ipairs(apps) do
+                    apps[k].unread = unreads[v.container]
+                end
+                
+                TriggerClientEvent('mythic_phone:client:SetupData', src, { { name = 'apps', data = apps } })
+            else
+                local unreads = {}
+                for k, v in ipairs(Config.Apps) do
+                    unreads[v.container] = 0
+                end
+                Unreads[char:GetData('id')] = unreads
+                exports['ghmattimysql']:execute('UPDATE phone_unread SET data = @data WHERE charid = @charid', { ['charid'] = char:GetData('id'), ['data'] = json.encode(unreads) })
+                TriggerClientEvent('mythic_phone:client:SetupData', src, { { name = 'apps', data = Config.Apps } })
             end
-            
-            TriggerClientEvent('mythic_phone:client:SetupData', src, { { name = 'apps', data = apps } })
         else
             local unreads = {}
             for k, v in ipairs(Config.Apps) do
