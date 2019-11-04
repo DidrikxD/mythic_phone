@@ -2,6 +2,7 @@ import Config from './config';
 import Data from './utils/data';
 import Utils from './utils/utils';
 import Notif from './utils/notification';
+import Unread from './utils/unread';
 import Apps from './apps/apps';
 
 import Test from './test';

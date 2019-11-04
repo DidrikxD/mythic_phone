@@ -10,9 +10,14 @@ function DeleteAd(source)
     local mPlayer = exports['mythic_base']:FetchComponent('Fetch'):Source(source)
     if mPlayer ~= nil then
         local char = mPlayer:GetData('character')
-        local id = char:GetData('id')
-        Advertisements[id] = nil
-        TriggerClientEvent('mythic_phone:client:DeleteAd', -1, id)
+        
+        if char ~= nil then
+            local id = char:GetData('id')
+            Advertisements[id] = nil
+            TriggerClientEvent('mythic_phone:client:DeleteAd', -1, id)
+        else
+            return false
+        end
 
         return true
     else

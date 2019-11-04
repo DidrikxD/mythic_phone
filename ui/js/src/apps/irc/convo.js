@@ -3,6 +3,7 @@ import Config from '../../config';
 import Data from '../../utils/data';
 import Notif from '../../utils/notification';
 import Utils from '../../utils/utils';
+import Unread from '../../utils/unread';
 
 import IRC from './irc';
 
@@ -16,11 +17,15 @@ window.addEventListener('message', function(event) {
             if (App.GetCurrentApp === 'irc-convo') {
                 if ($('.irc-channel').html() === event.data.channel) {
                     SetupMessages(msgs);
+                } else {
+                    Unread.AddUnread();
                 }
+
                 Data.AddData(`irc-messages-${event.data.channel}`, msgs[0]);
                 IRC.BringChannelToTop(data.event.channel);
                 break;
             } else {
+                Unread.AddUnread();
                 Data.AddData(`irc-messages-${event.data.channel}`,  msgs[0]);
                 IRC.BringChannelToTop(data.event.channel);
             }

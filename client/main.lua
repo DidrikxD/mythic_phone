@@ -132,7 +132,7 @@ end)
 function TogglePhone()
   if not openingCd or isPhoneOpen then
     isPhoneOpen = not isPhoneOpen
-    if isPhoneOpen == true then
+    if isPhoneOpen then
       hasPhone(function(hasPhone)
         if hasPhone then
           PhonePlayIn()
@@ -153,6 +153,10 @@ function TogglePhone()
         PhonePlayOut()
       end
       SendNUIMessage( { action = 'hide' } )
+    end
+
+    if not IsPedInAnyVehicle(PlayerPedId(), true) then
+      DisplayRadar(isPhoneOpen)
     end
 
     openingCd = true

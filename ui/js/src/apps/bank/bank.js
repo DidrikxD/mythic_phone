@@ -3,6 +3,7 @@ import Config from '../../config';
 import Data from '../../utils/data';
 import Utils from '../../utils/utils';
 import Notif from '../../utils/notification';
+import Unread from '../../utils/unread';
 
 import Transfer from './transfer';
 import MazePay from './maze-pay';
@@ -140,6 +141,7 @@ window.addEventListener('bank-open-app', function() {
     }, { duration: 1000 }).promise().then(function() {
         $('.bank-quick-action').fadeIn('normal').css('display', 'inline-block');
     });
+    Unread.ClearUnread();
 });
 
 window.addEventListener('bank-custom-close-app', function(data) {

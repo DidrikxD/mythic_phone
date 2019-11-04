@@ -30,14 +30,15 @@ files {
 client_script {
     'config/*.lua',
     'client/main.lua',
+    'client/unread.lua',
     'client/animation.lua',
-    'client/settings.lua',
 	'client/apps/*.lua',
 }
 
 server_script {
     'config/*.lua',
     'server/main.lua',
+    'server/unread.lua',
     'server/commands.lua',
 	'server/apps/*.lua',
 }

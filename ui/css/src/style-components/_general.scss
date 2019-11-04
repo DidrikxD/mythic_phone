@@ -101,19 +101,6 @@
                     }
                 }
 
-                .payphone {
-                    position: absolute;
-                    right: 24%;
-                    top: 30%;
-                    color: color("materialize-red", "lighten-1");
-                    display: none;
-
-                    &:hover {
-                        transition: all ease-in 0.15s;
-                        filter: brightness(60%);
-                    }
-                }
-
                 .mute {
                     position: absolute;
                     font-size: 14px;

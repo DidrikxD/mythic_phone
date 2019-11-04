@@ -16,7 +16,7 @@ $('#screen-content').on('submit', '#phone-settings', function(e) {
         text: parseInt(data[3].value)
     }
 
-    $.post(Config.ROOT_ADDRESS + '/UpdateSettings', JSON.stringify(settings), function(status) {
+    $.post(Config.ROOT_ADDRESS + '/SaveSettings', JSON.stringify(settings), function(status) {
         if (status) {
             Data.StoreData('settings', settings);
             Utils.UpdateWallpaper(`url(./imgs/back00${settings.wallpaper}.png)`);

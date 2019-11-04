@@ -14,7 +14,7 @@ var Apps = [
         container: 'phone',
         icon: '<i class="fas fa-phone"></i>',
         color: '#01579b',
-        unread: 10,
+        unread: 0,
         enabled: true
     },
     {
@@ -22,7 +22,7 @@ var Apps = [
         container: 'message',
         icon: '<i class="fas fa-comment-alt"></i>',
         color: '#311b92',
-        unread: 1,
+        unread: 0,
         enabled: true
     },
     {
@@ -39,7 +39,7 @@ var Apps = [
         container: 'twitter',
         icon: '<i class="fab fa-twitter"></i>',
         color: '#039be5',
-        unread: 1,
+        unread: 0,
         enabled: true
     },
     {
@@ -55,7 +55,7 @@ var Apps = [
         container: 'irc',
         icon: '<i class="fas fa-comment-slash"></i>',
         color: '#1de9b6',
-        unread: 55,
+        unread: 0,
         enabled: true
     },
     {

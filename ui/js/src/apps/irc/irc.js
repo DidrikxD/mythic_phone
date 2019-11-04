@@ -2,6 +2,7 @@ import App from '../../app';
 import Config from '../../config';
 import Data from '../../utils/data';
 import Notif from '../../utils/notification';
+import Unread from '../../utils/unread';
 
 import Convo from './convo';
 
@@ -56,7 +57,9 @@ window.addEventListener('irc-open-app', function() {
     $('.channel-list').html('');
     $.each(channels, function(index, channel) {
         AddChannelToApp(channel);
-    })
+    });
+
+    Unread.ClearUnread();
 });
 
 window.addEventListener('irc-close-app', function() {
