@@ -24,17 +24,6 @@ $('#screen-content').on('submit', '#send-maze-pay', function(e) {
 });
 
 window.addEventListener('bank-mp-open-app', function(data) {
-    let history = Data.GetData('maze-pay');
-    $.each(Test.MazePayTransactions, function(index, transaction) {
-        $('#maze-pay-history table tbody').append(`<tr><td data-tooltip="${moment(transaction.date).calendar()}">${moment(transaction.date).calendar()}</td><td data-tooltip="${transaction.type}">${transaction.type}</td><td data-tooltip="${Utils.FormatCurrency(transaction.amount)}">${Utils.FormatCurrency(transaction.amount)}</td><td data-tooltip="${transaction.player}">${transaction.player}</td></tr>`)
-    });
-
-    $('#maze-pay-history table tbody td').tooltip({
-        enterDelay: 0,
-        exitDelay: 0,
-        inDuration: 0
-    });
-
     $('#bank-app-page').animate({
         height: '100%'
     }, { duration: 1000 });

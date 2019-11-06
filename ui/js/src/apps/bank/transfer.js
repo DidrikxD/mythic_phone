@@ -50,42 +50,51 @@ window.addEventListener('bank-transfer-open-app', function(data) {
 
     let history = Data.GetData('bank-transfers');
 
-    $.each(history, function(index, transfer) {
-        switch(history.status) {
-            case 1:
-                $('#bank-transfer-history table tbody').append(`
-                    <tr>
-                        <td class="transfer-status pending">Pending</td>
-                        <td>${moment(transfer.date).calendar()}</td>
-                        <td>${Utils.FormatCurrency(transfer.amoun)}</td>
-                        <td>${transfer.origin}</td>
-                        <td>${transfer.destination}</td>
-                    </tr>
-                `)
-                break;
-            case 2:
-                $('#bank-transfer-history table tbody').append(`
-                    <tr>
-                        <td class="transfer-status cancelled">Cancelled</td>
-                        <td>${moment(transfer.date).calendar()}</td>
-                        <td>${Utils.FormatCurrency(transfer.amoun)}</td>
-                        <td>${transfer.origin}</td>
-                        <td>${transfer.destination}</td>
-                    </tr>
-                `)
-                break;
-            default:
+    $.each(history, function(index, transfers) {
+        $.each(transfers, function(index2, transfer) {
+            switch(transfer.status) {
+                case 1:
                     $('#bank-transfer-history table tbody').append(`
-                        <tr>
+                        <tr data-tooltip="Transfered on ${moment(transfer.date).format('l')} at ${moment(transfer.date).format('h:mm a')}">
                             <td class="transfer-status completed">Completed</td>
-                            <td>${moment(transfer.date).calendar()}</td>
-                            <td>${Utils.FormatCurrency(transfer.amoun)}</td>
+                            <td>${moment(transfer.date).format('l')}</td>
+                            <td>${Utils.FormatCurrency(transfer.amount)}</td>
                             <td>${transfer.origin}</td>
                             <td>${transfer.destination}</td>
                         </tr>
                     `)
-                break;
-        }
+                    break;
+                case 2:
+                    $('#bank-transfer-history table tbody').append(`
+                        <tr data-tooltip="Cancelled on ${moment(transfer.date).format('l')} at ${moment(transfer.date).format('h:mm a')}">
+                            <td class="transfer-status cancelled">Cancelled</td>
+                            <td>${moment(transfer.date).format('l')}</td>
+                            <td>${Utils.FormatCurrency(transfer.amount)}</td>
+                            <td>${transfer.origin}</td>
+                            <td>${transfer.destination}</td>
+                        </tr>
+                    `)
+                    break;
+                default:
+                        $('#bank-transfer-history table tbody').append(`
+                            <tr data-tooltip="Transfers on ${moment(transfer.date).format('l')} at ${moment(transfer.date).format('h:mm a')}">
+                                <td class="transfer-status pending">Pending</td>
+                                <td>${moment(transfer.date).format('l')}</td>
+                                <td>${Utils.FormatCurrency(transfer.amount)}</td>
+                                <td>${transfer.origin}</td>
+                                <td>${transfer.destination}</td>
+                            </tr>
+                        `)
+                    break;
+            }
+
+            let $entry = $('#bank-transfer-history table tbody tr:last-child');
+            $entry.tooltip({
+                enterDelay: 0,
+                exitDelay: 0,
+                inDuration: 0
+            });
+        });
     });
 
     $('#bank-app-page').animate({

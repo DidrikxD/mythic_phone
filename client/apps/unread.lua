@@ -1,5 +1,12 @@
+RegisterNetEvent('mythic_phone:client:SyncUnread')
+AddEventHandler('mythic_phone:client:SyncUnread', function(unreads)
+    SendNUIMessage({
+        action = 'SyncUnread',
+        unreads = unreads
+    })
+end)
+
 RegisterNUICallback('SetUnread', function(data, cb)
-    print('please?')
     Callbacks:ServerCallback('mythic_phone:server:SetUnread', data, function(status)
         print(status)
         for k, v in ipairs(Config.Apps) do

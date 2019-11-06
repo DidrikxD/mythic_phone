@@ -54,16 +54,16 @@ window.addEventListener('bank-transaction-open-app', function(data) {
             $.each(transactions, function(index, trans) {
                 switch(trans.type) {
                     case 1:
-                        $('.transaction-body table').append(`<tr><td>${moment(trans.date).calendar()}</td><td class="trans-negative">${Utils.FormatCurrency(trans.amount)}</td><td>${trans.note}</td></tr>`)
+                        $('.transaction-body table').append(`<tr><td>${moment(trans.date).format('l')} at ${moment(trans.date).format('h:mm a')}</td><td class="trans-negative">${Utils.FormatCurrency(trans.amount)}</td><td>${trans.note}</td></tr>`)
                         break;
                     case 2:
-                        $('.transaction-body table').append(`<tr><td>${moment(trans.date).calendar()}</td><td class="trans-negative">${Utils.FormatCurrency(trans.amount)}</td><td>${trans.note}</td></tr>`)
+                        $('.transaction-body table').append(`<tr><td>${moment(trans.date).format('l')} at ${moment(trans.date).format('h:mm a')}</td><td class="trans-negative">${Utils.FormatCurrency(trans.amount)}</td><td>${trans.note}</td></tr>`)
                         break;
                     case 3:
-                        $('.transaction-body table').append(`<tr><td>${moment(trans.date).calendar()}</td><td class="trans-positive">${Utils.FormatCurrency(trans.amount)}</td><td>${trans.note}</td></tr>`)
+                        $('.transaction-body table').append(`<tr><td>${moment(trans.date).format('l')} at ${moment(trans.date).format('h:mm a')}</td><td class="trans-positive">${Utils.FormatCurrency(trans.amount)}</td><td>${trans.note}</td></tr>`)
                         break;
                     default:
-                        $('.transaction-body table').append(`<tr><td>${moment(trans.date).calendar()}</td><td class="trans-positive">${Utils.FormatCurrency(trans.amount)}</td><td>${trans.note}</td></tr>`)
+                        $('.transaction-body table').append(`<tr><td>${moment(trans.date).format('l')} at ${moment(trans.date).format('h:mm a')}</td><td class="trans-positive">${Utils.FormatCurrency(trans.amount)}</td><td>${trans.note}</td></tr>`)
                         break;
                 }
 

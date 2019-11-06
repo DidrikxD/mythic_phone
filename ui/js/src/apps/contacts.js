@@ -274,7 +274,7 @@ $('#screen-content').on('click', '.contacts-list .contact-actions .action-call',
     Phone.CreateCall(data.number, false, false);
 });
 
-$('#scree-content').on('click', '.contacts-list .contact-actions .action-text', function(e) {
+$('#screen-content').on('click', '.contacts-list .contact-actions .action-text', function(e) {
     let data = $(this)
         .parent()
         .parent()

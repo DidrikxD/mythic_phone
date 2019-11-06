@@ -372,24 +372,6 @@ var BankTransfers = [
     { id: 10, status: 3, amount: 10000, origin: 2, destination: 1, date: 1562263235000 },
 ];
 
-var MazePayTransactions = [
-    { id: 1, type: 'Sent', amount: 10000, player: 'Some Name', date: 1562263235000 },
-    { id: 2, type: 'Sent', amount: 10000, player: 'Some Name', date: 1562263235000 },
-    { id: 3, type: 'Received', amount: 10000, player: 'Some Name', date: 1562263235000 },
-    { id: 4, type: 'Sent', amount: 10000, player: 'Some Name', date: 1562263235000 },
-    { id: 5, type: 'Received', amount: 10000, player: 'Some Name', date: 1562263235000 },
-    { id: 6, type: 'Sent', amount: 10000, player: 'Some Name', date: 1562263235000 },
-    { id: 7, type: 'Sent', amount: 10000, player: 'Some Name', date: 1562263235000 },
-    { id: 8, type: 'Received', amount: 10000, player: 'Some Name', date: 1562263235000 },
-    { id: 9, type: 'Received', amount: 10000, player: 'Some Name', date: 1562263235000 },
-    { id: 10, type: 'Received', amount: 10000, player: 'Some Name', date: 1562263235000 },
-    { id: 11, type: 'Sent', amount: 10000, player: 'Some Name', date: 1562263235000 },
-    { id: 12, type: 'Received', amount: 10000, player: 'Some Name', date: 1562263235000 },
-    { id: 13, type: 'Sent', amount: 10000, player: 'Some Name', date: 1562263235000 },
-    { id: 14, type: 'Received', amount: 10000, player: 'Some Name', date: 1562263235000 },
-    { id: 15, type: 'Received', amount: 10000, player: 'Some Name', date: 1562263235000 },
-];
-
 var IRCMessages = [
     { channel: '123', message: 'Test1', date: 1562263235000},
     { channel: '123', message: 'Test2', date: 1362263235000},
@@ -428,6 +410,5 @@ export default {
     Accounts,
     Transactions,
     BankTransfers,
-    MazePayTransactions,
     IRCMessages
  };

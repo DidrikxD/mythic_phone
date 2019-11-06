@@ -5,13 +5,10 @@ AddEventHandler('mythic_base:server:CharacterSpawned', function()
 
     char.Bank.GetFull:All(function(accounts)
         char.Bank.Transfer:Get(function(thistory)
-            char.MazePay:Get(function(mphistory)
-                TriggerClientEvent('mythic_phone:client:SetupData', src, {
-                    { name = 'bank-accounts', data = accounts },
-                    { name = 'bank-transfers', data = thistory },
-                    { name = 'maze-pay', data = mphistory }
-                })
-            end)
+            TriggerClientEvent('mythic_phone:client:SetupData', src, {
+                { name = 'bank-accounts', data = accounts },
+                { name = 'bank-transfers', data = thistory },
+            })
         end)
     end)
 end)
@@ -24,7 +21,7 @@ AddEventHandler('mythic_base:shared:ComponentsReady', function()
         local char = exports['mythic_base']:FetchComponent('Fetch'):Source(source):GetData('character')
 
         local history = {}
-        exports['ghmattimysql']:execute('SELECT * FROM bank_account_transactions WHERE origin_account = @account OR destination_account = @account ORDER BY date ASC LIMIT 50', { ['account'] = data.account }, function(transactions)
+        exports['ghmattimysql']:execute('SELECT * FROM bank_account_transactions WHERE origin_account = @account OR destination_account = @account ORDER BY date DESC LIMIT 50', { ['account'] = data.account }, function(transactions)
             for k, v in ipairs(transactions) do
                 local type = 0 -- Default to cash deposit
 

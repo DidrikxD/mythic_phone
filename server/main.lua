@@ -21,7 +21,8 @@ AddEventHandler('mythic_base:server:CharacterSpawned', function()
             id = cData.id,
             name = cData.firstName .. ' ' .. cData.lastName,
             phone = cData.phone
-        }}
+        }},
+        { name = 'apps', data = Config.Apps }
     })
 
     exports['ghmattimysql']:scalar('SELECT data FROM phone_settings WHERE charid = @charid', { ['charid'] = cData.id }, function(data)

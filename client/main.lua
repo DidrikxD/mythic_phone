@@ -83,14 +83,6 @@ end
 function hasDecrypt(cb)
   Inventory.Checks:HasItem({ { item = 'decryptor', count = 1 } }, cb)
 end
-  
-function toggleIrc(status)
-  if not status then
-    TriggerEvent('mythic_phone:client:setEnableApp', 'IRC', false)
-  else
-    TriggerEvent('mythic_phone:client:setEnableApp', 'IRC', true)
-  end
-end
 
 function ShowNoPhoneWarning()
   exports['mythic_notify']:SendAlert('error', 'You Don\'t Have a Phone')
@@ -210,6 +202,19 @@ function DisableControls()
       end
   end)
 end
+
+RegisterNetEvent('mythic_phone:client:EnableApp')
+AddEventHandler('mythic_phone:client:EnableApp', function(app)
+  for k, v in pairs(Config.Apps) do
+    if v.container == app then
+      v.enabled = true
+      SendNUIMessage({
+        action = 'EnableApp',
+        app = app
+      })
+    end
+  end
+end)
 
 RegisterNUICallback( 'RegisterData', function( data, cb )
   Callbacks:ServerCallback('mythic_phone:server:RegisterData', {
