@@ -9,18 +9,18 @@ AddEventHandler('mythic_phone:client:ReceiveNewIRCMessage', function(data)
     })
 end)
 
-RegisterNUICallback( 'IRCJoinChannel', function( data, cb )
+RegisterNUICallback('IRCJoinChannel', function(data, cb)
     Callbacks:ServerCallback('mythic_phone:server:IRCJoinChannel', data, cb)
 end)
 
-RegisterNUICallback( 'IRCLeaveChannel', function( data, cb )
+RegisterNUICallback('IRCLeaveChannel', function(data, cb)
     Callbacks:ServerCallback('mythic_phone:server:IRCLeaveChannel', data, cb)
 end)
 
-RegisterNUICallback( 'IRCGetMessages', function( data, cb )
+RegisterNUICallback('IRCGetMessages', function(data, cb)
     Callbacks:ServerCallback('mythic_phone:server:IRCGetMessages', data, cb)
 end)
 
-RegisterNUICallback( 'IRCNewMessage', function( data, cb )
+RegisterNUICallback('IRCNewMessage', function(data, cb)
     Callbacks:ServerCallback('mythic_phone:server:IRCNewMessage', data, cb)
 end)

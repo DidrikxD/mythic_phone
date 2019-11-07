@@ -1,5 +1,6 @@
 AppData = {}
 Callbacks = nil
+Cache = nil
 
 function RegisterData(source, key, data)
     if AppData[source] ~= nil then
@@ -32,6 +33,7 @@ end)
 
 AddEventHandler('mythic_base:shared:ComponentsReady', function()
     Callbacks = Callbacks or exports['mythic_base']:FetchComponent('Callbacks')
+    Cache = Cache or exports['mythic_base']:FetchComponent('Cache')
 
     Callbacks:RegisterServerCallback('mythic_phone:server:GetData', function(source, data, cb)
         RegisterData(source, data.key, data.data)

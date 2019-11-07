@@ -29,6 +29,6 @@ function UpdateAppUnread(app, unread)
     })
 end
 
-RegisterNUICallback( 'ClearUnread', function( data, cb )
+RegisterNUICallback('ClearUnread', function(data, cb)
     UpdateAppUnread(data.app, 0)
 end)

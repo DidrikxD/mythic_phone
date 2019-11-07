@@ -156,7 +156,7 @@ AddEventHandler('mythic_phone:client:TestChip', function()
     end
 end)
 
-RegisterNUICallback( 'SetupTuner', function( data, cb )
+RegisterNUICallback('SetupTuner', function(data, cb)
     local veh = GetVehiclePedIsUsing(PlayerPedId())
     if veh ~= 0 then
         exports['mythic_base']:FetchComponent('Progress'):Progress({
@@ -227,7 +227,7 @@ RegisterNUICallback( 'SetupTuner', function( data, cb )
     end
 end)
 
-RegisterNUICallback( 'CheckInVeh', function( data, cb )
+RegisterNUICallback('CheckInVeh', function(data, cb)
     local veh = GetVehiclePedIsUsing(PlayerPedId()) 
     if veh ~= 0 then
         if GetPedInVehicleSeat(veh, -1) == PlayerPedId() and DecorExistOn(veh, 'MYTH_TUNER_CHIP') then
@@ -287,11 +287,11 @@ RegisterNUICallback( 'CheckInVeh', function( data, cb )
     end
 end)
 
-RegisterNUICallback( 'ApplyTune', function( data, cb )
+RegisterNUICallback('ApplyTune', function(data, cb)
     cb(ApplyTune(data.boost, data.suspension, data.tranny, data.brakes, data.dt))
 end)
 
-RegisterNUICallback( 'SaveTune', function( data, cb )
+RegisterNUICallback('SaveTune', function(data, cb)
     if currentVehicle ~= nil and currentVehicle ~= 0 then
         if data.carOnly then
             data.carModel = GetEntityModel(currentVehicle)
@@ -308,13 +308,13 @@ RegisterNUICallback( 'SaveTune', function( data, cb )
     end)
 end)
 
-RegisterNUICallback( 'DeleteTune', function( data, cb )
+RegisterNUICallback('DeleteTune', function(data, cb)
     Callbacks:ServerCallback('mythic_phone:server:DeleteTune', { id = data.id }, function(status)
         cb(status)
     end)
 end)
 
-RegisterNUICallback( 'GetVehHealth', function( data, cb )
+RegisterNUICallback('GetVehHealth', function(data, cb)
     if currentVehicle ~= nil and currentVehicle ~= 0 then
         Callbacks:ServerCallback('mythic_veh:server:GetVehicleHealth', { plate = GetVehicleNumberPlateText(currentVehicle), model = GetEntityModel(currentVehicle) }, function(data)
             print(json.encode(data))
@@ -325,7 +325,7 @@ RegisterNUICallback( 'GetVehHealth', function( data, cb )
     end
 end)
 
-RegisterNUICallback( 'CancelTunerSearch', function( data, cb )
+RegisterNUICallback('CancelTunerSearch', function(data, cb)
     if exports['mythic_base']:FetchComponent('Progress'):CurrentAction() == 'tuner_search_action' then
         exports['mythic_base']:FetchComponent('Progress'):Cancel()
     end

@@ -22,6 +22,6 @@ RegisterNUICallback('NewAd', function(data, cb)
     Callbacks:ServerCallback('mythic_phone:server:NewAd', data, cb)
 end)
 
-RegisterNUICallback( 'DeleteAd', function( data, cb )
+RegisterNUICallback('DeleteAd', function(data, cb)
     Callbacks:ServerCallback('mythic_phone:server:DeleteAd', data, cb)
 end)

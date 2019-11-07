@@ -9,8 +9,7 @@ window.addEventListener('message', function(event) {
             UpdateUnread(event.data.app, event.data.unread);
             break;
         case 'EnableApp':
-            let fuck = Data.GetData('apps');
-            $.each(fuck, function(index, app) {
+            $.each(Data.GetData('apps'), function(index, app) {
                 if (app.container === event.data.app) {
                     Data.UpdateObjectData('apps', 'container', event.data.app, 'enabled', true);
                     return false;
@@ -20,14 +19,20 @@ window.addEventListener('message', function(event) {
             ToggleApp(event.data.app, true);
             break;
         case 'DisableApp':
-            let fuck2 = Data.GetData('apps');
-            $.each(fuck2, function(index, app) {
+            $.each(Data.GetData('apps'), function(index, app) {
                 if (app.container === event.data.app) {
                     Data.UpdateObjectData('apps', 'container', event.data.app, 'enabled', false);
                     return false;
                 }
             });
             ToggleApp(event.data.app, false);
+            break;
+        case 'SyncUnread':
+            $.each(Data.GetData('apps'), function(index, app) {
+                if (event.data.unread[app.container] !== null) {
+                    Data.UpdateObjectData('apps', 'container', app.container, 'unread', event.data.unread[app.container]);
+                }
+            });
             break;
     }
 });
