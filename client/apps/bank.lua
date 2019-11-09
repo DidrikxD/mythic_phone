@@ -58,7 +58,6 @@ function FindNearestBranch()
     local bank = nil
     for k, v in ipairs(banks) do
         local dist = #(vector3(v.x, v.y, v.z) - plyPos)
-        print(dist, shortest, dist < shortest)
         if dist < shortest then
             shortest = dist
             bank = v

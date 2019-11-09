@@ -1,43 +1,54 @@
-local Unreads = {}
-
-function UpdateUnreads(data)
-    Citizen.CreateThread(function()
-        exports['ghmattimysql']:execute('INSERT INTO `phone_unread` (`charid`, `data`) VALUES (@charid, @data) ON DUPLICATE KEY UPDATE `data` = VALUES(`data`)', {
-            ['charid'] = data.charid,
-            ['data'] = data.unread
-        }, function()
-            local player = exports['mythic_base']:FetchComponent('Fetch'):CharId(data.charid)
-
-            if player == nil then
-                Cache:Remove('phone-unreads', data.charid)
-            end
-        end)
-    end)
+function ResetUnreads()
+    local table = {}
+    for k, v in ipairs(Config.Apps) do
+        table[v.container] = 0
+    end
+    return table
 end
 
-RegisterServerEvent('mythic_base:server:Logout')
-AddEventHandler('mythic_base:server:Logout', function()
-    local src = source
-    local mPlayer = exports['mythic_base']:FetchComponent('Fetch'):Source(src)
-    if mPlayer ~= nil then
-        local char = mPlayer:GetData('character')
-        if char ~= nil then
-            exports['ghmattimysql']:execute('UPDATE phone_unread SET data = @data WHERE charid = @charid', { ['data'] = json.encode(Unreads[char:GetData('id')]), ['charid'] = char:GetData('id') })
-        end
-    end
-end)
+-- RegisterServerEvent('mythic_base:server:Logout')
+-- AddEventHandler('mythic_base:server:Logout', function()
+--     local src = source
+--     local mPlayer = exports['mythic_base']:FetchComponent('Fetch'):Source(src)
+--     if mPlayer ~= nil then
+--         local char = mPlayer:GetData('character')
+--         local cid = char:GetData('id')
+--         if char ~= nil then
+--             if Cache:Get('phone-unread')[cid] ~= nil then
+--                 exports['ghmattimysql']:execute('UPDATE phone_unread SET data = @data WHERE charid = @charid', {
+--                     ['data'] = json.encode(Cache:Get('phone-unread')[cid].unread),
+--                     ['charid'] = cid
+--                 }, function(res)
+--                     if res.affectedRows > 0 then
+--                         Cache.Remove:Index('phone-unreads', cid)
+--                     end
+--                 end)
+--             end
+--         end
+--     end
+-- end)
 
 
-AddEventHandler('playerDropped', function()
-    local src = source
-    local mPlayer = exports['mythic_base']:FetchComponent('Fetch'):Source(src)
-    if mPlayer ~= nil then
-        local char = mPlayer:GetData('character')
-        if char ~= nil then
-            exports['ghmattimysql']:execute('UPDATE phone_unread SET data = @data WHERE charid = @charid', { ['data'] = json.encode(Unreads[char:GetData('id')]), ['charid'] = char:GetData('id') })
-        end
-    end
-end)
+-- AddEventHandler('playerDropped', function()
+--     local src = source
+--     local mPlayer = exports['mythic_base']:FetchComponent('Fetch'):Source(src)
+--     if mPlayer ~= nil then
+--         local char = mPlayer:GetData('character')
+--         local cid = char:GetData('id')
+--         if char ~= nil then
+--             if Cache:Get('phone-unread')[cid] ~= nil then
+--                 exports['ghmattimysql']:execute('UPDATE phone_unread SET data = @data WHERE charid = @charid', {
+--                     ['data'] = json.encode(Cache:Get('phone-unread')[cid].unread),
+--                     ['charid'] = cid
+--                 }, function(res)
+--                     if res.affectedRows > 0 then
+--                         Cache.Remove:Index('phone-unreads', cid)
+--                     end
+--                 end)
+--             end
+--         end
+--     end
+-- end)
 
 RegisterServerEvent('mythic_base:server:CharacterSpawned')
 AddEventHandler('mythic_base:server:CharacterSpawned', function()
@@ -47,17 +58,35 @@ AddEventHandler('mythic_base:server:CharacterSpawned', function()
     local unreads = Cache:Get('phone-unread')[char:GetData('id')]
     if unreads == nil then
         exports['ghmattimysql']:scalar('SELECT data FROM phone_unread WHERE charid = @charid', { ['charid'] = char:GetData('id') }, function(unread)
-            if unread ~= nil and json.decode(unread) ~= nil then
-                if  json.decode(unread) ~= nil then
-                    Cache.Add:Key('phone-unread', char:GetData('id'), {
+            if unread ~= nil then
+                if json.decode(unread) ~= nil then
+                    Cache.Add:Index('phone-unread', char:GetData('id'), {
                         charid = char:GetData('id'),
                         unread = json.decode(unread)
                     })
 
                     TriggerClientEvent('mythic_phone:client:SyncUnread', src, json.decode(unread))
+                else
+                    unreads = ResetUnreads()
+                    Cache.Add:Index('phone-unread', char:GetData('id'), {
+                        charid = char:GetData('id'),
+                        unread = unreads
+                    })
+
+                    TriggerClientEvent('mythic_phone:client:SyncUnread', src, unreads)
                 end
+            else
+                unreads = ResetUnreads()
+                Cache.Add:Index('phone-unread', char:GetData('id'), {
+                    charid = char:GetData('id'),
+                    unread = unreads
+                })
+
+                TriggerClientEvent('mythic_phone:client:SyncUnread', src, unreads)
             end
         end)
+    else
+        TriggerClientEvent('mythic_phone:client:SyncUnread', src, unreads)
     end
 end)
 
@@ -67,8 +96,11 @@ AddEventHandler('mythic_base:shared:ComponentsReady', function()
 
     Cache:Set('phone-unread', {}, function(data)
         for k, v in pairs(data) do
-            if v.charid ~= nil and v.data ~= nil then
-                UpdateUnreads(v)
+            if v.charid ~= nil and v.unread ~= nil then
+                exports['ghmattimysql']:execute('INSERT INTO `phone_unread` (`charid`, `data`) VALUES (@charid, @data) ON DUPLICATE KEY UPDATE `data` = VALUES(`data`)', {
+                    ['charid'] = v.charid,
+                    ['data'] = json.encode(v.unread)
+                })
             end
         end
     end)
@@ -82,21 +114,17 @@ AddEventHandler('mythic_base:shared:ComponentsReady', function()
                 if unread ~= nil then
                     unreads = json.decode(unread)
                 else
-                    local template = {}
-                    for k, v in ipairs(Config.Apps) do
-                        template[v.container] = 0
-                    end
-                    unread = template
+                    unread = ResetUnreads()
                 end
             end)
 
-            while unread do
+            while unread == nil do
                 Citizen.Wait(5)
             end
         end
 
         unreads[data.app] = data.unread
-        Cache.Add:Key('phone-unread', data.app, unreads)
+        Cache.Add:Index('phone-unread', data.app, unreads)
         cb(unreads[data.app])
     end)
 end)

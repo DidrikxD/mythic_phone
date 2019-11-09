@@ -191,7 +191,6 @@ function ReceiveText(sender, text) {
 }
 
 window.addEventListener('message-convo-open-app', function(data) {
-    console.log(JSON.stringify(data.detail));
     myNumber = Data.GetData('myData').phone;
     contacts = Data.GetData('contacts');
     messages = Data.GetData('messages');

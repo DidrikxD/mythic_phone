@@ -12,7 +12,6 @@ window.addEventListener('message', function(event) {
 });
 
 function UpdateWallpaper(wallpaper) {
-    console.log(wallpaper);
     $('.phone-screen').css('background-image', wallpaper);
 }
 
@@ -63,14 +62,12 @@ function SetMute(status) {
             .removeClass('not-muted')
             .addClass('muted');
         Data.UpdateData('settings', 'volume', 0);
-        console.log(Data.GetData('settings').volume);
     } else {
         $('.mute').html('<i class="fas fa-volume-up"></i>');
         $('.mute')
             .removeClass('muted')
             .addClass('not-muted');
         Data.UpdateData('settings', 'volume', 100);
-        console.log(Data.GetData('settings').volume);
     }
 }
 

@@ -7,7 +7,8 @@ var Apps = [
         icon: '<i class="fas fa-address-book"></i>',
         color: '#006064',
         unread: 0,
-        enabled: true
+        enabled: true,
+        dumpable: true
     },
     {
         name: 'Phone',
@@ -15,7 +16,8 @@ var Apps = [
         icon: '<i class="fas fa-phone"></i>',
         color: '#01579b',
         unread: 0,
-        enabled: true
+        enabled: true,
+        dumpable: true
     },
     {
         name: 'Messages',
@@ -23,7 +25,8 @@ var Apps = [
         icon: '<i class="fas fa-comment-alt"></i>',
         color: '#311b92',
         unread: 0,
-        enabled: true
+        enabled: true,
+        dumpable: true
     },
     {
         name: 'Bank',
@@ -32,7 +35,8 @@ var Apps = [
         color: '#d7252a',
         unread: 0,
         enabled: true,
-        customExit: true
+        customExit: true,
+        dumpable: true
     },
     {
         name: 'Twitter',
@@ -40,7 +44,8 @@ var Apps = [
         icon: '<i class="fab fa-twitter"></i>',
         color: '#039be5',
         unread: 0,
-        enabled: true
+        enabled: true,
+        dumpable: true
     },
     {
         name: 'Yellow Pages',
@@ -48,23 +53,8 @@ var Apps = [
         icon: '<i class="fas fa-ad"></i>',
         color: '#f9a825',
         unread: 0,
-        enabled: true
-    },
-    {
-        name: 'IRC',
-        container: 'irc',
-        icon: '<i class="fas fa-comment-slash"></i>',
-        color: '#1de9b6',
-        unread: 0,
-        enabled: true
-    },
-    {
-        name: 'Tuner',
-        container: 'tuner',
-        icon: '<i class="fas fa-tools"></i>',
-        color: '#004d40',
-        unread: 0,
-        enabled: true
+        enabled: true,
+        dumpable: true
     },
     {
         name: 'Settings',
@@ -72,8 +62,36 @@ var Apps = [
         icon: '<i class="fas fa-cogs"></i>',
         color: '#404040',
         unread: 0,
-        enabled: true
-    }
+        enabled: true,
+        dumpable: true
+    },
+    {
+        name: 'Dumper',
+        container: 'dumper',
+        icon: '<i class="fas fa-download"></i>',
+        color: 'hsl(333, 100%, 50%)',
+        unread: 0,
+        enabled: true,
+        dumpable: true
+    },
+    {
+        name: 'IRC',
+        container: 'irc',
+        icon: '<i class="fas fa-comment-slash"></i>',
+        color: '#1de9b6',
+        unread: 0,
+        enabled: true,
+        dumpable: true
+    },
+    {
+        name: 'Tuner',
+        container: 'tuner',
+        icon: '<i class="fas fa-tools"></i>',
+        color: '#004d40',
+        unread: 0,
+        enabled: true,
+        dumpable: true
+    },
 ];
 
 export default { ROOT_ADDRESS, Apps };

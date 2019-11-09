@@ -1,3 +1,10 @@
+RegisterNetEvent('mythic_base:client:Logout')
+AddEventHandler('mythic_base:client:Logout', function()
+    SendNUIMessage({
+        action = 'Logout'
+    })
+end)
+
 function GetAppData(app)
     for k, v in pairs(Config.Apps) do
         if v.container == app then
@@ -12,21 +19,6 @@ function SetAppData(app)
             v = app
         end
     end
-end
-
-function UpdateAppUnread(app, unread)
-    for k, v in pairs(Config.Apps) do
-        if v.container == app then
-            v.unread = unread
-            break
-        end
-    end
-    
-    SendNUIMessage({
-        action = 'updateUnread',
-        app = app,
-        unread = unread
-    })
 end
 
 RegisterNUICallback('ClearUnread', function(data, cb)

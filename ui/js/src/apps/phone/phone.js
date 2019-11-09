@@ -283,7 +283,6 @@ function SetupCallType() {
 }
 
 function CreateCall(number, nonStandard, receiver) {
-    console.log(number);
     $.post(
         Config.ROOT_ADDRESS + '/CreateCall',
         JSON.stringify({

@@ -11,6 +11,13 @@ var activeCallDigits = new Object();
 
 window.addEventListener('message', function(event) {
     switch (event.data.action) {
+        case 'receiveCall':
+            App.OpenApp(
+                'phone-call',
+                { number: event.data.number, receiver: true },
+                false
+            );
+            break;
         case 'acceptCallSender':
             CallAnswered();
             break;

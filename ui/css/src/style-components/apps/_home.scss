@@ -59,3 +59,36 @@
         }
     }
 }
+
+.unread-alert {
+    display: block;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    height: fit-content;
+    max-width: 35%;
+    text-align: right;
+    z-index: -999;
+
+    .app-button {
+        width: 80px;
+        text-align: center;
+        color: $primary;
+
+        .app-icon {
+            height: 60px;
+            width: 60px;
+            font-size: 30px;
+            margin: 10px;
+            border-radius: 10px;
+            color: $primary;
+            text-shadow: 0 0 10px #000000;
+
+            i {
+                text-align: center;
+                vertical-align: middle;
+                line-height: 60px;
+            }
+        }
+    }
+}

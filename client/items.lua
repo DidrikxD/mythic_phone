@@ -1,6 +1,5 @@
 RegisterNetEvent('mythic_phone:client:UseSDCard')
 AddEventHandler('mythic_phone:client:UseSDCard', function(app)
-    print(GetPedBoneIndex(PlayerPedId(), 28422))
     exports['mythic_base']:FetchComponent('Progress'):Progress({
         name = "install_app_action",
         duration = 10000,

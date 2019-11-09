@@ -42,7 +42,7 @@ window.addEventListener('message-open-app', function(data) {
     $.post(
         Config.ROOT_ADDRESS + '/ClearUnread',
         JSON.stringify({
-            app: 'messages'
+            app: 'message'
         })
     );
 

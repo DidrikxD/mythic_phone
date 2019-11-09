@@ -5,6 +5,9 @@ var apps = null;
 
 window.addEventListener('message', function(event) {
     switch (event.data.action) {
+        case 'Logout':
+            window.dispatchEvent(new CustomEvent('reset-closed-notifs'));
+            break;
         case 'updateUnread':
             UpdateUnread(event.data.app, event.data.unread);
             break;
@@ -34,6 +37,9 @@ window.addEventListener('message', function(event) {
                 }
             });
             break;
+        case 'AddClosedAlert':
+            AddClosedAlert(event.data.app);
+            break;
     }
 });
 
@@ -42,9 +48,29 @@ $('.phone-screen').on('click', '#home-container .app-button', function(event) {
     App.OpenApp(app.container, null, false, false, app.customExit);
 });
 
-window.addEventListener('home-open-app', function() {
-    SetupApp();
+window.addEventListener('remove-closed-notif', function(data) {
+    $(`#${data.detail.app}-unread-notif`).fadeOut('normal').promise().then(function() {
+        $(this).remove();
+    });
 });
+
+window.addEventListener('reset-closed-notifs', function() {
+    $('.unread-alert').find('.app-button').fadeOut('normal').promise().then(function() {
+        $(this).remove();
+    });
+});
+
+function AddClosedAlert(notif) {
+    apps = Data.GetData('apps');
+
+    $.each(apps, function(index, app) {
+        if (app.container === notif) {
+            $('.unread-alert').append(
+                `<div class="app-button" id="${app.container}-unread-notif"><div class="app-icon" id="${app.container}-app" style="background-color: ${app.color}"> ${app.icon}</div></div>`
+            );
+        }
+    });
+}
 
 function SetupApp() {
     apps = Data.GetData('apps');
@@ -52,29 +78,11 @@ function SetupApp() {
         if (app.enabled) {
             if (app.unread > 0) {
                 $('.inner-app').append(
-                    '<div class="app-button" data-tooltip="' +
-                        app.name +
-                        '"><div class="app-icon" id="' +
-                        app.container +
-                        '-app" style="background-color: ' +
-                        app.color +
-                        '"> ' +
-                        app.icon +
-                        '<div class="badge pulse">' +
-                        app.unread +
-                        '</div></div></div>'
+                    `<div class="app-button" data-tooltip="${app.name}"><div class="app-icon" id="${app.container}-app" style="background-color: ${app.color}"> ${app.icon}<div class="badge pulse">${app.unread}</div></div></div>`
                 );
             } else {
                 $('.inner-app').append(
-                    '<div class="app-button" data-tooltip="' +
-                        app.name +
-                        '"><div class="app-icon" id="' +
-                        app.container +
-                        '-app" style="background-color: ' +
-                        app.color +
-                        '"> ' +
-                        app.icon +
-                        '</div></div>'
+                    `<div class="app-button" data-tooltip="${app.name}"><div class="app-icon" id="${app.container}-app" style="background-color: ${app.color}"> ${app.icon}</div></div>`
                 );
             }
             let $app = $('#home-container .app-button:last-child');
@@ -109,6 +117,10 @@ function UpdateUnread(name, unread) {
         apps = Data.GetData('apps');
     }
 
+    if (App.GetCurrentApp() === name && unread > 0) {
+        return;
+    }
+
     $.each(apps, function(index, app) {
         if (app.container == name) {
             app.unread = unread;
@@ -122,5 +134,9 @@ function UpdateUnread(name, unread) {
         SetupApp();
     }
 }
+
+window.addEventListener('home-open-app', function() {
+    SetupApp();
+});
 
 export default { ToggleApp, UpdateUnread };

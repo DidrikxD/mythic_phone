@@ -19,14 +19,21 @@ local PendingInstalls = {}
 RegisterServerEvent('mythic_phone:server:StartInstallApp')
 AddEventHandler('mythic_phone:server:StartInstallApp', function(source, item)
     local data = json.decode(item.metadata)
-    local app = data.app
 
-    PendingInstalls[source] = {
-        app = app,
-        item = item
-    }
+    if data ~= nil and data.app ~= nil then
+        local app = data.app
 
-    TriggerClientEvent('mythic_phone:client:UseSDCard', source, app)
+        PendingInstalls[source] = {
+            app = app,
+            item = item
+        }
+
+        TriggerClientEvent('mythic_phone:client:UseSDCard', source, app)
+    else
+        local char = exports['mythic_base']:FetchComponent('Fetch'):Source(source):GetData('character')
+
+        -- char.Inventory.Move
+    end
 end)
 
 RegisterServerEvent('mythic_phone:server:FinishInstallApp')
@@ -39,7 +46,7 @@ AddEventHandler('mythic_phone:server:FinishInstallApp', function()
         exports['ghmattimysql']:scalar('SELECT app FROM phone_installed_apps WHERE charid = @charid AND app = @app', { ['charid'] = char:GetData('id'), ['app'] = app.app }, function(installed)
             if installed == nil then
                 exports['ghmattimysql']:execute('INSERT INTO phone_installed_apps (charid, app) VALUES(@charid, @app)', { ['charid'] = char:GetData('id'), ['app'] = app.app }, function(res)
-                    char:removeItem(app.item.id, 1, function()
+                    char.Inventory.Remove:Personal(app.item.id, 1, function()
                         TriggerClientEvent('mythic_phone:client:EnableApp', src, app.app)
                         TriggerClientEvent('mythic_notify:client:SendAlert', src, { type = 'success', text = app.app .. ' Installed' })
                     end)

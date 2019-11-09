@@ -71,12 +71,8 @@ window.addEventListener('message', function(event) {
         case 'hide':
             ClosePhone();
             break;
-        case 'receiveCall':
-            OpenApp(
-                'phone-call',
-                { number: event.data.number, receiver: true },
-                false
-            );
+        case 'SetServerID':
+            $('.player-id span').html(event.data.id);
             break;
     }
 });
@@ -198,6 +194,7 @@ function SetupApp(app, data, pop, disableFade, exit) {
             });
         
             $('.material-tooltip').remove();
+            window.dispatchEvent(new CustomEvent(`remove-closed-notif`, { detail: { app: app }}));
             window.dispatchEvent(new CustomEvent(`${app}-open-app`, { detail: data }));
             
             $('#screen-content').show();
