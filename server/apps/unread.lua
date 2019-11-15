@@ -123,8 +123,11 @@ AddEventHandler('mythic_base:shared:ComponentsReady', function()
             end
         end
 
-        unreads[data.app] = data.unread
-        Cache.Add:Index('phone-unread', data.app, unreads)
-        cb(unreads[data.app])
+        if unreads.unread[data.app] ~= data.unread then
+            unreads.unread[data.app] = data.unread
+            Cache.Update:Index('phone-unread', char:GetData('id'), unreads)
+        end
+
+        cb(unreads.unread[data.app])
     end)
 end)

@@ -1,5 +1,6 @@
 import App from '../app';
 import Data from '../utils/data';
+import Config from '../config';
 
 var apps = null;
 
@@ -123,16 +124,21 @@ function UpdateUnread(name, unread) {
 
     $.each(apps, function(index, app) {
         if (app.container == name) {
-            app.unread = unread;
+            $.post(Config.ROOT_ADDRESS + '/SetUnread', JSON.stringify({
+                app: name,
+                unread: unread
+            }), function(status) {
+                if (status != null) {
+                    app.unread = unread;
+                    Data.StoreData('apps', apps);
+                    if (App.GetCurrentApp() === 'home') {
+                        SetupApp();
+                    }
+                }
+            });
             return false;
         }
     });
-
-    Data.StoreData('apps', apps);
-
-    if (App.GetCurrentApp() === 'home') {
-        SetupApp();
-    }
 }
 
 window.addEventListener('home-open-app', function() {
