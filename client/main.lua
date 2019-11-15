@@ -28,6 +28,13 @@ AddEventHandler('playerSpawned', function()
   })
 end)
 
+RegisterNetEvent('mythic_base:client:Logout')
+AddEventHandler('mythic_base:client:Logout', function()
+  SendNUIMessage({
+      action = 'Logout'
+  })
+end)
+
 RegisterNetEvent('mythic_base:client:CharacterDataChanged')
 AddEventHandler('mythic_base:client:CharacterDataChanged', function(charData)
     CharData = charData

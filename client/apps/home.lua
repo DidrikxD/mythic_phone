@@ -1,10 +1,3 @@
-RegisterNetEvent('mythic_base:client:Logout')
-AddEventHandler('mythic_base:client:Logout', function()
-    SendNUIMessage({
-        action = 'Logout'
-    })
-end)
-
 function GetAppData(app)
     for k, v in pairs(Config.Apps) do
         if v.container == app then

@@ -57,10 +57,14 @@
                 }
 
                 .header-left {
-                    .mute {
-                        &:hover {
-                            transition: all ease-in 0.15s;
-                            filter: brightness(60%);
+                    span {
+                        margin-right: 3px;
+
+                        &.mute {
+                            &:hover {
+                                transition: all ease-in 0.15s;
+                                filter: brightness(60%);
+                            }
                         }
                     }
                 }
@@ -86,23 +90,29 @@
                 .header-right {
                     text-align: right;
 
-                    .simcard {
-                        color: color('materialize-red', 'lighten-1');
+                    span {
+                        margin-left: 3px;
+
+                        &.simcard {
+                            display: none;
+                            color: color('materialize-red', 'lighten-1');
+        
+                            &:hover {
+                                transition: all ease-in 0.15s;
+                                filter: brightness(60%);
+                            }
+                        }
     
-                        &:hover {
-                            transition: all ease-in 0.15s;
-                            filter: brightness(60%);
-                        }
-                    }
-
-                    .sdcard {
-                        &.advanced {
-                            color: color('amber', 'darken-4')
-                        }
-
-                        &:hover {
-                            transition: all ease-in 0.15s;
-                            filter: brightness(60%);
+                        &.sdcard {
+                            display: none;
+                            &.advanced {
+                                color: color('amber', 'darken-4')
+                            }
+    
+                            &:hover {
+                                transition: all ease-in 0.15s;
+                                filter: brightness(60%);
+                            }
                         }
                     }
                 }
@@ -155,7 +165,7 @@
                     }
                 }
 
-                #remove-sim-conf {
+                #remove-sim-conf, #remove-sdcard-conf {
                     position: absolute;
                     right: 0 !important;
                 }

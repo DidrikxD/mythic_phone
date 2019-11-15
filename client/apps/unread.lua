@@ -25,11 +25,15 @@ AddEventHandler('mythic_phone:client:SyncUnread', function(unreads)
     for k, v in ipairs(Config.Apps) do
         v.unread = unreads[v.container]
 
-        if unreads[v.container] > 0 then
-            SendNUIMessage({
-                action = 'AddClosedAlert',
-                app = v.container
-            })
+        if unreads[v.container] ~= nil then
+            if unreads[v.container] > 0 then
+                SendNUIMessage({
+                    action = 'AddClosedAlert',
+                    app = v.container
+                })
+            end
+        else
+            print(v.container)
         end
     end
 
