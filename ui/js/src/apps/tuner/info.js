@@ -3,10 +3,10 @@ import Config from '../../config';
 import Data from '../../utils/data';
 import Notif from '../../utils/notification';
 
-window.addEventListener('tuner-info-open-app', function() {
+window.addEventListener('tuner-info-open-app', () => {
     let veh = Data.GetData('currentVeh');
 
-    $.post(Config.ROOT_ADDRESS + '/GetVehHealth', JSON.stringify({}), function(data) {
+    $.post(Config.ROOT_ADDRESS + '/GetVehHealth', JSON.stringify({}), (data) => {
         $('#model-value').html(veh.name);
         $('#plate-value').html(veh.plate);
 
@@ -25,7 +25,7 @@ window.addEventListener('tuner-info-open-app', function() {
     })
 });
 
-window.addEventListener('tuner-info-close-app', function() {
+window.addEventListener('tuner-info-close-app', () => {
     
 });
 

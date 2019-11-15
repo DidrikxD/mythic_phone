@@ -7,14 +7,14 @@ import Phone from './phone/phone';
 
 var ads = null;
 
-$('#screen-content').on('keyup', '#yp-search input', function (e) {
-    e.preventDefault();
+$('#screen-content').on('keyup', '#yp-search input', function (event) {
+    event.preventDefault();
 
-    let searchVal = $(this).val().toUpperCase();
+    let searchVal = $(e.currentTarget).val().toUpperCase();
 
     if (searchVal !== '') {
         $.each(
-            $(this)
+            $(event.currentTarget)
                 .parent()
                 .parent()
                 .find('#yp-body')
@@ -36,7 +36,7 @@ $('#screen-content').on('keyup', '#yp-search input', function (e) {
         );
     } else {
         $.each(
-            $(this)
+            $(event.currentTarget)
                 .parent()
                 .parent()
                 .find('#yp-body')
@@ -48,15 +48,15 @@ $('#screen-content').on('keyup', '#yp-search input', function (e) {
     }
 });
 
-$('#screen-content').on('click', '#yp-body .yp-phone', function (e) {
-    if ($(this).html() != Data.GetData('myData').phone) {
+$('#screen-content').on('click', '#yp-body .yp-phone', function (event) {
+    if ($(event.currentTarget).html() != Data.GetData('myData').phone) {
         App.OpenApp('phone', null, false);
-        Phone.CreateCall($(this).html(), false, false);
+        Phone.CreateCall($(event.currentTarget).html(), false, false);
     }
 });
 
-$('#screen-content').on('click', '#delete-ad', function (e) {
-    $.post(Config.ROOT_ADDRESS + '/DeleteAd', JSON.stringify({}), function() {
+$('#screen-content').on('click', '#delete-ad', function (event) {
+    $.post(Config.ROOT_ADDRESS + '/DeleteAd', JSON.stringify({}), () => {
         $('#yp-body').find('.yp-post-owned').fadeOut('normal', function () {
             $('#yp-body').find('.yp-post-owned').remove();
             Notif.Alert('Advertisement Deleted');
@@ -65,9 +65,9 @@ $('#screen-content').on('click', '#delete-ad', function (e) {
     });
 });
 
-$('#screen-content').on('submit', '#new-advert', function (e) {
+$('#screen-content').on('submit', '#new-advert', function (event) {
     e.preventDefault();
-    let data = $(this).serializeArray();
+    let data = $(event.currentTarget).serializeArray();
 
     let myData = Data.GetData('myData');
     let date = Date.now();
@@ -123,7 +123,7 @@ function UpdateAdvertData(targetId, newData) {
         ads = Data.GetData('adverts');
     }
 
-    $.each(ads, function(index, data) {
+    $.each(ads, (index, data) => {
         if (data.id === targetId) {
             Data.UpdateData('adverts', index, newData);
             return;
@@ -136,7 +136,7 @@ function DeleteAdvertData(id) {
         ads = Data.GetData('adverts');
     }
 
-    $.each(ads, function(index, data) {
+    $.each(ads, (index, data) => {
         if (data.id === id) {
             Data.RemoveData('adverts', index);
             return;
@@ -154,7 +154,7 @@ function ReceiveNewAdvert(advert) {
 function DeleteAdvert(id) {
     if ($(`#advert-${id}`).length < 1) {
         if (App.GetCurrentApp() === 'ads') {
-            $(`#advert-${id}`).fadeOut('normal', function() {
+            $(`#advert-${id}`).fadeOut('normal', () => {
                 $(`#advert-${id}`).remove();
             });
         } else {
@@ -165,7 +165,7 @@ function DeleteAdvert(id) {
     }
 }
 
-window.addEventListener('yp-open-app', function() {
+window.addEventListener('yp-open-app', () => {
     let phone = Data.GetData('myData').phone;
     ads = Data.GetData('adverts');
 

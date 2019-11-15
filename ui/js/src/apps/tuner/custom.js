@@ -42,14 +42,14 @@ function SetSliders(boost, tranny, suspension, brakes, dt) {
     }
 }
 
-$('#screen-content').on('click', '#tuner-custom-reset', function(e) {
+$('#screen-content').on('click', '#tuner-custom-reset', (e) => {
     SetSliders(0, 5, 5, 5, 5);
     Notif.Alert('Tune Reset');
 })
 
-$('#screen-content').on('submit', '#new-tune', function(e) {
-    e.preventDefault();
-    let data = $(this).serializeArray();
+$('#screen-content').on('submit', '#new-tune', (event) => {
+    event.preventDefault();
+    let data = $(event.currentTarget).serializeArray();
 
     $.post(Config.ROOT_ADDRESS + '/SaveTune', JSON.stringify({
         label: data[0].value,
@@ -60,7 +60,7 @@ $('#screen-content').on('submit', '#new-tune', function(e) {
         tranny: sliders.tranny.noUiSlider.get(),
         brakes: sliders.brakes.noUiSlider.get(),
         dt: sliders.dt.noUiSlider.get()
-    }), function(tune) {
+    }), (tune) => {
         if (tune != null) {
             $('#new-tune')[0].reset();
             Data.AddData('custom-tunes', tune);
@@ -72,7 +72,7 @@ $('#screen-content').on('submit', '#new-tune', function(e) {
     });
 })
 
-$('#screen-content').on('click', '#tuner-custom-saved', function() {
+$('#screen-content').on('click', '#tuner-custom-saved', () => {
     let tunes = Data.GetData('custom-tunes');
     let factory = Data.GetData('factory-tunes');
     $('#custom-tunes-popup').find('#car-only').html('');
@@ -101,23 +101,22 @@ $('#screen-content').on('click', '#tuner-custom-saved', function() {
     M.Modal.getInstance($('#custom-tunes-popup')).open();
 });
 
-$('#screen-content').on('click', '#custom-tunes-popup .quick-tune-button', function(e) {
-    let tune = $(this).data('tune');
+$('#screen-content').on('click', '#custom-tunes-popup .quick-tune-button', (event) => {
+    let tune = $(event.currentTarget).data('tune');
     SetSliders(tune.boost, tune.tranny, tune.suspension, tune.brakes, tune.dt);
     Notif.Alert('Tune Loaded, Press Apply To Apply It');
     M.Modal.getInstance($('#custom-tunes-popup')).close();
 });
 
-$('#screen-content').on('click', '#custom-tunes-popup .quick-tune-delete', function(e) {
-    let fuck = this;
-    let tune = $(fuck).parent().find('.quick-tune-button').data('tune');
+$('#screen-content').on('click', '#custom-tunes-popup .quick-tune-delete', (event) => {
+    let tune = $(event.currentTarget).parent().find('.quick-tune-button').data('tune');
 
     $.post(Config.ROOT_ADDRESS + '/DeleteTune', JSON.stringify({
         id: tune.id
-    }), function(status) {
+    }), (status) => {
         if (status) {
             Data.RemoveObjectData('custom-tunes', 'id', tune.id);
-            $(fuck).remove();
+            $(event.currentTarget).remove();
             M.Modal.getInstance($('#custom-tunes-popup')).close();
             Notif.Alert('Tune Deleted');
         } else {
@@ -126,16 +125,16 @@ $('#screen-content').on('click', '#custom-tunes-popup .quick-tune-delete', funct
     })
 });
 
-$('#screen-content').on('click', '#tuner-custom-quick', function() {
+$('#screen-content').on('click', '#tuner-custom-quick', () => {
     App.OpenApp('tuner-quick', null, false, true);
 });
 
-$('#screen-content').on('click', '#tuner-custom-apply', function() {
+$('#screen-content').on('click', '#tuner-custom-apply', () => {
     ApplyTune();
 });
 
 function CreateSavedTuneList(element, tunes, removeDelete = false) {
-    $.each(tunes, function(index, tune) {
+    $.each(tunes, (index, tune) => {
         element.append(`
             <div class="tuner-options">
                 <button type="button" class="btn waves-effect waves-light teal darken-4 quick-tune-button">${tune.label}</button>
@@ -174,7 +173,7 @@ function ApplyTune(tune = null) {
         tranny: tranny,
         brakes: brakes,
         dt: dt
-    }), function(status) {
+    }), (status) => {
         if (status) {
             let veh = Data.GetData('currentVeh');
             veh.tune.active = {
@@ -192,7 +191,7 @@ function ApplyTune(tune = null) {
     });
 }
 
-window.addEventListener('tuner-custom-open-app', function(data) {
+window.addEventListener('tuner-custom-open-app', (data) => {
     sliders = {
         boost: document.getElementById('slider-boost'),
         suspension: document.getElementById('slider-suspension'),
@@ -215,7 +214,7 @@ window.addEventListener('tuner-custom-open-app', function(data) {
     $('#tuner-custom-container .inner-app').fadeIn();
 });
 
-window.addEventListener('tuner-custom-close-app', function() {
+window.addEventListener('tuner-custom-close-app', () => {
     $('#tuner-custom-container .inner-app').fadeOut();
 });
 

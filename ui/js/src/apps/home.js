@@ -4,7 +4,7 @@ import Config from '../config';
 
 var apps = null;
 
-window.addEventListener('message', function(event) {
+window.addEventListener('message', (event) => {
     switch (event.data.action) {
         case 'Logout':
             window.dispatchEvent(new CustomEvent('reset-closed-notifs'));
@@ -13,7 +13,7 @@ window.addEventListener('message', function(event) {
             UpdateUnread(event.data.app, event.data.unread);
             break;
         case 'EnableApp':
-            $.each(Data.GetData('apps'), function(index, app) {
+            $.each(Data.GetData('apps'), (index, app) => {
                 if (app.container === event.data.app) {
                     Data.UpdateObjectData('apps', 'container', event.data.app, 'enabled', true);
                     return false;
@@ -23,7 +23,7 @@ window.addEventListener('message', function(event) {
             ToggleApp(event.data.app, true);
             break;
         case 'DisableApp':
-            $.each(Data.GetData('apps'), function(index, app) {
+            $.each(Data.GetData('apps'), (index, app) => {
                 if (app.container === event.data.app) {
                     Data.UpdateObjectData('apps', 'container', event.data.app, 'enabled', false);
                     return false;
@@ -32,7 +32,7 @@ window.addEventListener('message', function(event) {
             ToggleApp(event.data.app, false);
             break;
         case 'SyncUnread':
-            $.each(Data.GetData('apps'), function(index, app) {
+            $.each(Data.GetData('apps'), (index, app) => {
                 if (event.data.unread[app.container] !== null) {
                     Data.UpdateObjectData('apps', 'container', app.container, 'unread', event.data.unread[app.container]);
                 }
@@ -45,18 +45,18 @@ window.addEventListener('message', function(event) {
 });
 
 $('.phone-screen').on('click', '#home-container .app-button', function(event) {
-    let app = $(this).data('app');
+    let app = $(event.currentTarget).data('app');
     App.OpenApp(app.container, null, false, false, app.customExit);
 });
 
-window.addEventListener('remove-closed-notif', function(data) {
-    $(`#${data.detail.app}-unread-notif`).fadeOut('normal').promise().then(function() {
+window.addEventListener('remove-closed-notif', (data) => {
+    $(`#${data.detail.app}-unread-notif`).fadeOut('normal').promise().then(() => {
         $(this).remove();
     });
 });
 
-window.addEventListener('reset-closed-notifs', function() {
-    $('.unread-alert').find('.app-button').fadeOut('normal').promise().then(function() {
+window.addEventListener('reset-closed-notifs', () => {
+    $('.unread-alert').find('.app-button').fadeOut('normal').promise().then(() => {
         $(this).remove();
     });
 });
@@ -64,7 +64,7 @@ window.addEventListener('reset-closed-notifs', function() {
 function AddClosedAlert(notif) {
     apps = Data.GetData('apps');
 
-    $.each(apps, function(index, app) {
+    $.each(apps, (index, app) => {
         if (app.container === notif) {
             $('.unread-alert').append(
                 `<div class="app-button" id="${app.container}-unread-notif"><div class="app-icon" id="${app.container}-app" style="background-color: ${app.color}"> ${app.icon}</div></div>`
@@ -75,7 +75,7 @@ function AddClosedAlert(notif) {
 
 function SetupApp() {
     apps = Data.GetData('apps');
-    $.each(apps, function(index, app) {
+    $.each(apps, (index, app) => {
         if (app.enabled) {
             if (app.unread > 0) {
                 $('.inner-app').append(
@@ -122,12 +122,12 @@ function UpdateUnread(name, unread) {
         return;
     }
 
-    $.each(apps, function(index, app) {
+    $.each(apps, (index, app) => {
         if (app.container == name) {
             $.post(Config.ROOT_ADDRESS + '/SetUnread', JSON.stringify({
                 app: name,
                 unread: unread
-            }), function(status) {
+            }), (status) => {
                 if (status != null) {
                     app.unread = unread;
                     Data.StoreData('apps', apps);
@@ -141,7 +141,7 @@ function UpdateUnread(name, unread) {
     });
 }
 
-window.addEventListener('home-open-app', function() {
+window.addEventListener('home-open-app', () => {
     SetupApp();
 });
 

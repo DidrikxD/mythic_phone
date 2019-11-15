@@ -1,6 +1,6 @@
 import Data from './data';
 
-window.addEventListener('message', function(event) {
+window.addEventListener('message', (event) => {
     switch (event.data.action) {
         case 'setmute':
             SetMute(event.data.muted);

@@ -22,28 +22,28 @@ moment.fn.fromNowOrNow = function(a) {
     return this.fromNow(a);
 };
 
-// $(function() {
-//     $('.wrapper').fadeIn();
-//     Data.ClearData();
-//     Data.SetupData([
-//         { name: 'myData', data: Test.PlayerDetails },
-//         { name: 'settings', data: Test.Settings },
-//         { name: 'contacts', data: Test.Contacts },
-//         { name: 'messages', data: Test.Messages },
-//         { name: 'history', data: Test.Calls },
-//         { name: 'apps', data: Config.Apps },
-//         { name: 'tweets', data: Test.Tweets },
-//         { name: 'adverts', data: Test.Adverts },
-//         { name: 'factory-tunes', data: Test.FactoryTunes },
-//         { name: 'custom-tunes', data: Test.Tunes },
-//         { name: 'bank-accounts', data: Test.Accounts },
-//         { name: 'irc-messages', data: Test.IRCMessages }
-//     ]);
+$(function() {
+    $('.wrapper').fadeIn();
+    Data.ClearData();
+    Data.SetupData([
+        { name: 'myData', data: Test.PlayerDetails },
+        { name: 'settings', data: Test.Settings },
+        { name: 'contacts', data: Test.Contacts },
+        { name: 'messages', data: Test.Messages },
+        { name: 'history', data: Test.Calls },
+        { name: 'apps', data: Config.Apps },
+        { name: 'tweets', data: Test.Tweets },
+        { name: 'adverts', data: Test.Adverts },
+        { name: 'factory-tunes', data: Test.FactoryTunes },
+        { name: 'custom-tunes', data: Test.Tunes },
+        { name: 'bank-accounts', data: Test.Accounts },
+        { name: 'irc-messages', data: Test.IRCMessages }
+    ]);
 
-//     OpenApp('home', null, true);
-// });
+    OpenApp('home', null, true);
+});
 
-window.addEventListener('message', function(event) {
+window.addEventListener('message', (event) => {
     switch (event.data.action) {
         case 'show':
             $('.wrapper').show('slide', { direction: 'down' }, 500);
@@ -101,43 +101,43 @@ $(function() {
     };
 });
 
-$('.phone-header').on('click', '.in-call', function(e) {
+$('.phone-header').on('click', '.in-call', (e) => {
     if (appTrail[appTrail.length - 1].app != 'phone-call') {
         OpenApp('phone-call', null, false);
     }
 });
 
-$('.phone').on('click', '.back-button', function(e) {
-    if (!$(this).hasClass('disabled')) {
+$('.phone').on('click', '.back-button', (event) => {
+    if (!$(event.currentTarget).hasClass('disabled')) {
         $('.footer-button').addClass('disabled');
         GoBack();
     }
 });
 
-$('.phone').on('click', '.home-button', function(e) {
-    if (!$(this).hasClass('disabled')) {
+$('.phone').on('click', '.home-button', (event) => {
+    if (!$(event.currentTarget).hasClass('disabled')) {
         $('.footer-button').addClass('disabled');
         GoHome();
     }
 });
 
-$('.phone').on('click', '.close-button', function(e) {
+$('.phone').on('click', '.close-button', (e) => {
     ClosePhone();
 });
 
-$('#remove-sim-card').on('click', function(e) {
+$('#remove-sim-card').on('click', (e) => {
     let modal = M.Modal.getInstance($('#remove-sim-conf'));
     modal.close();
     Utils.NotifyAltSim(false);
     Notif.Alert('Sim Removed');
 });
 
-$('.mute').on('click', function(e) {
+$('.mute').on('click', (e) => {
     let volume = Data.GetData('settings').volume;
     
     $.post(Config.ROOT_ADDRESS + '/ToggleMute', JSON.stringify({
         muted: volume === 0 ? false : true
-    }), function(status) {
+    }), (status) => {
         if (status) {
             Data.UpdateData('settings', 'volume', volume === 0 ? 100 : 0);
             Utils.SetMute(volume !== 0);
@@ -147,7 +147,7 @@ $('.mute').on('click', function(e) {
 
 function ClosePhone() {
     $.post(Config.ROOT_ADDRESS + '/ClosePhone', JSON.stringify({}));
-    $('.wrapper').hide('slide', { direction: 'down' }, 500, function() {  
+    $('.wrapper').hide('slide', { direction: 'down' }, 500, () => {  
         $('#screen-content').trigger(`${appTrail[appTrail.length - 1].app}-close-app`);
         $('#toast-container').remove();
         $('.material-tooltip').remove();
@@ -203,11 +203,11 @@ function SetupApp(app, data, pop, disableFade, exit) {
     });
 }
 
-window.addEventListener('custom-close-finish', function(data) {
+window.addEventListener('custom-close-finish', (data) => {
     if (data.detail.disableFade) {
         SetupApp(data.detail.app, data.detail.data, data.detail.pop, data.detail.disableFade, data.detail.customExit);
     } else {
-        $('#screen-content').fadeOut('fast', function() {
+        $('#screen-content').fadeOut('fast', () => {
             SetupApp(data.detail.app, data.detail.data, data.detail.pop, data.detail.disableFade, data.detail.customExit);
         });
     }
@@ -225,7 +225,7 @@ function OpenApp(app, data = null, pop = false, disableFade = false, customExit 
         if (appTrail[appTrail.length - 1].close) {
             window.dispatchEvent(new CustomEvent(`${appTrail[appTrail.length - 1].app}-custom-close-app`, { detail: { app: app, data: data, pop: pop, disableFade: disableFade, customExit: customExit } }));
         } else {
-            $('#screen-content').fadeOut('fast', function() {
+            $('#screen-content').fadeOut('fast', () => {
                 SetupApp(app, data, pop, disableFade, customExit);
             });
         }

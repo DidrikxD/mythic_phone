@@ -12,20 +12,20 @@ var history = null;
 
 var delHold = null;
 
-$('#screen-content').on('click', '.phone-nav-button', function(e) {
-    if (!$(this).hasClass('active-nav')) {
+$('#screen-content').on('click', '.phone-nav-button', (event) => {
+    if (!$(event.currentTarget).hasClass('active-nav')) {
         let activeSection = $('.active-nav').data('nav');
         $('.active-nav').removeClass('active-nav');
 
-        let section = $(this).data('nav');
-        $(this).addClass('active-nav');
-        $('[data-section=' + activeSection + ']').fadeOut('fast', function() {
+        let section = $(event.currentTarget).data('nav');
+        $(event.currentTarget).addClass('active-nav');
+        $('[data-section=' + activeSection + ']').fadeOut('fast', () => {
             $('[data-section=' + section + ']').fadeIn();
         });
     }
 });
 
-$('#screen-content').on('click', '[data-section=keypad] .keypad-top .delete-num-btn', function(e) {
+$('#screen-content').on('click', '[data-section=keypad] .keypad-top .delete-num-btn', (e) => {
     let number = $('.keypad-top #number').val();
     if (number.length > 0) {
         let delNum = number.substring(0, number.length - 1);
@@ -38,7 +38,7 @@ $('#screen-content').on('click', '[data-section=keypad] .keypad-top .delete-num-
     SetupCallType();
 });
 
-$('#screen-content').on('mousedown', '[data-section=keypad] .keypad-top .delete-num-btn', function(e) {
+$('#screen-content').on('mousedown', '[data-section=keypad] .keypad-top .delete-num-btn', (e) => {
         let number = $('.keypad-top #number').val();
         delHold = setInterval(function() {
             if (number.length > 0) {
@@ -56,9 +56,9 @@ $('#screen-content').on('mousedown', '[data-section=keypad] .keypad-top .delete-
     }
 );
 
-$('#screen-content').on('submit', '[data-section=keypad] #call-number', function(e) {
-    e.preventDefault();
-    let data = $(this).serializeArray();
+$('#screen-content').on('submit', '[data-section=keypad] #call-number', (event) => {
+    event.preventDefault();
+    let data = $(event.currentTarget).serializeArray();
     CreateCall(
         data[1].value,
         data[0].value === '#' || data[0].value === '*',
@@ -71,9 +71,9 @@ $(document).mouseup(function() {
     return false;
 });
 
-$('#screen-content').on('click', '[data-section=keypad] .keypad-key', function(e) {
-    if (!$(this).hasClass('key-call')) {
-        let key = $(this).data('value');
+$('#screen-content').on('click', '[data-section=keypad] .keypad-key', (event) => {
+    if (!$(event.currentTarget).hasClass('key-call')) {
+        let key = $(event.currentTarget).data('value');
         let exist = $('.keypad-top #number').val();
         if (key === '#' || key === '*') {
             if ($('.keypad-top #type').val() === key) {
@@ -96,28 +96,28 @@ $('#screen-content').on('click', '[data-section=keypad] .keypad-key', function(e
         .focus();
 });
 
-$('#screen-content').on('click', '[data-section=history] .call', function(event) {
+$('#screen-content').on('click', '[data-section=history] .call', (event) => {
     if (
-        $(this)
+        $(event.currentTarget)
             .find('.call-actions')
             .is(':visible')
     ) {
-        $(this)
+        $(event.currentTarget)
             .find('.call-actions')
             .slideUp();
     } else {
-        $(this)
+        $(event.currentTarget)
             .parent()
             .find('.call-actions')
             .slideUp();
-        $(this)
+        $(event.currentTarget)
             .find('.call-actions')
             .slideDown();
     }
 });
 
-$('#screen-content').on('click', '[data-section=history] .call-actions .call-action-call', function(e) {
-        let data = $(this)
+$('#screen-content').on('click', '[data-section=history] .call-actions .call-action-call', (event) => {
+        let data = $(event.currentTarget)
             .parent()
             .parent()
             .data('data');
@@ -129,8 +129,8 @@ $('#screen-content').on('click', '[data-section=history] .call-actions .call-act
     }
 );
 
-$('#screen-content').on('click', '[data-section=history] .call-actions .call-action-text', function(e) {
-        let data = $(this)
+$('#screen-content').on('click', '[data-section=history] .call-actions .call-action-text', (event) => {
+        let data = $(event.currentTarget)
             .parent()
             .parent()
             .data('data');
@@ -144,8 +144,8 @@ $('#screen-content').on('click', '[data-section=history] .call-actions .call-act
     }
 );
 
-$('#screen-content').on('click', '[data-section=history] .call-actions .call-action-delete', function(e) {
-        let data = $(this)
+$('#screen-content').on('click', '[data-section=history] .call-actions .call-action-delete', (event) => {
+        let data = $(event.currentTarget)
             .parent()
             .parent()
             .data('data');
@@ -156,10 +156,10 @@ $('#screen-content').on('click', '[data-section=history] .call-actions .call-act
             }),
             function(status) {
                 if (status) {
-                    $(this)
+                    $(event.currentTarget)
                         .parent()
                         .parent()
-                        .fadeOut('normal', function() {
+                        .fadeOut('normal', () => {
                             Data.RemoveData('history', data.index);
                             App.RefreshApp();
                             Notif.Alert('Call Record Deleted');
@@ -172,13 +172,13 @@ $('#screen-content').on('click', '[data-section=history] .call-actions .call-act
     }
 );
 
-$('#screen-content').on('keyup', '[data-section=contacts] .contact-search input', function(e) {
-    e.preventDefault();
-    let searchVal = $(this).val();
+$('#screen-content').on('keyup', '[data-section=contacts] .contact-search input', (event) => {
+    event.preventDefault();
+    let searchVal = $(event.currentTarget).val();
 
     if (searchVal !== '') {
         $.each(
-            $(this)
+            $(event.currentTarget)
                 .parent()
                 .parent()
                 .find('.contacts-list')
@@ -198,7 +198,7 @@ $('#screen-content').on('keyup', '[data-section=contacts] .contact-search input'
         );
     } else {
         $.each(
-            $(this)
+            $(event.currentTarget)
                 .parent()
                 .parent()
                 .find('.contacts-list')
@@ -210,28 +210,28 @@ $('#screen-content').on('keyup', '[data-section=contacts] .contact-search input'
     }
 });
 
-$('#screen-content').on('click', '[data-section=contacts] .phone-contact', function(event) {
+$('#screen-content').on('click', '[data-section=contacts] .phone-contact', (event) => {
     if (
-        $(this)
+        $(event.currentTarget)
             .find('.call-actions')
             .is(':visible')
     ) {
-        $(this)
+        $(event.currentTarget)
             .find('.call-actions')
             .slideUp();
     } else {
-        $(this)
+        $(event.currentTarget)
             .parent()
             .find('.call-actions')
             .slideUp();
-        $(this)
+        $(event.currentTarget)
             .find('.call-actions')
             .slideDown();
     }
 });
 
-$('#screen-content').on('click', '[data-section=contacts] .call-actions .call-action-call', function(e) {
-        let data = $(this)
+$('#screen-content').on('click', '[data-section=contacts] .call-actions .call-action-call', (event) => {
+        let data = $(event.currentTarget)
             .parent()
             .parent()
             .data('data');
@@ -239,8 +239,8 @@ $('#screen-content').on('click', '[data-section=contacts] .call-actions .call-ac
     }
 );
 
-$('#screen-content').on('click', '[data-section=contacts] .call-actions .call-action-text', function(e) {
-        let data = $(this)
+$('#screen-content').on('click', '[data-section=contacts] .call-actions .call-action-text', (event) => {
+        let data = $(event.currentTarget)
             .parent()
             .parent()
             .data('data');
@@ -248,7 +248,7 @@ $('#screen-content').on('click', '[data-section=contacts] .call-actions .call-ac
     }
 );
 
-$('#screen-content').on('click', '.call-action-mute', function(e) {});
+$('#screen-content').on('click', '.call-action-mute', (e) => {});
 
 function CheckIfContact(number) {
     let contact = contacts.filter(c => c.number == number)[0];
@@ -275,7 +275,7 @@ function SetupCallType() {
         }
     } else {
         if ($('.keypad-top .call-type').is(':visible')) {
-            $('.keypad-top .call-type').fadeOut('fast', function() {
+            $('.keypad-top .call-type').fadeOut('fast', () => {
                 $('.keypad-top .call-type').html('CALL TYPE');
             });
         }
@@ -307,7 +307,7 @@ function CreateCall(number, nonStandard, receiver) {
     );
 }
 
-window.addEventListener('phone-open-app', function(data) {
+window.addEventListener('phone-open-app', (data) => {
     myNumber = Data.GetData('myData').phone;
     contacts = Data.GetData('contacts');
     history = Data.GetData('history');
@@ -317,7 +317,7 @@ window.addEventListener('phone-open-app', function(data) {
     history.sort(Utils.DateSortOldest);
 
     $('[data-section=history').html('');
-    $.each(history, function(index, call) {
+    $.each(history, (index, call) => {
         if (call.sender == myNumber) {
             let contact = contacts.filter(c => c.number == call.receiver)[0];
 
@@ -434,7 +434,7 @@ function SetupCallContacts() {
 
     contacts.sort(Contacts.SortContacts);
 
-    $.each(contacts, function(index, contact) {
+    $.each(contacts, (index, contact) => {
         $('[data-section=contacts')
             .find('.contacts-list')
             .append(

@@ -4,10 +4,10 @@ import Data from '../utils/data';
 import Notif from '../utils/notification';
 import Utils from '../utils/utils';
 
-window.addEventListener('settings-open-app', function() {
-    $('#phone-settings').on('submit', function(e) {
-        e.preventDefault();
-        let data = $(this).serializeArray();
+window.addEventListener('settings-open-app', () => {
+    $('#phone-settings').on('submit', (event) => {
+        event.preventDefault();
+        let data = $(event.currentTarget).serializeArray();
         console.log(JSON.stringify(data));
     
         let settings ={
@@ -17,7 +17,7 @@ window.addEventListener('settings-open-app', function() {
             text: parseInt(data[3].value)
         }
     
-        $.post(Config.ROOT_ADDRESS + '/SaveSettings', JSON.stringify(settings), function(status) {
+        $.post(Config.ROOT_ADDRESS + '/SaveSettings', JSON.stringify(settings), (status) => {
             if (status) {
                 Data.StoreData('settings', settings);
                 Utils.UpdateWallpaper(`url(./imgs/back00${settings.wallpaper}.png)`);
@@ -30,7 +30,7 @@ window.addEventListener('settings-open-app', function() {
     });
 });
 
-window.addEventListener('settings-open-app', function(data) {
+window.addEventListener('settings-open-app', (data) => {
     let settings = Data.GetData('settings');
 
     $('#settings-volume').val(settings.volume);
@@ -44,7 +44,7 @@ window.addEventListener('settings-open-app', function(data) {
     $('#settings-text').formSelect();
 });
 
-window.addEventListener('settings-close-app', function() {
+window.addEventListener('settings-close-app', () => {
     $('#phone-settings').off('submit');
 });
 

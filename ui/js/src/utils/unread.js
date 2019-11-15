@@ -13,9 +13,9 @@ function SetUnread(amount) {
     let apps = Data.GetData('apps');
     let currApp = App.GetCurrentApp();
 
-    $.each(apps, function(index, app) {
+    $.each(apps, (index, app) => {
         if (app.container === currApp) {
-            UpdateData(currApp, amount, function(status) {
+            UpdateData(currApp, amount, (status) => {
                 app.unread = status;
                 Data.UpdateData('apps', index, app);
             });
@@ -29,9 +29,9 @@ function AddUnread() {
     let apps = Data.GetData('apps');
     let currApp = App.GetCurrentApp();
 
-    $.each(apps, function(index, app) {
+    $.each(apps, (index, app) => {
         if (app.container == currApp) {
-            UpdateData(currApp, app.unread + 1, function(status) {
+            UpdateData(currApp, app.unread + 1, (status) => {
                 app.unread = status;
                 Data.UpdateData('apps', index, app);
             });
@@ -45,9 +45,9 @@ function RemoveUnread() {
     let apps = Data.GetData('apps');
     let currApp = App.GetCurrentApp();
 
-    $.each(apps, function(index, app) {
+    $.each(apps, (index, app) => {
         if (app.container == currApp) {
-            UpdateData(currApp, app.unread - 1, function(status) {
+            UpdateData(currApp, app.unread - 1, (status) => {
                 app.unread = status;
                 Data.UpdateData('apps', index, app);
             });
@@ -61,9 +61,9 @@ function ClearUnread() {
     let apps = Data.GetData('apps');
     let currApp = App.GetCurrentApp();
 
-    $.each(apps, function(index, app) {
+    $.each(apps, (index, app) => {
         if (app.container == currApp) {
-            UpdateData(currApp, 0, function(status) {
+            UpdateData(currApp, 0, (status) => {
                 app.unread = status;
                 Data.UpdateData('apps', index, app);
             });

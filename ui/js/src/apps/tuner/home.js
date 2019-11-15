@@ -11,7 +11,7 @@ import Info from './info';
 var timer = null;
 var hasScanned = false;
 
-window.addEventListener('message', function(event) {
+window.addEventListener('message', (event) => {
     switch (event.data.action) {
         case 'ResetVehicle':
             ResetScan();
@@ -19,20 +19,19 @@ window.addEventListener('message', function(event) {
     }
 });
 
-$('#screen-content').on('click', '.tuner-nav', function(e) {
-    if ($(this).data('disabled')) return;
-
-    let app = $(this).data('section');
+$('#screen-content').on('click', '.tuner-nav', (event) => {
+    if ($(event.currentTarget).data('disabled')) return;
+    let app = $(event.currentTarget).data('section');
     App.OpenApp(`tuner-${app}`, null, false, true);
 });
 
-$('#screen-content').on('click', '#no-chip-quit', function() {
+$('#screen-content').on('click', '#no-chip-quit', () => {
     App.GoBack();
 });
 
 function ShowError() {
-    $('.no-chip-error').fadeIn('fast', function() {
-        $('.error-details').show('scale', function() {
+    $('.no-chip-error').fadeIn('fast', () => {
+        $('.error-details').show('scale', () => {
             $('.tuner-nav').data('disabled', true);
         });
     });
@@ -63,7 +62,7 @@ function ResetScan() {
 }
 
 var dots = null;
-window.addEventListener('tuner-open-app', function() {
+window.addEventListener('tuner-open-app', () => {
     $('.splash').show();
     dots = setInterval( function() {
         if ( $('.dots').html().length >= 3 )
@@ -73,9 +72,9 @@ window.addEventListener('tuner-open-app', function() {
     }, 500);
 
     if (!hasScanned) {
-        $.post(Config.ROOT_ADDRESS + '/SetupTuner', JSON.stringify({}), function(status) {
+        $.post(Config.ROOT_ADDRESS + '/SetupTuner', JSON.stringify({}), (status) => {
             clearInterval(dots);
-            $('.splash').fadeOut('fast', function() {
+            $('.splash').fadeOut('fast', () => {
 
                 if (status) {
                     SetupTuner(status);
@@ -87,7 +86,7 @@ window.addEventListener('tuner-open-app', function() {
     } else {
         $.post(Config.ROOT_ADDRESS + '/CheckInVeh', JSON.stringify({
             veh: Data.GetData('currentVeh')
-        }), function(status) {
+        }), (status) => {
             clearInterval(dots);
             if (status != null) {
                 if (status.sameVeh) {
@@ -95,7 +94,7 @@ window.addEventListener('tuner-open-app', function() {
                 } else if(status) {
                     $.post(Config.ROOT_ADDRESS + '/SetupTuner', JSON.stringify({}), 
                     function(status) {
-                        $('.splash').fadeOut('fast').promise().then(function() {
+                        $('.splash').fadeOut('fast').promise().then(() => {
                             if (status) {
                                 SetupTuner(status);
                             } else {
@@ -113,7 +112,7 @@ window.addEventListener('tuner-open-app', function() {
     }
 });
 
-window.addEventListener('tuner-close-app', function() {
+window.addEventListener('tuner-close-app', () => {
     clearInterval(dots);
     clearTimeout(timer);
     $('.no-chip-error').hide();

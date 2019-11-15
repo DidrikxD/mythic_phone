@@ -7,7 +7,7 @@ import Unread from '../../utils/unread';
 
 import IRC from './irc';
 
-window.addEventListener('message', function(event) {
+window.addEventListener('message', (event) => {
     switch (event.data.action) {
         case 'receiveIRCChat':
             let msgs = [
@@ -32,14 +32,14 @@ window.addEventListener('message', function(event) {
     }
 });
 
-$('#screen-content').on('submit', '#irc-new-message', function(e) {
-    e.preventDefault();
-    let data = $(this).serializeArray();
+$('#screen-content').on('submit', '#irc-new-message', (event) => {
+    event.preventDefault();
+    let data = $(event.currentTarget).serializeArray();
 
     $.post(Config.ROOT_ADDRESS + '/IRCNewMessage', JSON.stringify({
         channel: $('.irc-channel').html(),
         message: data[0].value
-    }), function(status) {
+    }), (status) => {
         if (status) {
             IRC.BringChannelToTop($('.irc-channel').html());
             let msgs = [
@@ -54,13 +54,13 @@ $('#screen-content').on('submit', '#irc-new-message', function(e) {
     });
 });
 
-$('#screen-content').on('submit', '#irc-leave-channel', function(e) {
-    e.preventDefault();
-    let channel = $(this).serializeArray()[0].value;
+$('#screen-content').on('submit', '#irc-leave-channel', (event) => {
+    event.preventDefault();
+    let channel = $(event.currentTarget).serializeArray()[0].value;
 
     $.post(Config.ROOT_ADDRESS + '/IRCLeaveChannel', JSON.stringify({
         channel: channel
-    }), function(status) {
+    }), (status) => {
         if (status) {
             Data.RemoveObjectData('irc-channels', 'channel', channel);
             Notif.Alert('Left Channel');
@@ -72,12 +72,12 @@ $('#screen-content').on('submit', '#irc-leave-channel', function(e) {
 });
 
 function SetupMessages(messages) {
-    $.each(messages, function(index, message) {
+    $.each(messages, (index, message) => {
         $('.message-list').prepend(`<div class="irc-message"><span class="message-text">${message.message}</span><span class="message-time">${moment(message.date).fromNowOrNow()}</span></div>`);
     });
 }
 
-window.addEventListener('irc-convo-open-app', function(data) {
+window.addEventListener('irc-convo-open-app', (data) => {
     $('.irc-channel').html(data.detail.channel.channel);
     $('#irc-channel-name').val(data.detail.channel.channel);
     $('.message-list').html('');
@@ -85,7 +85,7 @@ window.addEventListener('irc-convo-open-app', function(data) {
     if (messages == null || messages.length == 0) {
         $.post(Config.ROOT_ADDRESS + '/IRCGetMessages', JSON.stringify({
             channel: data.detail.channel.channel
-        }), function(msgs) {
+        }), (msgs) => {
             Data.StoreData(`irc-messages-${data.detail.channel.channel}`, msgs);
             msgs.sort(Utils.DateSortOldest);
             SetupMessages(msgs);
@@ -96,7 +96,7 @@ window.addEventListener('irc-convo-open-app', function(data) {
     }
 });
 
-window.addEventListener('irc-convo-close-app', function() {
+window.addEventListener('irc-convo-close-app', () => {
     
 });
 

@@ -6,9 +6,9 @@ import Unread from '../../utils/unread';
 
 import Convo from './convo';
 
-$('#screen-content').on('submit', '#irc-join-channel', function(e) {
-    e.preventDefault();
-    let data = $(this).serializeArray();
+$('#screen-content').on('submit', '#irc-join-channel', (event) => {
+    event.preventDefault();
+    let data = $(event.currentTarget).serializeArray();
     let channel = {
         channel: data[0].value,
         joined: Date.now()
@@ -16,7 +16,7 @@ $('#screen-content').on('submit', '#irc-join-channel', function(e) {
 
     $.post(Config.ROOT_ADDRESS + '/IRCJoinChannel', JSON.stringify({
         channel: channel.channel
-    }), function(status) {
+    }), (status) => {
         if (status) {
             Data.AddData('irc-channels', channel);
 
@@ -42,8 +42,8 @@ function BringChannelToTop(channel) {
     Data.StoreData('irc-channels', channels);
 }
 
-$('#screen-content').on('click', '.irc-channel', function(e) {
-    App.OpenApp('irc-convo', { channel: $(this).data('channel') }, false, true, false);
+$('#screen-content').on('click', '.irc-channel', (event) => {
+    App.OpenApp('irc-convo', { channel: $(event.currentTarget).data('channel') }, false, true, false);
 });
 
 function AddChannelToApp(channel) {
@@ -51,18 +51,18 @@ function AddChannelToApp(channel) {
     $('.channel-list .irc-channel:last-child').data('channel', channel);
 }
 
-window.addEventListener('irc-open-app', function() {
+window.addEventListener('irc-open-app', () => {
     let channels = Data.GetData('irc-channels');
 
     $('.channel-list').html('');
-    $.each(channels, function(index, channel) {
+    $.each(channels, (index, channel) => {
         AddChannelToApp(channel);
     });
 
     Unread.ClearUnread();
 });
 
-window.addEventListener('irc-close-app', function() {
+window.addEventListener('irc-close-app', () => {
     
 });
 

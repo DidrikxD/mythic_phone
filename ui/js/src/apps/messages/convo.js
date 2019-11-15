@@ -8,7 +8,7 @@ var myNumber = null;
 var contacts = null;
 var messages = null;
 
-window.addEventListener('message', function(event) {
+window.addEventListener('message', (event) => {
     switch (event.data.action) {
         case 'receiveText':
             ReceiveText(
@@ -19,15 +19,15 @@ window.addEventListener('message', function(event) {
     }
 });
 
-$('#screen-content').on('click', '.convo-top-bar .convo-action-addcontact', function(e) {
+$('#screen-content').on('click', '.convo-top-bar .convo-action-addcontact', (e) => {
     let data = $('#message-convo-container').data('data');
     $('#convo-add-contact-number').val(data.number);
 });
 
-$('#screen-content').on('submit', '#convo-add-contact', function(e) {
-    e.preventDefault();
+$('#screen-content').on('submit', '#convo-add-contact', (event) => {
+    event.preventDefault();
 
-    let data = $(this).serializeArray();
+    let data = $(event.currentTarget).serializeArray();
 
     let name = data[0].value;
     let number = data[1].value;
@@ -65,10 +65,10 @@ $('#screen-content').on('submit', '#convo-add-contact', function(e) {
     );
 });
 
-$('#screen-content').on('submit', '#convo-new-text', function(e) {
-    e.preventDefault();
+$('#screen-content').on('submit', '#convo-new-text', (event) => {
+    event.preventDefault();
     let convoData = $('#message-convo-container').data('data');
-    let data = $(this).serializeArray();
+    let data = $(event.currentTarget).serializeArray();
 
     let text = [
         {
@@ -79,7 +79,7 @@ $('#screen-content').on('submit', '#convo-new-text', function(e) {
         }
     ];
 
-    Messages.SendNewText(text, function(sent) {
+    Messages.SendNewText(text, (sent) => {
         if (sent) {
             $('.convo-texts-list').append(
                 '<div class="text me-sender"><span>' +
@@ -107,7 +107,7 @@ $('#screen-content').on('submit', '#convo-new-text', function(e) {
     });
 });
 
-$('#screen-content').on('click', '#convo-delete-all', function(e) {
+$('#screen-content').on('click', '#convo-delete-all', (e) => {
     e.preventDefault();
     let convoData = $('#message-convo-container').data('data');
 
@@ -190,7 +190,7 @@ function ReceiveText(sender, text) {
     });
 }
 
-window.addEventListener('message-convo-open-app', function(data) {
+window.addEventListener('message-convo-open-app', (data) => {
     myNumber = Data.GetData('myData').phone;
     contacts = Data.GetData('contacts');
     messages = Data.GetData('messages');
@@ -217,7 +217,7 @@ window.addEventListener('message-convo-open-app', function(data) {
     }
 
     $('.convo-texts-list').html('');
-    $.each(texts, function(index, text) {
+    $.each(texts, (index, text) => {
         let d = new Date(text.sent_time);
 
         if (text.sender == myNumber) {
@@ -284,7 +284,7 @@ window.addEventListener('message-convo-open-app', function(data) {
     }
 });
 
-window.addEventListener('message-convo-close-app', function(data) {
+window.addEventListener('message-convo-close-app', (data) => {
     myNumber = null;
     contacts = null;
     messages = null;

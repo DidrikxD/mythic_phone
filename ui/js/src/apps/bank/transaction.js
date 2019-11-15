@@ -4,8 +4,8 @@ import Data from '../../utils/data';
 import Utils from '../../utils/utils';
 import Test from '../../test';
 
-$("#screen-content").on('change', '#bank-transaction-accounts', function() {
-    let id = $(this).val();
+$("#screen-content").on('change', '#bank-transaction-accounts', (event) => {
+    let id = $(event.currentTarget).val();
     let account = Data.GetData('bank-accounts').filter(function(item) {
         return item.id == id;
     })[0];
@@ -13,12 +13,12 @@ $("#screen-content").on('change', '#bank-transaction-accounts', function() {
     App.OpenApp('bank-transaction', account, true, true, true);
 });
 
-window.addEventListener('bank-transaction-open-app', function(data) {
+window.addEventListener('bank-transaction-open-app', (data) => {
     let account = data.detail;
     
     $.post(Config.ROOT_ADDRESS + '/GetBankTransactions', JSON.stringify({
         account: account.id
-    }), function(transactions) {
+    }), (transactions) => {
         $('#bank-app-page').addClass(`type-${account.type}`);
 
         let accounts = Data.GetData('bank-accounts');
@@ -36,10 +36,10 @@ window.addEventListener('bank-transaction-open-app', function(data) {
             return account.type === 3;
         })});
     
-        $.each(stuff, function(index, type) {
+        $.each(stuff, (index, type) => {
             $('#bank-transaction-accounts').append(`<optgroup label="${type.label}"></optgroup>`);
     
-            $.each(type.data, function(index2, act) {
+            $.each(type.data, (index2, act) => {
                 $('#bank-transaction-accounts').append(`<option value="${act.id}">Account #${act.id} ${Utils.FormatCurrency(act.balance)}</option>`);
                 
                 if (act.id == account.id) {
@@ -51,7 +51,7 @@ window.addEventListener('bank-transaction-open-app', function(data) {
         $('#bank-transaction-accounts').formSelect();
     
         if (transactions != null && transactions.length > 0) {
-            $.each(transactions, function(index, trans) {
+            $.each(transactions, (index, trans) => {
                 switch(trans.type) {
                     case 1:
                         $('.transaction-body table').append(`<tr><td>${moment(trans.date).format('l')} at ${moment(trans.date).format('h:mm a')}</td><td class="trans-negative">${Utils.FormatCurrency(trans.amount)}</td><td>${trans.note}</td></tr>`)
@@ -74,22 +74,22 @@ window.addEventListener('bank-transaction-open-app', function(data) {
     
         $('#bank-app-page').animate({
             height: '100%'
-        }, { duration: 1000 }).promise().then(function() {
+        }, { duration: 1000 }).promise().then(() => {
             $('.select-wrapper, .no-transactions').fadeIn('fast');
         });
     });
 });
 
-window.addEventListener('bank-transaction-custom-close-app', function(data) {
+window.addEventListener('bank-transaction-custom-close-app', (data) => {
     $('.select-wrapper, .no-transactions').fadeOut('fast');
     $('#bank-app-page').animate({
         height: '0%'
-    }, { duration: 1000 }).promise().then(function() {
+    }, { duration: 1000 }).promise().then(() => {
         window.dispatchEvent(new CustomEvent('custom-close-finish', { detail: data.detail }));
     });
 });
 
-window.addEventListener('bank-transaction-close-app', function() {
+window.addEventListener('bank-transaction-close-app', () => {
     
 });
 

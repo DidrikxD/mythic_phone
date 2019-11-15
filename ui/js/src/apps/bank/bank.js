@@ -11,11 +11,11 @@ import Transaction from './transaction'
 
 var timeInt = null;
 
-window.addEventListener('message', function(event) {
+window.addEventListener('message', (event) => {
     switch (event.data.action) {
         case 'BankBalanceUpdate':
             let accounts = Data.GetData('bank-accounts');
-            $.each(accounts, function(index, account) {
+            $.each(accounts, (index, account) => {
                 if (account.id === event.data.account) {
                     Data.UpdateObjectData('bank-accounts', 'id', event.data.account, 'balance', (account.balance + event.data.balance));
                     return false;
@@ -25,12 +25,12 @@ window.addEventListener('message', function(event) {
     }
 });
 
-$('#screen-content').on('click', '.account', function(e) {
-    App.OpenApp('bank-transaction', $(this).data('account'), false, true, true);
+$('#screen-content').on('click', '.account', (event) => {
+    App.OpenApp('bank-transaction', $(event.currentTarget).data('account'), false, true, true);
 });
 
-$('#screen-content').on('keyup keydown blur', '#target-account', function(e) {
-    switch(e.which) {
+$('#screen-content').on('keyup keydown blur', '#target-account', (event) => {
+    switch(event.which) {
         case 69:
         case 107: // Numpad Equals
         case 109: // Numpad Minus
@@ -41,19 +41,19 @@ $('#screen-content').on('keyup keydown blur', '#target-account', function(e) {
             e.preventDefault();
             break;
         default:
-            if ($(this).val() != '') {
-                $(this).val(parseInt($(this).val()));
+            if ($(event.currentTarget).val() != '') {
+                $(event.currentTarget).val(parseInt($(event.currentTarget).val()));
             }
             break;
     }
 });
 
-$('#screen-content').on('click', '.bank-quick-nav', function(e) {
-    if (!$(this).hasClass('disabled')) {
-        let type = $(this).data('type');
+$('#screen-content').on('click', '.bank-quick-nav', (event) => {
+    if (!$(event.currentTarget).hasClass('disabled')) {
+        let type = $(event.currentTarget).data('type');
 
         if (type != 'back') {
-            $(this).addClass('disabled');
+            $(event.currentTarget).addClass('disabled');
             
             switch(type) {
                 case 'atm':
@@ -69,13 +69,13 @@ $('#screen-content').on('click', '.bank-quick-nav', function(e) {
 
         $('.quick-actions').animate({
             height: '0%'
-        }, { duration: 500 }).promise().then(function() {
+        }, { duration: 500 }).promise().then(() => {
             $('.bank-quick-action').show();
             $('.bank-quick-nav').hide();
 
             $('.quick-actions').animate({
                 height: '20%'
-            }, { duration: 500 }).promise().then(function() {
+            }, { duration: 500 }).promise().then(() => {
                 $('.bank-quick-nav.disabled').removeClass('disabled');
             });
         });
@@ -83,23 +83,23 @@ $('#screen-content').on('click', '.bank-quick-nav', function(e) {
     }
 });
 
-$('#screen-content').on('click', '.bank-quick-action', function(e) {
-    if (!$(this).hasClass('disabled')) {
-        let app = $(this).data('nav');
+$('#screen-content').on('click', '.bank-quick-action', (event) => {
+    if (!$(event.currentTarget).hasClass('disabled')) {
+        let app = $(event.currentTarget).data('nav');
 
         if (app != null) {
-            $(this).addClass('disabled');
+            $(event.currentTarget).addClass('disabled');
             App.OpenApp(app, null, false, true, true);
         } else {
             $('.quick-actions').animate({
                 height: '0%'
-            }, { duration: 500 }).promise().then(function() {
+            }, { duration: 500 }).promise().then(() => {
                 $('.bank-quick-action').hide();
                 $('.bank-quick-nav').show();
 
                 $('.quick-actions').animate({
                     height: '20%'
-                }, { duration: 500 }).promise().then(function() {
+                }, { duration: 500 }).promise().then(() => {
                     $(this).removeClass('disabled');
                 });
             });
@@ -107,7 +107,7 @@ $('#screen-content').on('click', '.bank-quick-action', function(e) {
     }
 });
 
-window.addEventListener('bank-open-app', function() {
+window.addEventListener('bank-open-app', () => {
     let myData = Data.GetData('myData');
     $('.message-name').html(myData.name);
     $('.message-text').html(`${moment().format('MMMM Do YYYY, h:mm:ss a')}`);
@@ -121,7 +121,7 @@ window.addEventListener('bank-open-app', function() {
     let accounts = Data.GetData('bank-accounts');
     $('.accounts').html('');
 
-    $.each(accounts, function(index, account) {
+    $.each(accounts, (index, account) => {
         if (account.rank === 1) {
             $('.accounts').append(`<div class="account type-${account.type}" data-tooltip="Account #${account.id} - Balance: ${Utils.FormatCurrency(account.balance)}"><div class="account-label"><div class="bank-label-name">${account.label}</div><small>Account Owner</small></div><div class="account-balance">${Utils.FormatCurrency(account.balance)}</div></div>`)
         } else {
@@ -138,26 +138,26 @@ window.addEventListener('bank-open-app', function() {
 
     $('.quick-actions').animate({
         height: '20%'
-    }, { duration: 1000 }).promise().then(function() {
+    }, { duration: 1000 }).promise().then(() => {
         $('.bank-quick-action').fadeIn('normal').css('display', 'inline-block');
     });
     Unread.ClearUnread();
 });
 
-window.addEventListener('bank-custom-close-app', function(data) {
+window.addEventListener('bank-custom-close-app', (data) => {
     if (!$('#bank-container').hasClass('disabled')) {
         $('#bank-container').addClass('disabled');
-        $('.bank-quick-action').fadeOut('normal').promise().then(function() {
+        $('.bank-quick-action').fadeOut('normal').promise().then(() => {
             $('.quick-actions').animate({
                 height: '100%'
-            }, { duration: 1000 }).promise().then(function() {
+            }, { duration: 1000 }).promise().then(() => {
                 window.dispatchEvent(new CustomEvent('custom-close-finish', { detail: data.detail }));
             });
         });
     }
 });
 
-window.addEventListener('bank-close-app', function() {
+window.addEventListener('bank-close-app', () => {
     clearInterval(timeInt);
 });
 

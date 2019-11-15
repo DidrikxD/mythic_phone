@@ -9,20 +9,20 @@ var myNumber = null;
 var contacts = null;
 var messages = null;
 
-$('#screen-content').on('click', '.messages-list .message', function(e) {
-    App.OpenApp('message-convo', $(this).data('message'), false, true);
+$('#screen-content').on('click', '.messages-list .message', (event) => {
+    App.OpenApp('message-convo', $(event.currentTarget).data('message'), false, true);
 });
 
-$('#screen-content').on('change', '#message-new-contact', function(e) {
-    let data = $(this).val();
+$('#screen-content').on('change', '#message-new-contact', (event) => {
+    let data = $(event.currentTarget).val();
     $('#message-new-number').val(data);
 });
 
-$('#screen-content').on('submit', '#message-new-msg', function(e) {
-    e.preventDefault();
-    let data = $(this).serializeArray();
+$('#screen-content').on('submit', '#message-new-msg', (event) => {
+    event.preventDefault();
+    let data = $(event.currentTarget).serializeArray();
 
-    SendNewText(data, function(sent) {
+    SendNewText(data, (sent) => {
         if (sent) {
             let modal = M.Modal.getInstance($('#messages-new-modal'));
             modal.close();
@@ -34,7 +34,7 @@ $('#screen-content').on('submit', '#message-new-msg', function(e) {
     });
 });
 
-window.addEventListener('message-open-app', function(data) {
+window.addEventListener('message-open-app', (data) => {
     myNumber = Data.GetData('myData').phone;
     contacts = Data.GetData('contacts');
     messages = Data.GetData('messages');
@@ -48,7 +48,7 @@ window.addEventListener('message-open-app', function(data) {
 
     let convos = new Array();
 
-    $.each(messages, function(index, message) {
+    $.each(messages, (index, message) => {
         let obj = new Object();
 
         if (message.sender == myNumber) {
@@ -69,7 +69,7 @@ window.addEventListener('message-open-app', function(data) {
             convos.push(obj);
         } else {
             if (obj.time > convo.time) {
-                $.each(convos, function(index, c) {
+                $.each(convos, (index, c) => {
                     if (c == convo) {
                         convos[index] = obj;
                         return false;
@@ -82,7 +82,7 @@ window.addEventListener('message-open-app', function(data) {
     convos.sort(Utils.DateSortNewest);
 
     $('#message-container .inner-app .messages-list').html('');
-    $.each(convos, function(index, message) {
+    $.each(convos, (index, message) => {
         let contact = null;
         if (contacts != null) {
             contact = contacts.filter(c => c.number == message.number)[0];
@@ -120,12 +120,12 @@ window.addEventListener('message-open-app', function(data) {
     });
 });
 
-window.addEventListener('message-open-app', function(data) {
+window.addEventListener('message-open-app', (data) => {
     $('#message-new-contact').html('');
     $('#message-new-contact').append(
         '<option value="">Choose Contact</option>'
     );
-    $.each(contacts, function(index, contact) {
+    $.each(contacts, (index, contact) => {
         $('#message-new-contact').append(
             '<option value="' +
                 contact.number +

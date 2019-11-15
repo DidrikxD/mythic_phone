@@ -7,34 +7,34 @@ import Phone from './phone/phone';
 var contacts = null;
 var editingContact = null;
 
-$('#screen-content').on('click', '.contacts-list .contact', function(event) {
+$('#screen-content').on('click', '.contacts-list .contact', (event) => {
     if (
-        $(this)
+        $(event.currentTarget)
             .find('.contact-actions')
             .is(':visible')
     ) {
-        $(this)
+        $(event.currentTarget)
             .find('.contact-actions')
             .slideUp();
     } else {
-        $(this)
+        $(event.currentTarget)
             .parent()
             .find('.contact-actions')
             .slideUp();
-        $(this)
+        $(event.currentTarget)
             .find('.contact-actions')
             .slideDown();
     }
 });
 
-$('#scree-content').on('keyup', '#search-contacts', function(e) {
-    e.preventDefault();
+$('#scree-content').on('keyup', '#search-contacts', (event) => {
+    event.preventDefault();
 
-    let searchVal = $(this).val();
+    let searchVal = $(event.currentTarget).val();
 
     if (searchVal !== '') {
         $.each(
-            $(this)
+            $(event.currentTarget)
                 .parent()
                 .parent()
                 .find('.contacts-list')
@@ -54,7 +54,7 @@ $('#scree-content').on('keyup', '#search-contacts', function(e) {
         );
     } else {
         $.each(
-            $(this)
+            $(event.currentTarget)
                 .parent()
                 .parent()
                 .find('.contacts-list')
@@ -66,7 +66,7 @@ $('#scree-content').on('keyup', '#search-contacts', function(e) {
     }
 });
 
-$('#screen-content').on('keydown', '#contact-add-number', function(e) {
+$('#screen-content').on('keydown', '#contact-add-number', (e) => {
     switch (e.which) {
         case 8:
         case 48:
@@ -96,7 +96,7 @@ $('#screen-content').on('keydown', '#contact-add-number', function(e) {
     }
 });
 
-$('#screen-content').on('keydown', '#contact-edit-number', function(e) {
+$('#screen-content').on('keydown', '#contact-edit-number', (e) => {
     switch (e.which) {
         case 8:
         case 48:
@@ -126,10 +126,10 @@ $('#screen-content').on('keydown', '#contact-edit-number', function(e) {
     }
 });
 
-$('#screen-content').on('submit', '#contacts-add-contact', function(e) {
-    e.preventDefault();
+$('#screen-content').on('submit', '#contacts-add-contact', (event) => {
+    event.preventDefault();
 
-    let data = $(this).serializeArray();
+    let data = $(event.currentTarget).serializeArray();
 
     let name = data[0].value;
     let number = data[1].value;
@@ -201,10 +201,10 @@ $('#screen-content').on('submit', '#contacts-add-contact', function(e) {
     );
 });
 
-$('#screen-content').on('submit', '#contacts-edit-contact', function(e) {
-    e.preventDefault();
+$('#screen-content').on('submit', '#contacts-edit-contact', (event) => {
+    event.preventDefault();
 
-    let data = $(this).serializeArray();
+    let data = $(event.currentTarget).serializeArray();
     let editingData = $(editingContact).data('contact');
 
     let name = data[0].value;
@@ -266,29 +266,29 @@ $('#screen-content').on('submit', '#contacts-edit-contact', function(e) {
     );
 });
 
-$('#screen-content').on('click', '.contacts-list .contact-actions .action-call', function(e) {
-    let data = $(this)
+$('#screen-content').on('click', '.contacts-list .contact-actions .action-call', (event) => {
+    let data = $(event.currentTarget)
         .parent()
         .parent()
         .data('contact');
     Phone.CreateCall(data.number, false, false);
 });
 
-$('#screen-content').on('click', '.contacts-list .contact-actions .action-text', function(e) {
-    let data = $(this)
+$('#screen-content').on('click', '.contacts-list .contact-actions .action-text', (event) => {
+    let data = $(event.currentTarget)
         .parent()
         .parent()
         .data('contact');
     App.OpenApp('message-convo', { number: data.number });
 });
 
-$('#screen-content').on('click', '.contacts-list .contact-actions .action-edit', function(e) {
-    let data = $(this)
+$('#screen-content').on('click', '.contacts-list .contact-actions .action-edit', (event) => {
+    let data = $(event.currentTarget)
         .parent()
         .parent()
         .data('contact');
 
-    editingContact = $(this)
+    editingContact = $(event.currentTarget)
         .parent()
         .parent();
     $('#contact-edit-name').val(data.name);
@@ -296,8 +296,8 @@ $('#screen-content').on('click', '.contacts-list .contact-actions .action-edit',
     M.updateTextFields();
 });
 
-$('#screen-content').on('click', '.contacts-list .contact-actions .action-delete', function(e) {
-    let $elem = $(this);
+$('#screen-content').on('click', '.contacts-list .contact-actions .action-delete', (event) => {
+    let $elem = $(event.currentTarget);
     let data = $elem
         .parent()
         .parent()
@@ -313,7 +313,7 @@ $('#screen-content').on('click', '.contacts-list .contact-actions .action-delete
                 $elem
                     .parent()
                     .parent()
-                    .fadeOut('normal', function() {
+                    .fadeOut('normal', () => {
                         $elem
                             .parent()
                             .parent()
@@ -330,11 +330,11 @@ $('#screen-content').on('click', '.contacts-list .contact-actions .action-delete
     );
 });
 
-window.addEventListener('contacts-open-app', function() {
+window.addEventListener('contacts-open-app', () => {
     contacts = Data.GetData('contacts');
     contacts.sort(SortContacts);
     $('.contacts-list').html('');
-    $.each(contacts, function(index, contact) {
+    $.each(contacts, (index, contact) => {
         $('.contacts-list').append(
             '<div class="contact waves-effect"><div class="contact-avatar other-' +
                 contact.name[0].toString().toLowerCase() +

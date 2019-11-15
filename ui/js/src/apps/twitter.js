@@ -7,7 +7,7 @@ import Notif from '../utils/notification';
 var tweets = null;
 var notif = null;
 
-window.addEventListener('message', function(event) {
+window.addEventListener('message', (event) => {
     switch (event.data.action) {
         case 'ReceiveNewTweet':
             ReceiveNewTweet(event.data.tweet);
@@ -15,10 +15,10 @@ window.addEventListener('message', function(event) {
     }
 });
 
-$('#screen-content').on('submit', '#new-tweet', function (e) {
-    e.preventDefault();
+$('#screen-content').on('submit', '#new-tweet', function (event) {
+    event.preventDefault();
 
-    let data = $(this).serializeArray();
+    let data = $(event.currentTarget).serializeArray();
 
     let tweet = {
         author: 'PleaseWork',
@@ -78,8 +78,8 @@ $('#screen-content').on('submit', '#new-tweet', function (e) {
     );
 });
 
-$('#screen-content').on('click', '.tweet .mention', function () {
-    let user = $(this).data('mention');
+$('#screen-content').on('click', '.tweet .mention', function (event) {
+    let user = $(event.currentTarget).data('mention');
 
     $('#new-tweet-msg').val('@' + user + ' ');
 
@@ -87,8 +87,8 @@ $('#screen-content').on('click', '.tweet .mention', function () {
     modal.open();
 });
 
-$('#screen-content').on('click', '.twitter-body .author', function () {
-    let user = $(this).html();
+$('#screen-content').on('click', '.twitter-body .author', function (event) {
+    let user = $(event.currentTarget).html();
 
     $('#new-tweet-msg').val('@' + user + ' ');
 
@@ -124,7 +124,7 @@ function AddTweet(tweet) {
     /// TODO : Figure out & implement image embeding
     /*pattern = /https?[^<"]+/g;
     data = tweet.message.match(pattern);
-    $.each(data, function(index2, hashtag) {
+    $.each(data, (index2, hashtag) => {
         tweet.message = tweet.message.replace(hashtag, `<span class="hashtag" data-hashtag="${hashtag.replace('#', '')}">' + hashtag + '</span>`);
     }); */
 
@@ -146,7 +146,7 @@ function AddTweet(tweet) {
     $('.twitter-body .tweet:first-child').data('data', tweet);
 }
 
-window.addEventListener('twitter-open-app', function(data) {
+window.addEventListener('twitter-open-app', (data) => {
     tweets = Data.GetData('tweets');
 
     if (tweets == null) {

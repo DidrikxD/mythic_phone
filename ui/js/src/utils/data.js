@@ -1,6 +1,6 @@
 import Config from '../config';
 
-window.addEventListener('message', function(event) {
+window.addEventListener('message', (event) => {
     switch (event.data.action) {
         case 'setup':
             SetupData(event.data.data);
@@ -12,7 +12,7 @@ window.addEventListener('message', function(event) {
 });
 
 function SetupData(data) {
-    $.each(data, function(index, item) {
+    $.each(data, (index, item) => {
         window.localStorage.setItem(item.name, JSON.stringify(item.data));
     });
 }
@@ -35,7 +35,7 @@ function RemoveData(name, index) {
 
 function RemoveObjectData(name, key, value) {
     let arr = GetData(name);
-    $.each(arr, function(index, item) {
+    $.each(arr, (index, item) => {
         if (item[key] == value) {
             RemoveData(name, index);
             return false;
@@ -51,7 +51,7 @@ function UpdateData(name, index, data) {
 
 function UpdateObjectData(name, searchKey, searchValue, updateKey, updateValue) {
     let arr = GetData(name);
-    $.each(arr, function(index, item) {
+    $.each(arr, (index, item) => {
         if (item[searchKey] == searchValue) {
             arr[index][updateKey] = updateValue;
             StoreData(name, arr);
@@ -74,7 +74,7 @@ function StoreDataLua(key, data) {
 function GetDataLua(key) {
     $.post(Config.ROOT_ADDRESS + '/GetData', JSON.stringify({
         key: key
-    }), function(data) {
+    }), (data) => {
         return data
     });
 }

@@ -9,7 +9,7 @@ var callPending = null;
 var activeCallTimer = null;
 var activeCallDigits = new Object();
 
-window.addEventListener('message', function(event) {
+window.addEventListener('message', (event) => {
     switch (event.data.action) {
         case 'receiveCall':
             App.OpenApp(
@@ -30,8 +30,8 @@ window.addEventListener('message', function(event) {
     }
 });
 
-$('#screen-content').on('click', '.call-action-mutesound', function(e) {
-    $.post(Config.ROOT_ADDRESS + '/ToggleHold', JSON.stringify({}), function(status) {
+$('#screen-content').on('click', '.call-action-mutesound', (e) => {
+    $.post(Config.ROOT_ADDRESS + '/ToggleHold', JSON.stringify({}), (status) => {
         if (status) {
             $('.call-action-mutesound').html(`<i class="fas fa-volume-up"></i><span>Unmute</span>`);
         } else {
@@ -40,11 +40,11 @@ $('#screen-content').on('click', '.call-action-mutesound', function(e) {
     });
 });
 
-$('#screen-content').on('click', '#end-call', function(e) {
+$('#screen-content').on('click', '#end-call', (e) => {
     $.post(Config.ROOT_ADDRESS + '/EndCall', JSON.stringify());
 });
 
-$('#screen-content').on('click', '#answer-call', function(e) {
+$('#screen-content').on('click', '#answer-call', (e) => {
     $.post(Config.ROOT_ADDRESS + '/AcceptCall', JSON.stringify({}));
 });
 
@@ -110,7 +110,7 @@ function CallHungUp() {
         .removeClass('call-pending');
 
     $('.phone-header').attr('class', 'phone-header');
-    $('.phone-header .in-call').fadeOut('fast', function() {
+    $('.phone-header .in-call').fadeOut('fast', () => {
         $('.phone-header .in-call').html(`<i class="fas fa-phone"></i>`);
     });
 
@@ -131,7 +131,7 @@ function IsCallPending() {
     return callPending != null || activeCallTimer != null;
 }
 
-window.addEventListener('phone-call-open-app', function(data) {
+window.addEventListener('phone-call-open-app', (data) => {
     if (activeCallTimer != null || data == null) {
         CallAnswered();
         return;
@@ -205,7 +205,7 @@ window.addEventListener('phone-call-open-app', function(data) {
     }
 });
 
-window.addEventListener('phone-call-close-app', function() {
+window.addEventListener('phone-call-close-app', () => {
     if (activeCallTimer != null) {
         $('.phone-header').addClass('in-call');
         $('.phone-header .in-call').fadeIn();
