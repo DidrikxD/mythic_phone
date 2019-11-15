@@ -4,6 +4,7 @@ AddEventHandler('mythic_base:server:CharacterSpawned', function()
     local char = exports['mythic_base']:FetchComponent('Fetch'):Source(src):GetData('character')
     exports['ghmattimysql']:scalar('SELECT data FROM phone_settings WHERE charid = @charid', { ['charid'] = char:GetData('id') }, function(settings)
         if settings ~= nil then
+            TriggerClientEvent('mythic_phone:client:SetSettings', src, json.decode(settings))
             TriggerClientEvent('mythic_phone:client:SetupData', src, { { name = 'settings', data = json.decode(settings) } })
         else
             local default = {
@@ -13,6 +14,7 @@ AddEventHandler('mythic_base:server:CharacterSpawned', function()
                 text = 1
             }
             exports['ghmattimysql']:scalar('INSERT INTO phone_settings (charid, data) VALUES(@charid, @data)', { ['charid'] = char:GetData('id'), ['data'] = json.encode(default) })
+            TriggerClientEvent('mythic_phone:client:SetSettings', src, json.decode(default))
             TriggerClientEvent('mythic_phone:client:SetupData', src, { { name = 'settings', data = default } })
         end
     end)
