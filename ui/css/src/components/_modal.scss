@@ -51,13 +51,13 @@
   }
 }
 .modal-overlay {
-  position: fixed;
-  z-index: 999;
-  top: -25%;
+  position: absolute;
+  z-index: 500 !important;
+  top: 0;
   left: 0;
   bottom: 0;
   right: 0;
-  height: 125%;
+  height: 100%;
   width: 100%;
   background: #000;
   display: none;

@@ -105,8 +105,10 @@
     
                         &.sdcard {
                             display: none;
+                            color: color('deep-orange', 'darken-2');
+
                             &.advanced {
-                                color: color('amber', 'darken-4')
+                                color: color('pink', 'darken-2');
                             }
     
                             &:hover {
