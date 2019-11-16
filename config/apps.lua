@@ -8,7 +8,7 @@ Config.Apps = {
         color = '#006064',
         unread = 0,
         enabled = true,
-        dumpable = false
+        dumpable = 0
     },
     {
         name = 'Phone',
@@ -17,7 +17,7 @@ Config.Apps = {
         color = '#01579b',
         unread = 0,
         enabled = true,
-        dumpable = false
+        dumpable = 0
     },
     {
         name = 'Messages',
@@ -26,7 +26,7 @@ Config.Apps = {
         color = '#311b92',
         unread = 0,
         enabled = true,
-        dumpable = false
+        dumpable = 0
     },
     {
         name = 'Bank',
@@ -36,7 +36,7 @@ Config.Apps = {
         unread = 0,
         enabled = true,
         customExit = true,
-        dumpable = false
+        dumpable = 0
     },
     {
         name = 'Twitter',
@@ -45,7 +45,7 @@ Config.Apps = {
         color = '#039be5',
         unread = 0,
         enabled = true,
-        dumpable = false
+        dumpable = 0
     },
     {
         name = 'Yellow Pages',
@@ -54,7 +54,7 @@ Config.Apps = {
         color = '#f9a825',
         unread = 0,
         enabled = true,
-        dumpable = false
+        dumpable = 0
     },
     {
         name = 'Settings',
@@ -63,7 +63,7 @@ Config.Apps = {
         color = '#404040',
         unread = 0,
         enabled = true,
-        dumpable = false
+        dumpable = 0
     },
     {
         name = 'Dumper',
@@ -72,7 +72,7 @@ Config.Apps = {
         color = 'hsl(333, 100%, 50%)',
         unread = 0,
         enabled = true,
-        dumpable = true
+        dumpable = 2
     },
     {
         name = 'IRC',
@@ -81,7 +81,7 @@ Config.Apps = {
         color = '#1de9b6',
         unread = 0,
         enabled = false,
-        dumpable = true
+        dumpable = 2
     },
     {
         name = 'Tuner',
@@ -90,6 +90,6 @@ Config.Apps = {
         color = '#004d40',
         unread = 0,
         enabled = false,
-        dumpable = true
+        dumpable = 2
     }
 }

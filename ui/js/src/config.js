@@ -8,7 +8,7 @@ var Apps = [
         color: '#006064',
         unread: 0,
         enabled: true,
-        dumpable: true
+        dumpable: 0
     },
     {
         name: 'Phone',
@@ -17,7 +17,7 @@ var Apps = [
         color: '#01579b',
         unread: 0,
         enabled: true,
-        dumpable: true
+        dumpable: 0
     },
     {
         name: 'Messages',
@@ -26,7 +26,7 @@ var Apps = [
         color: '#311b92',
         unread: 0,
         enabled: true,
-        dumpable: true
+        dumpable: 0
     },
     {
         name: 'Bank',
@@ -36,7 +36,7 @@ var Apps = [
         unread: 0,
         enabled: true,
         customExit: true,
-        dumpable: true
+        dumpable: 0
     },
     {
         name: 'Twitter',
@@ -45,7 +45,7 @@ var Apps = [
         color: '#039be5',
         unread: 0,
         enabled: true,
-        dumpable: true
+        dumpable: 0
     },
     {
         name: 'Yellow Pages',
@@ -54,7 +54,7 @@ var Apps = [
         color: '#f9a825',
         unread: 0,
         enabled: true,
-        dumpable: true
+        dumpable: 0
     },
     {
         name: 'Settings',
@@ -63,7 +63,7 @@ var Apps = [
         color: '#404040',
         unread: 0,
         enabled: true,
-        dumpable: true
+        dumpable: 0
     },
     {
         name: 'Dumper',
@@ -72,7 +72,7 @@ var Apps = [
         color: 'hsl(333, 100%, 50%)',
         unread: 0,
         enabled: true,
-        dumpable: true
+        dumpable: 1
     },
     {
         name: 'IRC',
@@ -81,7 +81,7 @@ var Apps = [
         color: '#1de9b6',
         unread: 0,
         enabled: true,
-        dumpable: true
+        dumpable: 2
     },
     {
         name: 'Tuner',
@@ -90,7 +90,7 @@ var Apps = [
         color: '#004d40',
         unread: 0,
         enabled: true,
-        dumpable: true
+        dumpable: 2
     },
 ];
 
