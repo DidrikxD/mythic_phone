@@ -41,6 +41,8 @@ $(function() {
     ]);
 
     OpenApp('home', null, true);
+    $('.sdcard').addClass('advanced');
+    $('.sdcard').fadeIn('fast');
 });
 
 window.addEventListener('message', (event) => {
