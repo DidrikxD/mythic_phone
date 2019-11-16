@@ -149,7 +149,7 @@ $('#screen-content').on('submit', '#contacts-add-contact', (event) => {
                     contacts = new Array();
                 }
 
-                App.AddData('contacts', {
+                Data.AddData('contacts', {
                     name: name,
                     number: number,
                     index: contacts.length

@@ -44,7 +44,31 @@ $('#remove-sdcard-card').on('click', () => {
     });
 });
 
+function FilterApps(level, status) {
+    $.each($('.dumper-app'), (index, app) => {
+        let data = $(app).data('app');
+
+        if (data.dumpable === level) {
+            if (status) {
+                $(app).fadeIn();
+            } else {
+                $(app).fadeOut();
+            }
+        }
+    })
+}
+
 window.addEventListener('dumper-open-app', (data) => {
+    $('.dumper-filter').on('click', (event) => {
+        if ($(event.currentTarget).hasClass('active')) {
+            $(event.currentTarget).removeClass('active');
+            FilterApps(+$(event.currentTarget).data('filter'), false);
+        } else {
+            $(event.currentTarget).addClass('active');
+            FilterApps(+$(event.currentTarget).data('filter'), true);
+        }
+    })
+    
     $('#dumper-container').on('click', '.dumper-app', (event) => {
         if ($('.sdcard').is(':visible')) {
             let app = $(event.currentTarget).data('app');
@@ -60,13 +84,13 @@ window.addEventListener('dumper-open-app', (data) => {
             if (app.enabled) {
                 switch(app.dumpable) {
                     case 1:
-                        $('#dumper-container').find('.inner-app').append(`<div class="dumper-app"><div class="dumper-icon transfer"><i class="fas fa-skull-crossbones"></i></div><div class="dumper-app-label">${app.name}</div></div>`);
+                        $('.dumper-app-list').append(`<div class="dumper-app"><div class="dumper-icon transfer"><i class="fas fa-download"></i></div><div class="dumper-app-label">${app.name}</div></div>`);
                         break;
                     case 2:
-                        $('#dumper-container').find('.inner-app').append(`<div class="dumper-app"><div class="dumper-icon copy"><i class="fas fa-skull-crossbones"></i></div><div class="dumper-app-label">${app.name}</div></div>`);
+                        $('.dumper-app-list').append(`<div class="dumper-app"><div class="dumper-icon copy"><i class="fas fa-copy"></i></div><div class="dumper-app-label">${app.name}</div></div>`);
                         break;
                     default:
-                        $('#dumper-container').find('.inner-app').append(`<div class="dumper-app"><div class="dumper-icon"><i class="fas fa-skull-crossbones"></i></div><div class="dumper-app-label">${app.name}</div></div>`);
+                        $('.dumper-app-list').append(`<div class="dumper-app"><div class="dumper-icon"><i class="fas fa-times-circle"></i></div><div class="dumper-app-label">${app.name}</div></div>`);
                         break;
                 }
 

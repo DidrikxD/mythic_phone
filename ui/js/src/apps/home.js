@@ -12,15 +12,19 @@ window.addEventListener('message', (event) => {
         case 'updateUnread':
             UpdateUnread(event.data.app, event.data.unread);
             break;
-        case 'EnableApp':
+        case 'EditAppState':
             $.each(Data.GetData('apps'), (index, app) => {
                 if (app.container === event.data.app) {
-                    Data.UpdateObjectData('apps', 'container', event.data.app, 'enabled', true);
+                    Data.UpdateObjectData('apps', 'container', event.data.app, 'enabled', event.data.state);
                     return false;
                 }
             });
 
-            ToggleApp(event.data.app, true);
+            if (App.GetCurrentApp() === 'home') {
+                SetupApp()
+            }
+
+            //ToggleApp(event.data.app, true);
             break;
         case 'DisableApp':
             $.each(Data.GetData('apps'), (index, app) => {
@@ -29,7 +33,11 @@ window.addEventListener('message', (event) => {
                     return false;
                 }
             });
-            ToggleApp(event.data.app, false);
+
+            if (App.GetCurrentApp() === 'home') {
+                SetupApp()
+            }
+            //ToggleApp(event.data.app, false);
             break;
         case 'SyncUnread':
             $.each(Data.GetData('apps'), (index, app) => {
@@ -100,7 +108,8 @@ function SetupApp() {
 }
 
 function ToggleApp(name, status) {
-    let pApp = Apps.filter(app => app.container === name)[0];
+    let apps = Data.GetData('apps');
+    let pApp = apps.filter(app => app.container === name)[0];
 
     if (!status) {
         $('#' + pApp.container + '-app')

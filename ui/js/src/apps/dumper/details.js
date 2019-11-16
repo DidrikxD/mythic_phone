@@ -1,31 +1,74 @@
 import App from '../../app';
 import Config from '../../config';
-import Data from '../../utils/data';
 import Notif from '../../utils/notification';
-import Utils from '../../utils/utils';
 
+var appData = null;
 
 window.addEventListener('dumper-details-open-app', (data) => {
+    $('#dumper-transfer').on('click', (event) => {
+        if ($(event.currentTarget).hasClass('disabled')) return;
 
+        $.post(Config.ROOT_ADDRESS + '/DumpApp', JSON.stringify({
+            type: 1,
+            app: appData.container
+        }), (status) => {
+            if (status) {
+                appData = null;
+                $('.sdcard').fadeOut('fast').promise().then(() => {
+                    $('.sdcard').removeClass('advanced');
+                });
+                Notif.Alert('App Transferred To SD Card');
+                App.GoHome();
+            } else {
+                Notif.Alert('Error Transferring App');
+            }
+        });
+    });
+
+    $('#dumper-clone').on('click', (event) => {
+        if ($(event.currentTarget).hasClass('disabled')) return;
+
+        $.post(Config.ROOT_ADDRESS + '/DumpApp', JSON.stringify({
+            type: 2,
+            app: appData.container
+        }), (status) => {
+            if (status) {
+                appData = null;
+                $('.sdcard').fadeOut('fast').promise().then(() => {
+                    $('.sdcard').removeClass('advanced');
+                });
+                Notif.Alert('App Cloned To SD Card');
+                App.GoHome();
+            } else {
+                Notif.Alert('Error Cloning App');
+            }
+        });
+    });
 });
 
 window.addEventListener('dumper-details-open-app', (data) => {
-    let app = data.detail;
+    appData = data.detail;
     
-    $('.dumper-top-bar').css('background', app.color);
-    $('.section-header').css('color', app.color);
+    $('.dumper-top-bar').css('background', appData.color);
+    $('.section-header').css('color', appData.color);
 
-    $('.dumper-top-text span').html(app.name);
-    $('#name .section-data').html(app.name);
-    $('#package .section-data').html(app.container);
+    $('.dumper-top-text span').html(appData.name);
+    $('#name .section-data').html(appData.name);
+    $('#package .section-data').html(appData.container);
 
-    switch(+app.dumpable) {
+    switch(+appData.dumpable) {
         case 1:
             $('#dumper-clone, #APP_CLONE, #APP_NONE').remove();
             $('#permissions .section-data').html('APP_TRANSFER');
+
             break;
         case 2:
             $('#APP_NONE').remove();
+
+            if (!$('.sdcard').hasClass('advanced')) {
+                $('#dumper-clone').addClass('disabled');
+            }
+
             $('#permissions .section-data').html('APP_TRANSFER, APP_CLONE');
             break;
         default:
@@ -42,7 +85,8 @@ window.addEventListener('dumper-details-open-app', (data) => {
 });
 
 window.addEventListener('dumper-details-close-app', () => {
-    
+    $('#dumper-transfer').unbind();
+    $('#dumper-clone').unbind();
 });
 
 export default {}

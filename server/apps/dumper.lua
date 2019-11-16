@@ -2,8 +2,11 @@ TriggerEvent('mythic_base:server:RegisterUsableItem', 'sdcard', function(source,
     -- TriggerEvent('mythic_phone:server:StartInstallApp', source, item)
     local char = exports['mythic_base']:FetchComponent('Fetch'):Source(source):GetData('character')
 
-    if item.metadata ~= nil and item.metadata.app ~= nil then
-
+    if item.metadata ~= nil and item.metadata ~= 'null' then
+        local metadata = json.decode(item.metadata)
+        if metadata.app ~= nil then
+            TriggerEvent('mythic_phone:server:StartInstallApp', source, metadata.app, item)
+        end
     else
         char.Inventory.Temporary:Check('advsdcard', 1, function(status)
             if status ~= nil then
@@ -31,8 +34,12 @@ end)
 TriggerEvent('mythic_base:server:RegisterUsableItem', 'advsdcard', function(source, item)
     -- TriggerEvent('mythic_phone:server:StartInstallApp', source, item)
     local char = exports['mythic_base']:FetchComponent('Fetch'):Source(source):GetData('character')
-    if item.metadata ~= nil and item.metadata.app ~= nil then
 
+    if item.metadata ~= nil and item.metadata ~= 'null' then
+        local metadata = json.decode(item.metadata)
+        if metadata.app ~= nil then
+            TriggerEvent('mythic_phone:server:StartInstallApp', source, metadata.app, item)
+        end
     else
         char.Inventory.Temporary:Check('advsdcard', 1, function(status)
             if status ~= nil then
@@ -65,6 +72,17 @@ AddEventHandler('mythic_base:server:CharacterSpawned', function()
     local cData = char:GetData()
 
     Citizen.CreateThread(function()
+        exports['ghmattimysql']:execute('SELECT app, state FROM phone_apps WHERE charid = @charid', { ['charid'] = char:GetData('id') }, function(apps)
+            local states = {}
+
+            for k, v in ipairs(apps) do
+                states[v.app] = v.state
+            end
+            TriggerClientEvent('mythic_phone:client:SetAppState', src, states)
+        end)
+    end)
+
+    Citizen.CreateThread(function()
         char.Inventory.Temporary:Check('advsdcard', 1, function(status)
             if status ~= nil then
                 TriggerClientEvent('mythic_phone:client:UseSDCard', src, true)
@@ -81,6 +99,91 @@ end)
 
 AddEventHandler('mythic_base:shared:ComponentsReady', function()
     Callbacks = Callbacks or exports['mythic_base']:FetchComponent('Callbacks')
+
+    Callbacks:RegisterServerCallback('mythic_phone:server:DumpApp', function(source, data, cb)
+        local char = exports['mythic_base']:FetchComponent('Fetch'):Source(source):GetData('character')
+
+        if data.type == 1 then
+            char.Inventory.Temporary:Check('sdcard', 1, function(item)
+                if item ~= nil then
+                    local meta = {
+                        app = data.app
+                    }
+                    char.Inventory.Temporary.Update:Metadata(item.id, json.encode(meta), function(status)
+                        if status then
+                            exports['ghmattimysql']:execute('INSERT INTO phone_apps (`charid`, `app`, `state`) VALUES(@charid, @app, @state) ON DUPLICATE KEY UPDATE `state` = VALUES(`state`)', {
+                                ['charid'] = char:GetData('id'),
+                                ['app'] = data.app,
+                                ['state'] = 0
+                            }, function(status2)
+                                if status2 then
+                                    TriggerClientEvent('mythic_phone:client:EditAppState', source, data.app, false)
+                                    char.Inventory.Temporary:Remove(item, function(status)
+                                        cb(status ~= nil)
+                                    end)
+                                else
+                                    cb(false)
+                                end
+                            end)
+                        else
+                            cb(false)
+                        end
+                    end)
+                else
+                    char.Inventory.Temporary:Check('advsdcard', 1, function(item)
+                        if item ~= nil then
+                            local meta = {
+                                app = data.app
+                            }
+                            char.Inventory.Temporary.Update:Metadata(item.id, json.encode(meta), function(status)
+                                if status then
+                                    exports['ghmattimysql']:execute('INSERT INTO phone_apps (`charid`, `app`, `state`) VALUES(@charid, @app, @state) ON DUPLICATE KEY UPDATE `state` = VALUES(`state`)', {
+                                        ['charid'] = char:GetData('id'),
+                                        ['app'] = data.app,
+                                        ['state'] = 0
+                                    }, function(status2)
+                                        if status2.affectedRows > 0 then
+                                            TriggerClientEvent('mythic_phone:client:EditAppState', source, data.app, false)
+                                            char.Inventory.Temporary:Remove(item, function(status3)
+                                                cb(status3 ~= nil)
+                                            end)
+                                        else
+                                            cb(false)
+                                        end
+                                    end)
+                                else
+                                    cb(false)
+                                end
+                            end)
+                        else
+                            cb(false)
+                        end
+                    end)
+                end
+            end)
+        elseif data.type == 2 then
+            char.Inventory.Temporary:Check('advsdcard', 1, function(item)
+                if item ~= nil then
+                    local meta = {
+                        app = data.app
+                    }
+                    char.Inventory.Temporary.Update:Metadata(item.id, json.encode(meta), function(status)
+                        if status then
+                            char.Inventory.Temporary:Remove(item, function(status)
+                                cb(status ~= nil)
+                            end)
+                        else
+                            cb(false)
+                        end
+                    end)
+                else
+                    cb(false)
+                end
+            end)
+        else
+            cb(false)
+        end
+    end)
 
     Callbacks:RegisterServerCallback('mythic_phone:server:EjectSDCard', function(source, data, cb)
         local char = exports['mythic_base']:FetchComponent('Fetch'):Source(source):GetData('character')
@@ -109,24 +212,39 @@ AddEventHandler('mythic_base:shared:ComponentsReady', function()
     end)
 end)
 
+
 local PendingInstalls = {}
+RegisterServerEvent('mythic_base:server:Logout')
+AddEventHandler('mythic_base:server:Logout', function()
+    local src = source
+    if PendingInstalls[src] ~= nil then
+        PendingInstalls[src] = nil
+    end
+end)
+
+AddEventHandler('playerDropped', function()
+    local src = source
+    if PendingInstalls[src] ~= nil then
+        PendingInstalls[src] = nil
+    end
+end)
+
 RegisterServerEvent('mythic_phone:server:StartInstallApp')
-AddEventHandler('mythic_phone:server:StartInstallApp', function(source, item)
-    local data = json.decode(item.metadata)
-
-    if data ~= nil and data.app ~= nil then
-        local app = data.app
-
-        PendingInstalls[source] = {
-            app = app,
-            item = item
-        }
-
-        TriggerClientEvent('mythic_phone:client:UseSDCard', source, app)
-    else
-        local char = exports['mythic_base']:FetchComponent('Fetch'):Source(source):GetData('character')
-
-        -- char.Inventory.Move
+AddEventHandler('mythic_phone:server:StartInstallApp', function(source, app, item)
+    local char = exports['mythic_base']:FetchComponent('Fetch'):Source(source):GetData('character')
+    if app ~= nil then
+        exports['ghmattimysql']:scalar('SELECT app FROM phone_apps WHERE charid = @charid AND app = @app AND state = 1', { ['charid'] = char:GetData('id'), ['app'] = app }, function(installed)
+            if installed == nil then
+                PendingInstalls[source] = {
+                    app = app,
+                    item = item
+                }
+        
+                TriggerClientEvent('mythic_phone:client:InstallApp', source, app)
+            else
+                TriggerClientEvent('mythic_notify:client:SendAlert', source, { type = 'error', text = 'App Is Already Installed' })
+            end
+        end)
     end
 end)
 
@@ -137,25 +255,21 @@ AddEventHandler('mythic_phone:server:FinishInstallApp', function()
     local app = PendingInstalls[src]
     
     if app ~= nil then
-        exports['ghmattimysql']:scalar('SELECT app FROM phone_installed_apps WHERE charid = @charid AND app = @app', { ['charid'] = char:GetData('id'), ['app'] = app.app }, function(installed)
-            if installed == nil then
-                exports['ghmattimysql']:execute('INSERT INTO phone_installed_apps (charid, app) VALUES(@charid, @app)', { ['charid'] = char:GetData('id'), ['app'] = app.app }, function(res)
-                    char.Inventory.Remove:Personal(app.item.id, 1, function()
-                        TriggerClientEvent('mythic_phone:client:EnableApp', src, app.app)
-                        TriggerClientEvent('mythic_notify:client:SendAlert', src, { type = 'success', text = app.app .. ' Installed' })
-                    end)
+        char.Inventory.Update:Metadata(app.item.id, 'null', function(status)
+            if status then
+                exports['ghmattimysql']:execute('INSERT INTO phone_apps (`charid`, `app`, `state`) VALUES(@charid, @app, @state) ON DUPLICATE KEY UPDATE state = VALUES(`state`)', { ['charid'] = char:GetData('id'), ['app'] = app.app, ['state'] = 1 }, function(res)
+                    TriggerClientEvent('mythic_phone:client:EditAppState', src, app.app, true)
+                    TriggerClientEvent('mythic_notify:client:SendAlert', src, { type = 'success', text = 'App Package: ' .. app.app .. ' Installed' })
                 end)
-            else
-                TriggerClientEvent('mythic_notify:client:SendAlert', src, { type = 'error', text = 'App Is Already Installed' })
             end
         end)
-    else
-        -- Todo : Some sort of interface to select which app to dump onto SD card
     end
 end)
 
 RegisterServerEvent('mythic_phone:server:CancelInstallApp')
 AddEventHandler('mythic_phone:server:CancelInstallApp', function()
     local src = source
-    PendingInstalls[src] = nil
+    if PendingInstalls[src] ~= nil then
+        PendingInstalls[src] = nil
+    end
 end)

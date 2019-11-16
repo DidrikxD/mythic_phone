@@ -178,14 +178,29 @@ function ForceClosePhone()
   SendNUIMessage( { action = 'hide' } )
 end
 
-RegisterNetEvent('mythic_phone:client:EnableApp')
-AddEventHandler('mythic_phone:client:EnableApp', function(app)
+RegisterNetEvent('mythic_phone:client:SetAppState')
+AddEventHandler('mythic_phone:client:SetAppState', function(apps)
+  for k, v in pairs(Config.Apps) do
+    if apps[v.container] ~= nil then
+      v.enabled = apps[v.container]
+      SendNUIMessage({
+        action = 'EditAppState',
+        app = v.container,
+        state = v.enabled
+      })
+    end
+  end
+end)
+
+RegisterNetEvent('mythic_phone:client:EditAppState')
+AddEventHandler('mythic_phone:client:EditAppState', function(app, state)
   for k, v in pairs(Config.Apps) do
     if v.container == app then
-      v.enabled = true
+      v.enabled = state
       SendNUIMessage({
-        action = 'EnableApp',
-        app = app
+        action = 'EditAppState',
+        app = app,
+        state = state
       })
     end
   end

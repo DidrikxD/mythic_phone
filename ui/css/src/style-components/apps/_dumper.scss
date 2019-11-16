@@ -8,36 +8,66 @@
             font-size: 20px;
             padding: 15px;
         }
-
-        .dumper-app {
+        
+        .dumper-filter-bar {
+            background-color: hsl(333, 100%, 50%);
             color: $alt-text;
-            font-size: 18px;
-            background: $primary;
+            font-size: 0;
             border-bottom: 1px solid $border-color;
-            padding: 15px;
-    
-            .dumper-icon {
-                display: inline-block;
-                width: fit-content;
-                margin: 10px 20px 10px 0;
-    
-                &.transfer {
-                    color: color('yellow', 'darken-4');
+
+            i {
+                width: 33.333%;
+                text-align: center;
+                font-size: 40px;
+                padding: 10px;
+
+                &.active {
+                    background: rgba(0, 0, 0, 0.35);
+                    color: $primary;
                 }
 
-                &.copy {
-                    color: color('green', 'darken-4');
+                &:hover {
+                    transition: all ease-in 0.15s;
+                    filter: brightness(85%);
                 }
             }
+        }
+
+        .dumper-app-list {
+            height: 91.6%;
+            overflow-y: auto;
+            overflow-x: hidden;
+
+            .dumper-app {
+                color: $alt-text;
+                font-size: 18px;
+                background: $primary;
+                border-bottom: 1px solid $border-color;
+                padding: 15px;
+        
+                .dumper-icon {
+                    display: inline-block;
+                    width: fit-content;
+                    margin: 10px 20px 10px 0;
+        
+                    &.transfer {
+                        color: color('yellow', 'darken-4');
+                    }
     
-            .dumper-app-label {
-                display: inline-block;
-                width: 80%;
-            }
-    
-            &:hover {
-                background: $primary-hover;
-                transition: all ease-in 0.15s;
+                    &.copy {
+                        color: color('green', 'darken-4');
+                    }
+                }
+        
+                .dumper-app-label {
+                    display: inline-block;
+                    width: 80%;
+                }
+        
+                &:hover {
+                    background: $primary-hover;
+                    transition: all ease-in 0.15s;
+                }
             }
         }
     }
@@ -85,6 +115,10 @@
                 i {
                     padding: 10px;
 
+                    &.disabled {
+                        color: $alt-text;
+                    }
+
                     &:hover:not(.disabled) {
                         transition: all ease-in 0.15s;
                         filter: brightness(85%);
@@ -104,6 +138,8 @@
             &#legend {
                 border-top: 1px solid $border-color;
                 padding: 0;
+                position: absolute;
+                bottom: 0;
 
                 .dumper-legend-header {
                     width: 100%;
