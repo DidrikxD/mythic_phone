@@ -13,24 +13,11 @@ This is a custom phone written for Mythic RP. It is replacing an existing port o
 ### Comments
 Due to the scope of this project expanding I've ended up adding in some various resources to aid in making the files that need to be included for the phone to funciton in-game end up minified and compressed into as few files as possible but while retaining readability and breaking up the code into logical sections. So due to this you'll need a few things in order to get this working from the source alone.
 
-* SASS/SCSS - This will just require you to have any sort of ability to compile SASS into a CSS stylesheet. I personally use the [Live SASS Compiler](https://marketplace.visualstudio.com/items?itemName=ritwickdey.live-sass) extension for Visual Studio Code. But again, any SASS compiler will work to compile the Materialize source as well as my custom styling for the phone. And below are the settings I use to get it to build correctly in the right location:
-
-```json
-"liveSassCompile.settings.formats":[{
-        "format": "compressed",
-        "extensionName": ".min.css",
-        "savePath": "~/../"
-    },
-],
-```
-
-> Note: Would love to get this added into the webpack for below, but little experience with webpack so haven't been able to actually get it to work. If you're aware of how to do that feel free to make the change and submit a PR. I'll love you forever lol.
-
 * JS - Due to how I have the JavaScript structured I have opted to setup webpack to minify the files into a single file. This makes it far easier to add content in the future and not have to mess around with importing as well as ensures the file that's being included in the manifest file will always be the one that has all the data for it. Not sure if there's any sort of major performance issues. When you clone the repo, cd into the html folder and use command ```yarn``` if you have yarn or ```npm install``` if you're using npm and it will install all the required dependencies. After that run ```yarn run build``` or ```npm run build``` and it will build the minified build.js file needed.
 
 > Note: You can in theory just change the manifest to include the regular JS files as well as add them being included in the HTML file and it'll work. But I will not give any guarantee that it'll work doing so. It's also using ES6 modules so you may end up with errors because of that.
 
-__You not shit with webpack? Feel free to get the stupid thing to work & pack all depedencies needed as well as all the SASS and make a pull request. Because I cannot for the life of me get that dumbshit to work__
+__You not shit with webpack? Feel free to get the stupid thing to work & pack all depedencies needed and make a pull request. Because I cannot for the life of me get that dumbshit to work__
 
 #### Libraries Used
 * [jQuery](https://jquery.com/)

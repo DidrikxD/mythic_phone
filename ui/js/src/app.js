@@ -5,6 +5,9 @@ import Notif from './utils/notification';
 import Unread from './utils/unread';
 import Apps from './apps/apps';
 
+import '../../css/src/materialize.scss';
+import '../../css/src/style.scss';
+
 import Test from './test';
 
 var appTrail = [
