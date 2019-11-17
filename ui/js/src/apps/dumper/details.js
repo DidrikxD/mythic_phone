@@ -17,10 +17,10 @@ window.addEventListener('dumper-details-open-app', (data) => {
                 $('.sdcard').fadeOut('fast').promise().then(() => {
                     $('.sdcard').removeClass('advanced');
                 });
-                Notif.Alert('App Transferred To SD Card');
+                Notif.Alert('App Packaged Transferred To SD Card');
                 App.GoHome();
             } else {
-                Notif.Alert('Error Transferring App');
+                Notif.Alert('Error Transferring App Package');
             }
         });
     });
@@ -37,10 +37,10 @@ window.addEventListener('dumper-details-open-app', (data) => {
                 $('.sdcard').fadeOut('fast').promise().then(() => {
                     $('.sdcard').removeClass('advanced');
                 });
-                Notif.Alert('App Cloned To SD Card');
+                Notif.Alert('App Package Cloned To SD Card');
                 App.GoHome();
             } else {
-                Notif.Alert('Error Cloning App');
+                Notif.Alert('Error Cloning App Package');
             }
         });
     });
