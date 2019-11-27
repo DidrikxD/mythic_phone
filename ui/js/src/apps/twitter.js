@@ -17,11 +17,11 @@ window.addEventListener('message', (event) => {
 
 $('#screen-content').on('submit', '#new-tweet', function (event) {
     event.preventDefault();
-
+    let myData = Data.GetData('myData');
     let data = $(event.currentTarget).serializeArray();
 
     let tweet = {
-        author: 'PleaseWork',
+        author: myData.name,
         message: data[0].value,
         time: Date.now()
     };

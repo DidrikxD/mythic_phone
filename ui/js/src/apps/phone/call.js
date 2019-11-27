@@ -138,7 +138,7 @@ window.addEventListener('phone-call-open-app', (data) => {
     }
     contacts = Data.GetData('contacts');
 
-    if (!data.receiver) {
+    if (!data.detail.receiver) {
         $('.call-button#answer-call').hide();
         $('#phone-call-container').data('data', data);
 

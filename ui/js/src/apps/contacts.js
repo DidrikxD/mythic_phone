@@ -66,8 +66,8 @@ $('#scree-content').on('keyup', '#search-contacts', (event) => {
     }
 });
 
-$('#screen-content').on('keydown', '#contact-add-number', (e) => {
-    switch (e.which) {
+$('#screen-content').on('keydown', '#contact-add-number', (event) => {
+    switch (event.which) {
         case 8:
         case 48:
         case 49:
@@ -91,13 +91,13 @@ $('#screen-content').on('keydown', '#contact-add-number', (e) => {
         case 105:
             break;
         default:
-            e.preventDefault();
+            event.preventDefault();
             break;
     }
 });
 
-$('#screen-content').on('keydown', '#contact-edit-number', (e) => {
-    switch (e.which) {
+$('#screen-content').on('keydown', '#contact-edit-number', (event) => {
+    switch (event.which) {
         case 8:
         case 48:
         case 49:
@@ -121,7 +121,7 @@ $('#screen-content').on('keydown', '#contact-edit-number', (e) => {
         case 105:
             break;
         default:
-            e.preventDefault();
+            event.preventDefault();
             break;
     }
 });

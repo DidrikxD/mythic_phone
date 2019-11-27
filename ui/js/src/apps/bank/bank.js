@@ -38,7 +38,7 @@ $('#screen-content').on('keyup keydown blur', '#target-account', (event) => {
         case 187: // =/+
         case 189: // -/_
         case 190: // ./>
-            e.preventDefault();
+            event.preventDefault();
             break;
         default:
             if ($(event.currentTarget).val() != '') {

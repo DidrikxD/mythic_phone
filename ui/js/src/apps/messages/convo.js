@@ -146,7 +146,8 @@ function ReceiveText(sender, text) {
                         '">' +
                         text.message +
                         '</span><p>' +
-                        moment(Date.now()).fromNowOrNow() +
+                        moment(text.sent_time).fromNowOrNow() +
+                        // moment(Date.now()).fromNowOrNow() +
                         '</p></div>'
                 );
             } else {
@@ -154,7 +155,8 @@ function ReceiveText(sender, text) {
                     '<div class="text other-sender"><span>' +
                         text.message +
                         '</span><p>' +
-                        moment(Date.now()).fromNowOrNow() +
+                        moment(text.sent_time).fromNowOrNow() +
+                        // moment(Date.now()).fromNowOrNow() +
                         '</p></div>'
                 );
             }
@@ -199,9 +201,10 @@ window.addEventListener('message-convo-open-app', (data) => {
 
     let texts = messages.filter(
         c =>
-            (c.sender == data.number && c.receiver == myNumber) ||
+            (c.sender == data.detail.number && c.receiver == myNumber) ||
             (c.sender == myNumber && c.receiver == data.detail.number)
     );
+
     let contact = contacts.filter(c => c.number == data.detail.number)[0];
 
     if (contact != null) {
@@ -218,6 +221,7 @@ window.addEventListener('message-convo-open-app', (data) => {
 
     $('.convo-texts-list').html('');
     $.each(texts, (index, text) => {
+
         let d = new Date(text.sent_time);
 
         if (text.sender == myNumber) {

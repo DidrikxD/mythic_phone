@@ -7,10 +7,22 @@ import Phone from './phone/phone';
 
 var ads = null;
 
+window.addEventListener('message', (event) => {
+    switch (event.data.action) {
+        case 'ReceiveAd':
+            ReceiveNewAdvert(event.data.advert);
+            break;
+        case 'DeleteAd':
+            DeleteAdvert(event.data.id);
+            break;
+
+    }
+});
+
 $('#screen-content').on('keyup', '#yp-search input', function (event) {
     event.preventDefault();
 
-    let searchVal = $(e.currentTarget).val().toUpperCase();
+    let searchVal = $(event.currentTarget).val().toUpperCase();
 
     if (searchVal !== '') {
         $.each(
@@ -66,7 +78,7 @@ $('#screen-content').on('click', '#delete-ad', function (event) {
 });
 
 $('#screen-content').on('submit', '#new-advert', function (event) {
-    e.preventDefault();
+    event.preventDefault();
     let data = $(event.currentTarget).serializeArray();
 
     let myData = Data.GetData('myData');
@@ -164,9 +176,8 @@ function DeleteAdvert(id) {
         } else {
             $(`#advert-${id}`).remove();
         }
-
-        DeleteAdvertData(id);
     }
+    DeleteAdvertData(id);
 }
 
 window.addEventListener('yp-open-app', () => {
