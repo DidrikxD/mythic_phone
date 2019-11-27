@@ -99,18 +99,22 @@ $('#screen-content').on('submit', '#new-advert', function (event) {
     });
 });
 
-function AddAdvert(advert) {
+function AddAdvert(advert, store = true) {
     if ($(`#advert-${advert.id}`).length < 1) {
         $('#yp-body').prepend(`<div class="yp-post" id="advert-${advert.id}"><div class="yp-post-header"><span class="yp-author">${advert.author}</span><span class="yp-phone">${advert.phone}</span></div><div class="yp-post-body"><div class="yp-post-title">${advert.title}</div><div class="yp-post-message">${advert.message}</div></div><div class="yp-post-timestamp">${moment(advert.date).fromNowOrNow()}</div></div>`);
         $('#yp-body .yp-post:first-child').data('advert', advert);
-        AddAdvertData(advert);
+        if (store) {
+            AddAdvertData(advert);
+        }
     } else {
         $(`#advert-${advert.id}`).find('.yp-post-title').html(advert.title);
         $(`#advert-${advert.id}`).find('.yp-post-message').html(advert.message);
         $(`#advert-${advert.id}`).find('.yp-post-timestamp').html(moment(advert.date).fromNowOrNow());
         $(`#advert-${advert.id}`).data('advert', advert);
         $(`#advert-${advert.id}`).parent().prepend($(`#advert-${advert.id}`));
-        UpdateAdvertData(advert.id, advert);
+        if (store) {
+            UpdateAdvertData(advert.id, advert);
+        }
     }
 }
 
@@ -173,7 +177,7 @@ window.addEventListener('yp-open-app', () => {
 
     $('#yp-body').html('');
     $.each(ads, function (index, advert) {
-        AddAdvert(advert);
+        AddAdvert(advert, false);
         if (advert.phone == phone) {
             $('#yp-body .yp-post:first-child').addClass('yp-post-owned');
             $('#delete-ad').show();
